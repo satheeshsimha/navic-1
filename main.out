@@ -6,3 +6,13 @@
 \BOOKMARK [1][-]{section.2.2}{Delay}{chapter.2}% 6
 \BOOKMARK [1][-]{section.2.3}{Power Scaling}{chapter.2}% 7
 \BOOKMARK [1][-]{section.2.4}{Thermal noise}{chapter.2}% 8
+\BOOKMARK [0][-]{chapter.3}{Transmitter}{}% 9
+\BOOKMARK [1][-]{section.3.1}{Frame structure}{chapter.3}% 10
+\BOOKMARK [2][-]{subsection.3.1.1}{Cyclic Redundancy Check\(CRC\)}{section.3.1}% 11
+\BOOKMARK [1][-]{section.3.2}{Encoding}{chapter.3}% 12
+\BOOKMARK [2][-]{subsection.3.2.1}{Interleaving}{section.3.2}% 13
+\BOOKMARK [2][-]{subsection.3.2.2}{Sync word and Tail bits}{section.3.2}% 14
+\BOOKMARK [1][-]{section.3.3}{Modulation}{chapter.3}% 15
+\BOOKMARK [2][-]{subsection.3.3.1}{Standard Positioning Service}{section.3.3}% 16
+\BOOKMARK [2][-]{subsection.3.3.2}{Pseudo Random Noise codes\(PRN\)}{section.3.3}% 17
+\BOOKMARK [2][-]{subsection.3.3.3}{Baseband Modulation}{section.3.3}% 18

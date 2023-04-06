@@ -334,7 +334,36 @@ The functions necessary to model the channel are present in the below code,
     codes/channelmodel/channelmodel.py
 \end{lstlisting}
 
+\chapter{Transmitter}
 
-\end{document}
+\section{Frame structure}
+NavIC master frame consists of 2400 symbols, divided to four subframes. Each subframe is 600 symbols long. Subframes 1 and 2 transmit fixed navigation parameters. Subframe 3 and 4 transmit secondary navigation parameters in the form of messages. Each subframe is 292 bits long without FEC encoding and sync word. It starts with TLM word of 8 bits. Ends with 24 bit Cyclic Redundancy Check(CRC) followed by 6 tail bits. In subframes 1 and 2 navigation data is alloted 232 bits, starting from bit 31. In subframe 3 and 4, 220 bits are alloted starting from bit 37. For detailed structure of subframes, refer to chapter 5.9 in the doc
+\subsection{Cyclic Redundancy Check(CRC)}
+The parity coding of data signal follows 24Q polynomial for each subframe. 24 bits of CRC parity will provide protection against burst as well as random errors with undetected eroor probability of $2^{-24}$ for all channel bit error probabilities 0.5
+\begin{equation}
+    g(X) = \sum_{i = 0}^{24}g_{i}X^i\;\;
+    g_{i}=1\; for\; i = 0,1,3,4,5,6,7,10,11,14,17,18,23,24
+\end{equation}
+\section{Encoding}
+The navigation data subframe of 292 bits is rate 1/2 convolution encoded and clocked at 50 symbols per second. Each subframe of 292 bits after encoding results in 584 bits. For parameters and coding scheme, refer to below doc
+\subsection{Interleaving}
+Any burst errors during the data transmission can be corrected by interleaving. In matrix interleaving, input symbols are filled into a matrix column wise and read at the output row wise. This will spread the burst error, if any, during the transmission. For SPS, data is filled into matrix of size 73 by 8(73 columns, 8 rows).
+\subsection{Sync word and Tail bits}
+Each subframe has a 16 bit word synchronization pattern which is not encoded. Sync pattern is EB90 Hex. Tail bit consists of 6 zero value bits enabling completion of FEC decoding of each subframe in the receiver.
 
- 
+\section{Modulation}
+\subsection{Standard Positioning Service}
+The SPS signal is BPSK(1) modulated on L5 and S bands. The navigation data at data rate of 50 sps (1/2 rate FEC encoded) is modulo 2 added to PRN code chipped at 1.023 Mcps. The CDMA modulated code, modulates the L5 and S carriers at 1176.45 MHz and 2492.028 MHz respectively.
+\subsection{Pseudo Random Noise codes(PRN)}
+NavIC uses Gold codes fo SPS signal. They are generated using Linear Feedback Shift Registers. For L5 and S band, the code length is 1ms and consists of 1023 chips. The code is chipped at 1.023 Mcps. Two polynomials G1 and G2 are used to generate the gold code sequence. G2's initial state provides unique PRN code for each satellite. All bits of G1 are initialized as 1. G1 and G2 are XOR'ed to generate final 1023 chip long PRN sequence, the time period being 1ms. For more information refer to chapter 4 in the doc.
+\subsection{Baseband Modulation}
+The carrier signal is modulated by BPSK(1), Data channel BOC(5,2), and Pilot Channel BOC(5,2). To have a constant envelop when passed through power amplifier, we add additional signal called interplex signal.
+For detailed mathematical equations, refer to chapter 3.3 in the below document
+%\backmatter
+%\appendix
+%\chapter{ Filter Design}
+%\input{filtdesign/writeup/filter_design.tex}
+
+\latexprintindex
+
+\end{document} 
