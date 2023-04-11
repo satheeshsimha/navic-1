@@ -16,3 +16,11 @@
 \BOOKMARK [2][-]{subsection.3.3.1}{Standard Positioning Service}{section.3.3}% 16
 \BOOKMARK [2][-]{subsection.3.3.2}{Pseudo Random Noise codes\(PRN\)}{section.3.3}% 17
 \BOOKMARK [2][-]{subsection.3.3.3}{Baseband Modulation}{section.3.3}% 18
+\BOOKMARK [0][-]{chapter.4}{Receiver}{}% 19
+\BOOKMARK [1][-]{section.4.1}{RTL SDR}{chapter.4}% 20
+\BOOKMARK [2][-]{subsection.4.1.1}{Radio block diagram for L5 band signal receiver}{section.4.1}% 21
+\BOOKMARK [2][-]{subsection.4.1.2}{Results}{section.4.1}% 22
+\BOOKMARK [1][-]{section.4.2}{USRP SDR}{chapter.4}% 23
+\BOOKMARK [2][-]{subsection.4.2.1}{SDR specification}{section.4.2}% 24
+\BOOKMARK [2][-]{subsection.4.2.2}{Radio block diagram for L5 band signal receiver}{section.4.2}% 25
+\BOOKMARK [2][-]{subsection.4.2.3}{Results}{section.4.2}% 26
