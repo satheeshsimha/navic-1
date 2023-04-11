@@ -365,5 +365,90 @@ For detailed mathematical equations, refer to chapter 3.3 in the below document
 %\input{filtdesign/writeup/filter_design.tex}
 
 \latexprintindex
+\chapter{Receiver}
+\section{RTL SDR}
+%\subsection{DR specifications}
+\begin{tabular}{|p{4cm}|p{10cm}|}
+	\hline
+	\textbf{Name}&\textbf{RTL-SDR}(hardware modded R820T2/RTL2838U DVB-T)\\
+	\hline
+	\textbf{Type}&\text{Pre-built and pre-modded with custom driver }\\
+	\hline
+	\textbf{Frequency range}&\text{0.5 – 1766 MHz}(mod: RTL2832U Q-branch pins soldered to antenna port)\\
+	\hline
+	\textbf{Max. Bandwidth}&\text{Matches sampling rate, but with filter roll-off }\\
+	\hline
+	\textbf{Receiver ADC bits}&\text{8}\\
+		\hline
+	\textbf{Tx. DAC bits}&\text{-}\\
+	\hline
+	\textbf{TX. Capable}&\text{No}\\
+	\hline
+	\textbf{Sampling Rate}&\text{2.4 MHz (can go up to 3.2 MHz but drops samples)}\\
+	\hline
+	\textbf{Frequency accuracy ppm}&\text{1}\\
+	\hline
+	\textbf{Host interface}&\text{USB}\\
+	\hline
+	\textbf{FPGA}&\text{-}\\
+	\hline
+	\textbf{Frequency accuracy ppm}&\text{1}\\
+	\hline
+\end{tabular}
+\\
+
+\subsection{Radio block diagram for L5 band signal receiver}
+\begin{align*}
+\includegraphics[scale=0.25]{figs/RTL_SDR_test.png} 
+\end{align*}\\
+\subsection{Results} 
+\begin{align*}
+\includegraphics[scale=0.25]{figs/RTL_sdr_res.jpg} 
+\end{align*}
+
+\section{USRP SDR}
+\subsection{SDR specification}
+ \begin{tabular}{|c|c|}
+	\hline
+	\textbf{Name}&\textbf{USRP B210}\\
+	\hline
+	\textbf{Type}&\text{Pre-built}\\
+	\hline
+	\textbf{Frequency range}&\text{ 70 MHz – 6 GHz }\\
+	\hline
+	\textbf{Max. Bandwidth}&\text{56MHz }\\
+	\hline
+	\textbf{Receiver ADC bits}&\text{12}\\
+		\hline
+	\textbf{Tx. DAC bits}&\text{12}\\
+	\hline
+	\textbf{TX. Capable}&\text{Yes}\\
+	\hline
+	\textbf{Sampling Rate}&\text{56 Msps }\\
+	\hline
+	\textbf{Frequency accuracy ppm}&\text{-}\\
+	\hline
+	\textbf{Host interface}&\text{USB 3.0 }\\
+	\hline
+	\textbf{FPGA}&\text{Xilinx Spartan 6 XC6SLX150}\\
+	\hline
+\end{tabular}
+
+\subsection{Radio block diagram for L5 band signal receiver}
+\begin{align*}
+\includegraphics[scale=0.25]{figs/USRP_navic.jpg}  
+\end{align*}\\
+\subsection{Results} 
+\begin{align*}
+\includegraphics[scale=0.25]{figs/USRP_results.jpg}  
+\end{align*}
+
+
+
+
+
+
+
+
 
 \end{document} 
