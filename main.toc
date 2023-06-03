@@ -2,7 +2,6 @@
 \contentsline {schapter}{Introduction}{iii}{chapter*.2}%
 \contentsline {chapter}{\numberline {1}Design Parameters}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}The Frequency Bands}{1}{section.1.1}%
-\contentsline {section}{There will be two kinds of services:}{1}{table.1.2}%
 \contentsline {subsection}{\numberline {1.1.1}Special Positioning Service (SPS):}{1}{subsection.1.1.1}%
 \contentsline {subsection}{\numberline {1.1.2}Restricted Service (RS):}{2}{subsection.1.1.2}%
 \contentsline {chapter}{\numberline {2}Channel Modelling}{5}{chapter.2}%
