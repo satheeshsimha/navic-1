@@ -1,0 +1,66 @@
+%\documentclass{article}
+
+%\usepackage{amssymb, amsfonts,amsthm,amsmath}
+%\usepackage{enumitem}
+%\usepackage{hyperref,xcolor}
+
+%\def\inputGnumericTable{}
+%\usepackage{array}
+%\usepackage{longtable}
+%\usepackage{calc}
+%\usepackage{multirow}
+%\usepackage{hhline}
+%\usepackage{ifthen}
+
+
+
+%\begin{document}
+%\title{Details of the NavIC frequency bands }
+%\author{\Large Shreyash Putta - FWC22070}
+%\date{}
+
+%\maketitle
+
+%\section{NavIC frequency bands}
+		The seven satellites in the NavIC constellation so far use two frequencies for providing positioning data — the L5 and S bands. The new satellites NVS-01 onwards, meant to replace these satellites, will also have L1 frequency.
+	
+		
+	\begin{table}[h!]
+	\small
+	\centering
+	\caption{the navic frequency bands}
+	\label{table:bands}
+	%\subimport{table/}{table1.tex}
+	\input{tables/bands}
+	\end{table}
+
+\textbf{There will be two kinds of services:}
+		
+
+\subsection{Special Positioning Service (SPS):}
+	It is available to all civilian users free of charge and provides positioning, navigation, and timing information with a moderate level of accuracy. The SPS signals in NavIC primarily operate in the L5 frequency band\ref{table:bands}.
+\subsection{Restricted Service (RS):}
+The RS is intended for authorized users and offers enhanced accuracy, integrity, and availability compared to the SPS signals. The RS signals in NavIC operate in both the L5 and S bands\ref{table:bands}.
+	\\
+	\\
+Both services will be carried on L5 (1176.45 MHz) and S band (2492.028 MHz). The navigation signals would be transmitted in the S-band frequency and broadcast through a phased array antenna to keep required coverage and signal strength.
+\\
+\\
+The data structure for SPS and PS takes advantage of the fact that the number of satellites is reduced -7 instead of the 30 used in other constellations- to broadcast ionospheric corrections for a grid of 80 points to provide service to single frequency users. The clock, ephemeris, almanac data of the 7 IRNSS satellites are transmitted with the same accuracy as in legacy GPS, GLONASS and Galileo.
+\\
+\\
+navic operated only in the L5-band and S-band frequencies. This was because India hadn't received the International Telecommunication Union authorisation for using the L1 and L2 frequency bands, which are widely used worldwide for navigation services.
+\\
+\\
+Now that L1 band is available on the NVS-01 satellite(and will be available on subsequent NVS satellites), it is an interoperable frequency and can be used across all chipsets(of mobile devices), provided they use our signal architecture
+\\\\
+All NavIC satellites transmit navigation signals in two or more frequency bands as in the table\ref{table:bands}. These signals contain ranging codes that allow receivers to compute their travelling time from satellite to receiver, along with navigation data, in order to know the satellite’s position at any time. \\
+\\The main signal characteristics are:
+\\
+\textbf{Carrier frequency:} Radio frequency sinusoidal signal at a given frequency.
+\\\\
+\textbf{Ranging (or spreading) code:} A pseudo random sequence of 0s and 1s that allows the receiver to measure the travel time of the signal from satellite to receiver. Often referred to as Pseudo-Random Noise (PRN) codes.
+\\\\
+\textbf{Navigation data:} A binary-coded message providing information on the satellite ephemeris, clock parameters, almanac, health status and other complementary information. Some signals, known as “pilot signals”, lack this component, thus offering better acquisition and tracking performances.
+
+%\end{document}
