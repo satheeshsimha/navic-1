@@ -7,6 +7,7 @@
 %\usepackage{Wiley-AuthoringTemplate}
 \usepackage[sectionbib,authoryear]{natbib}% for name-date citation comment the below line
 %\usepackage[sectionbib,numbers]{natbib}% for numbered citation comment the above line
+\def\inputGnumericTable{}
 
 %%********************************************************************%%
 %%       How many levels of section head would you like numbered?     %%
@@ -31,6 +32,7 @@
 %% Wiley will provide title and copyright page, but you can make
 %% your own titlepages if you'd like anyway
 %% Setting up title pages, type in the appropriate names here:
+
 \booktitle{The Navic Standard}
 
 \subtitle{Through Python}
