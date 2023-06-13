@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2023.1.15)  4 JUN 2023 20:35
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2023.1.15)  13 JUN 2023 08:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1298,7 +1298,11 @@ LaTeX Info: Redefining \cite on input line 694.
 
 
 Writing index file main.idx
-(./main.aux)
+(./main.aux
+
+LaTeX Warning: Label `figs:bandsfig' multiply defined.
+
+)
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 26.
@@ -1515,55 +1519,10 @@ Chapter 1.
 \gnumericColC=\skip93
 \gnumericColD=\skip94
 
-Overfull \hbox (79.99997pt too wide) in alignment at lines 158--234
- [] [] [] [] 
- []
-
-
 Underfull \vbox (badness 10000) detected at line 234
  []
 
-)
-Underfull \hbox (badness 10000) in paragraph at lines 43--65
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 43--65
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 43--65
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 43--65
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 43--65
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 43--65
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 43--65
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 43--65
-
- []
-
-
+) (./figs/bandsdata.tikz)
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
@@ -1572,7 +1531,19 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
  [1
 
 ]
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \hbox (badness 10000) in paragraph at lines 56--66
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 56--66
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 56--66
+
+ []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -1580,7 +1551,13 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [2])
+ [2]
+(./figs/segmentBlocks.tikz)
+Underfull \hbox (badness 10000) in paragraph at lines 76--77
+
+ []
+
+)
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
@@ -1694,7 +1671,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 371--399
 
  []
 
-<figs/RTL_SDR_test.png, id=290, 991.705pt x 449.68pt>
+<figs/RTL_SDR_test.png, id=294, 991.705pt x 449.68pt>
 File: figs/RTL_SDR_test.png Graphic file (type png)
 <use figs/RTL_SDR_test.png>
 Package pdftex.def Info: figs/RTL_SDR_test.png  used on input line 403.
@@ -1716,7 +1693,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 403--404
 
  []
 
-<figs/RTL_sdr_res.jpg, id=296, 1284.8pt x 963.6pt>
+<figs/RTL_sdr_res.jpg, id=300, 1284.8pt x 963.6pt>
 File: figs/RTL_sdr_res.jpg Graphic file (type jpg)
 <use figs/RTL_sdr_res.jpg>
 Package pdftex.def Info: figs/RTL_sdr_res.jpg  used on input line 407.
@@ -1744,7 +1721,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [17 <./figs/RTL_sdr_res.jpg>]
-<figs/USRP_navic.jpg, id=307, 1849.91125pt x 1012.78375pt>
+<figs/USRP_navic.jpg, id=311, 1849.91125pt x 1012.78375pt>
 File: figs/USRP_navic.jpg Graphic file (type jpg)
 <use figs/USRP_navic.jpg>
 Package pdftex.def Info: figs/USRP_navic.jpg  used on input line 440.
@@ -1772,7 +1749,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 440--441
 
  []
 
-<figs/USRP_results.jpg, id=313, 1849.91125pt x 1012.78375pt>
+<figs/USRP_results.jpg, id=317, 1849.91125pt x 1012.78375pt>
 File: figs/USRP_results.jpg Graphic file (type jpg)
 <use figs/USRP_results.jpg>
 Package pdftex.def Info: figs/USRP_results.jpg  used on input line 444.
@@ -1809,14 +1786,18 @@ Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 454.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 454.
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 1DDA21F1876BEC0DC3AE3E99E9AA8D58;1851.
+
+
+LaTeX Warning: There were multiply-defined labels.
+
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 454.
  ) 
 Here is how much of TeX's memory you used:
- 29722 strings out of 481239
- 570844 string characters out of 5920377
- 1018287 words of memory out of 5000000
- 44094 multiletter control sequences out of 15000+600000
- 549785 words of font info for 93 fonts, out of 8000000 for 9000
+ 29796 strings out of 481239
+ 572725 string characters out of 5920377
+ 1020287 words of memory out of 5000000
+ 44158 multiletter control sequences out of 15000+600000
+ 550084 words of font info for 94 fonts, out of 8000000 for 9000
  1144 hyphenation exceptions out of 8191
  211i,12n,207p,642b,1012s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/share/texli
@@ -1827,15 +1808,17 @@ t/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/share/texlive/texmf-dist/fonts
 /public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
 c/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
 nts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pf
-b></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></
-usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/sh
-are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/tex
-mf/fonts/type1/public/cm-super/sfrm0800.pfb>
-Output written on main.pdf (27 pages, 791071 bytes).
+cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pf
+b></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/
+share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/te
+xlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/share/texliv
+e/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf/fonts/type1/p
+ublic/cm-super/sfrm0800.pfb>
+Output written on main.pdf (27 pages, 816192 bytes).
 PDF statistics:
- 383 PDF objects out of 1000 (max. 8388607)
- 315 compressed objects within 4 object streams
- 69 named destinations out of 1000 (max. 500000)
+ 393 PDF objects out of 1000 (max. 8388607)
+ 323 compressed objects within 4 object streams
+ 71 named destinations out of 1000 (max. 500000)
  358 words of extra memory for PDF output out of 10000 (max. 10000000)
 
