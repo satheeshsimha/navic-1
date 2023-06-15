@@ -1,0 +1,102 @@
+%\documentclass{article}
+
+%\usepackage{amssymb, amsfonts,amsthm,amsmath}
+%\usepackage{enumitem}
+%\usepackage{hyperref,xcolor}
+
+%\def\inputGnumericTable{}
+%\usepackage{array}
+%\usepackage{longtable}
+%\usepackage{calc}
+%\usepackage{multirow}
+%\usepackage{hhline}
+%\usepackage{ifthen}
+
+
+
+%\begin{document}
+%\title{Details of the NavIC frequency bands }
+%\author{\Large Shreyash Putta - FWC22070}
+%\date{}
+
+%\maketitle
+
+%\section{NavIC frequency bands}
+\section{The Frequency Bands}
+An independent Indian Satellite based positioning system for critical National applications. The main objective is to provide Reliable Position, Navigation and Timing services over India and its neighbourhood, to provide fairly good accuracy to the user. 
+
+	
+	\begin{table}[h!]
+	\small
+	\centering
+	\caption{the navic frequency bands}
+	\label{table:bands}
+	%\subimport{table/}{table1.tex}
+	\input{tables/bands}
+	\end{table}
+
+%make a table to this data
+Because of satellites’ increased use, number and size, congestion has become a serious issue in the lower frequency bands
+	\begin{figure}[h!]
+	\centering
+	\input{figs/bandsdata.tikz}
+	\caption{Frequency bands of NavIC Signals}
+	\label{figure:bandsfig}
+	\end{figure}	
+\subsection{L-band:}
+NavIC carriers and also satellite mobile phones, such as Iridium; Inmarsat providing communications at sea, land and air; WorldSpace satellite radio.
+
+\subsection{S-band:}
+Weather radar, surface ship radar, and some communications satellites, especially for communication with ISS and Space Shuttle. 
+	
+
+With the variety of satellite frequency bands that can be used, designations have been developed so that they can be referred to easily. 
+\begin{enumerate}
+	\item Single frequency NavIC receiver capable of receiving signal in L1 / L5 / S band frequency.
+	\item A multi-frequency NavIC receiver capable of receiving combinations of L1, L5 and S band signals.
+	\item A multi-constellation receiver compatible with NavIC and other GNSS signals.
+\end{enumerate}
+
+	
+The Figure\ref{figs:bandsfig} above specifies the radio frequency interface between space and user segments.
+Each NavIC satellite provides SPS signals in L1, L5 and S bands.
+\\
+The higher frequency bands typically give access to wider bandwidths, but are also more susceptible to signal degradation due to ‘rain fade’ (the absorption of radio signals by atmospheric rain, snow or ice).
+\section{NavIC carrier frequencies}	
+The seven satellites in the NavIC constellation so far use two frequencies for providing positioning data — the L5 and S bands. The new satellites NVS-01 onwards, meant to replace these satellites, will also have L1 frequency.
+
+
+	\begin{figure}[h!]
+	\centering
+	%\subimport{table/}{table1.tex}
+	\input{figs/segmentBlocks.tikz}
+	\caption{the navic bands segment blocks}
+	\label{figs:bandsfig}
+	\end{figure}
+
+
+The NavIC will provide basically two types of services
+	\begin{enumerate}
+	\item Standard Positioning Service (SPS)
+	\item Restricted Service (RS)
+	\end{enumerate}
+
+		
+
+\subsection{Standard Positioning Service (SPS):}
+	It is available to all civilian users free of charge and provides positioning, navigation, and timing information with a moderate level of accuracy. The SPS signals in NavIC primarily operate in the L5 frequency band\ref{table:bands}.
+\subsection{Restricted Service (RS):}
+The RS is intended for authorized users and offers enhanced accuracy, integrity, and availability compared to the SPS signals. The RS signals in NavIC operate in both the L5 and S bands\ref{table:bands}.	
+
+	
+Both services will be carried on L5\ref{figure:bandsfig} and S band. The navigation signals would be transmitted in the S-band frequency and broadcast through a phased array antenna to keep required coverage and signal strength.
+\\
+\\
+navic operated only in the L5-band and S-band frequencies. This was because India hadn't received the International Telecommunication Union authorisation for using the L1 and L2 frequency bands, which are widely used worldwide for navigation services.
+\\
+\\
+Now that L1 band is available on the NVS-01 satellite(and will be available on subsequent NVS satellites), it is an interoperable frequency and can be used across all chipsets(of mobile devices), provided they use our signal architecture
+\\
+\\
+All NavIC satellites transmit navigation signals in two or more frequency bands as in the table\ref{table:bands}. These signals contain ranging codes that allow receivers to compute their travelling time from satellite to receiver, along with navigation data, in order to know the satellite’s position at any time. 
+%\end{document}

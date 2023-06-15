@@ -1,0 +1,224 @@
+\begin{figure}
+\includegraphics[scale=0.5]{figs/block1}
+\caption{The Block Level Architecture}
+\label{fig:Block-diagram}
+\end{figure}
+\section{Hardware Implementation}
+\begin{figure}
+\includegraphics[scale=0.2]{figs/hardwareimplement.jpg} 
+\caption{Reciever Hardware implementation}
+\label{fig:rtl-sdr}
+\end{figure}
+List the various components used to implement receiver.
+\\
+\solution
+\\
+\begin{table}[!ht]
+  \centering
+ \input{tables/cmptable.tex}
+  \caption{Components Required}
+  \label{tab:rxcomponents}
+\end{table}
+Components are listed in the table \tabref{tab:rxcomponents}\\
+The picture of RTL-SDR and Antenna is given in \figref{fig:rtl-sdr}.This set is used to receive the L5,L1,S Band  signals.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\columnwidth]{figs/rtl-sdr.png}
+\caption{RTL-SDR}
+\label{fig:rtl-sdr}
+\end{figure}
+\section{RTL SDR Specifications}
+RTL-SDR is a popular, low cost hardware that can receive wireless signals. The RTL-SDR dongle features the Realtek RTL2838U chip, which provides I-Q samples through the USB interface. 
+\begin{table}[!ht]
+  \centering
+ \input{tables/sdrtable.tex}
+  \caption{RTL-SDR Specification table }
+  \label{tab:rxcomponents}
+\end{table}
+
+ Install and open GNU Radio using the following commands
+\\
+\begin{lstlisting}
+sudo apt update
+sudo apt install gnuradio
+gnuradio-companion
+\end{lstlisting}
+ How to construct the block diagram in GNU radio? \\
+	\solution  \\
+\textbf{Step-1}:\\
+Search for QTGUI Time sink  block and add it to the work space.
+\begin{figure}[H]
+\centering
+\includegraphics[width=\columnwidth]{figs/add.png}
+\caption{Adding blocks}
+\label{fig:add blocks}
+\end{figure}
+\textbf{Step-2}:
+Similarly do for RTL-Source block,complex to real ,complex to imaginary and QTGUI Time sink block.
+\\
+\textbf{Step-3}:
+Change the parameters in each block according your values by double clicking on it.
+\\
+\textbf{Step-4}:
+Connect them according to the flowgraph shown in \figref{fig:Rx_Block_diagram}.
+\begin{figure}[H]
+\centering
+\includegraphics[width=\columnwidth]{figs/RTL_SDR_test.png}
+\caption{Block diagram of Receiver in GNU Radio}
+\label{fig:Rx_Block_diagram}
+\end{figure}
+\textbf{Note}:
+Refer the following website for any queries.
+\begin{lstlisting}
+https://wiki.gnuradio.org/index.php?title=Creating_Your_First_Block
+\end{lstlisting}
+ Explain each block in block diagram of Receiver.\\
+	\solution \\
+\textbf{1. RTL-SDR Source}:\\
+The RTL-SDR Source block is used to stream samples from RTL-SDR device.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\columnwidth]{figs/source_block.png}
+\caption{RTL-SDR Source Block}
+\label{fig:source block}
+\end{figure}
+Connect the RTL-SDR to the system and execute the flowgraph in \figref{fig:Rx_Block_diagram}.\\
+
+
+
+\subsection{Results} 
+\begin{figure}
+\includegraphics[width=0.8\columnwidth]{figs/RTL_sdr_res.png}
+\caption{RTL-SDR receiver plots}
+\end{figure}
+I,Q samples will be generated as .bin extension
+
+\begin{lstlisting}
+codes/Navic_I_samp_120sec.bin
+codes/Navic_Q_samp_120sec.bin
+\end{lstlisting}
+
+ Read the data from RTL SDR using python code and without using GNU radio.
+\\
+\solution \\
+The following code reads the data from RTL-SDR without GNU radio.
+\begin{lstlisting}
+codes/receiver/rtsdr_rx.py
+\end{lstlisting}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{USRP SDR}
+The picture of Universal software Radio Peripheral-software defiend radios (USRP-SDR)  is given in \figref{fig:USRP-SDR}.This set is used to receive the L5,L1,S Band  signals.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\columnwidth]{figs/USRP.png}
+\caption{USRP-SDR}
+\label{fig:USRP-SDR}
+\end{figure}
+
+\subsection{ USRP SDR specification}
+ \begin{table}[!ht]
+  \centering
+ \input{tables/usrptable.tex}
+ \caption{USRP-SDR Specification table }
+\end{table}
+
+ Install and open GNU Radio using the following commands
+\\
+\begin{lstlisting}
+sudo apt update
+sudo apt install gnuradio
+gnuradio-companion
+\end{lstlisting}
+ How to construct the block diagram in GNU radio? \\
+	\solution  \\
+\textbf{Step-1}:\\
+Search for QTGUI Time sink  block and add it to the work space.
+\begin{figure}[H]
+\centering
+\includegraphics[width=\columnwidth]{figs/add.png}
+\caption{Adding blocks}
+\label{fig:add blocks}
+\end{figure}
+\textbf{Step-2}:
+Similarly do for USRP-Source block,complex to real ,complex to imaginary and QTGUI Time sink block.
+\\
+\textbf{Step-3}:
+Change the parameters in each block according your values by double clicking on it.
+\\
+\textbf{Step-4}:
+Connect them according to the flowgraph shown in \figref{fig:Rx_Block_diagram}.
+\begin{figure}[H]
+\centering
+\includegraphics[width=\columnwidth]{figs/USRP_navic.jpg}
+\caption{Block diagram of Receiver in GNU Radio}
+\label{fig:Rx_Block_diagram}
+\end{figure}
+\textbf{Note}:
+Refer the following website for any queries.
+\begin{lstlisting}
+https://wiki.gnuradio.org/index.php?title=Creating_Your_First_Block
+\end{lstlisting}
+ Explain each block in block diagram of Receiver.\\
+	\solution \\
+\textbf{1. RTL-SDR Source}:\\
+The RTL-SDR Source block is used to stream samples from USRP-SDR device.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\columnwidth]{figs/usrp-sink.jpg}
+\caption{USRP-SDR Source Block}
+\label{fig:source block}
+\end{figure}
+Connect the USRP-SDR as shown flowgraph in \figref{fig:Rx_Block_diagram}.\\
+
+
+
+\subsection{Results} 
+\begin{figure}
+\includegraphics[width=0.8\columnwidth]{figs/USRP_results.jpg}
+\caption{USRP receiver plots}
+\label{fig:plots}
+\end{figure}
+
+I,Q samples will be generated as .bin extension
+
+\begin{lstlisting}
+codes/Navic_I_samp_120sec.bin
+codes/Navic_Q_samp_120sec.bin
+\end{lstlisting}
+
+Read the data from RTL SDR using python code and without using GNU radio.
+\\
+\solution \\
+The following code reads the data from RTL-SDR without GNU radio.
+\begin{lstlisting}
+codes/receiver/usrp_rx.py
+\end{lstlisting}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
