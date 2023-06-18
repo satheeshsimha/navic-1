@@ -44,3 +44,5 @@
 \BOOKMARK [2][-]{subsection.6.1.6}{Traceback:}{section.6.1}% 44
 \BOOKMARK [2][-]{subsection.6.1.7}{Decoding Output:}{section.6.1}% 45
 \BOOKMARK [1][-]{section.6.2}{Software}{chapter.6}% 46
+\BOOKMARK [0][-]{appendix.A}{Computing the Position and Velocity of the satellite from the RINEX file}{}% 47
+\BOOKMARK [1][-]{section.A.1}{Computing the position and velocity of the NavIC satellite using python}{appendix.A}% 48
