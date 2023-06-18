@@ -147,12 +147,12 @@ Declare positive acquisition and provides coarse estimation of code phase $\hat 
 other wise declare negative acquisition.
 
 %\end{Large}
-\textbf{Results}
-\begin{lstlisting}
-code/e2e_sim/navicsim.py
-code/e2e_sim/main_ipynb
-\end{lstlisting}
+The acquisition results are generated using the below code\\
 \textbf{Code}
+\begin{lstlisting}
+code/e2e_sim/main.ipynb
+\end{lstlisting}
+\textbf{Result}
 \begin{lstlisting}
 Acquisition results for PRN ID 5
  Status:True Doppler:3500 Delay/Code-Phase:300/30.0
@@ -217,13 +217,14 @@ Becomes unstable (divide by zero) at $\pm 1.5$ -chip input error, but this is we
 
 The values for the second-order coefficient $a_2$ and third-order coefficients $a_3$ and $b_3$ can be determined from Table 3. These coefficients are the same for FLL, PLL, or DLL applications if the loop
 order and the noise bandwidth,$B_n$ , are the same.Note that the FLL coefficient insertion point into the filter is one integrator back from the PLL and DLL insertion points.This is because the FLL error is in units of hertz (change in range per unit of time).\\
-\textbf{Carrier and code tracking reference code }
+The tracking results are generated using the below code\\
+\textbf{Code}
 \begin{lstlisting}
-code/e2e_sim/navicsim.py
 code/e2e_sim/main_ipynb
 \end{lstlisting}
-\textbf{Tracking results for PRN ID:5}
+\textbf{Result}
 \begin{lstlisting}
+Tracking result for PRN ID:5
 Transmitted Bits:
  [0. 1. 0. 1. 0. 0. 0. 1. 0. 1. 1. 0. 0. 0. 1. 1. 1. 0. 0. 1. 1. 1. 1. 0.1. 0. 1. 1. 0. 1. 0. 0. 1. 0. 0. 0. 1. 0. 1. 1. 1. 0. 1. 1. 0. 0. 1. 0. 0. 0.]
 Received bits:
@@ -231,12 +232,16 @@ Received bits:
 Received bits inverted:
  [0. 0. 1. 0. 1. 0. 0. 0. 1. 0. 1. 1. 0. 0. 0. 1. 1. 1. 0. 0. 1. 1. 1. 1.0. 1. 0. 1. 1. 0. 1. 0. 0. 1. 0. 0. 0. 1. 0. 1. 1. 1. 0. 1. 1. 0. 0. 1. 0. 0.]
 \end{lstlisting}
-\textbf{Tracking results plot for PRN ID:5}
 
-\begin{figure}%
+\begin{figure}[H]
 \includegraphics[width=0.5\columnwidth]{figs/tracking_plot.png}
 \caption{tracking result plot}
 \end{figure}
+
+The functions for acquisition and tracking are present in the below code
+\begin{lstlisting}
+codes/demodulation/demodulation.py
+\end{lstlisting}
 
 
 %\end{Large}
