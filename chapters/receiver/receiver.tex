@@ -91,14 +91,9 @@ Connect the RTL-SDR to the system and execute the flowgraph in \figref{fig:Rx_Bl
 \includegraphics[width=0.8\columnwidth]{figs/RTL_sdr_res.png}
 \caption{RTL-SDR receiver plots}
 \end{figure}
-I,Q samples will be generated as .bin extension
+I,Q samples will be stored in a file with .bin extension
 
-\begin{lstlisting}
-codes/Navic_I_samp_120sec.bin
-codes/Navic_Q_samp_120sec.bin
-\end{lstlisting}
-
- Read the data from RTL SDR using python code and without using GNU radio.
+ Read the data from RTL SDR stored in .bin file using python code and without using GNU radio.
 \\
 \solution \\
 The following code reads the data from RTL-SDR without GNU radio.
@@ -192,14 +187,9 @@ Connect the USRP-SDR as shown flowgraph in \figref{fig:Rx_Block_diagram}.\\
 \label{fig:plots}
 \end{figure}
 
-I,Q samples will be generated as .bin extension
+I,Q samples will be stored in a file with .bin extension
 
-\begin{lstlisting}
-codes/Navic_I_samp_120sec.bin
-codes/Navic_Q_samp_120sec.bin
-\end{lstlisting}
-
-Read the data from RTL SDR using python code and without using GNU radio.
+Read the data from RTL SDR stored in .bin file using python code and without using GNU radio.
 \\
 \solution \\
 The following code reads the data from RTL-SDR without GNU radio.
