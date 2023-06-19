@@ -1,17 +1,19 @@
-\section{Computing the position and velocity of the  NavIC satellite using python}
-\textbf{Installations :}
-\begin{enumerate}
-\item pip3 install pymap3d
-\item pip3 install georinex
-\item pip3 install itertools
-\item pip3 install argparse
-\end{enumerate}
-\textbf{Algorithm for finding the position and velocity of satellite From Rinex file :}
+%\section{Computing the position and velocity of the  NavIC satellite using python}
+\section{Installations}
+
+\begin{lstlisting}
+pip3 install pymap3d
+pip3 install georinex
+pip3 install itertools
+pip3 install argparse
+\end{lstlisting}
+
+\section{Algorithm for finding the position and velocity of satellite From Rinex file}
 \begin{enumerate}
   \item Get the rinex file for NavIC satellite from the official website.
   \item The Rinex file contains the observational file and navigation file.
   \item Convert the Rinex file to CSV file using the python \\
-  The below python function will convert the GPS RINEX file to CSV file.
+  The below python function will convert the NavIC RINEX file to CSV file.
   \begin{lstlisting}
     codes/sat_pos_vel/rinex_to_csv/funcs.py
   \end{lstlisting}
@@ -23,7 +25,7 @@
   \begin{lstlisting}
     codes/sat_pos_vel/rinexread/funcs.py
   \end{lstlisting} 
-  \item Process the above list with the formulas mentioned in chaprter 2 \\
+  \item Process the above list with the formulas mentioned in chaprter 3 \\
   The python function for finding the position of satellite is given as :
   \begin{lstlisting}
     codes/sat_pos_vel/position/funcs.py
