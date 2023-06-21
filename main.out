@@ -1,11 +1,11 @@
 \BOOKMARK [0][-]{chapter*.2}{Introduction}{}% 1
 \BOOKMARK [0][-]{chapter.1}{Design Parameters}{}% 2
 \BOOKMARK [1][-]{section.1.1}{The Frequency Bands}{chapter.1}% 3
-\BOOKMARK [2][-]{subsection.1.1.1}{L-band:}{section.1.1}% 4
-\BOOKMARK [2][-]{subsection.1.1.2}{S-band:}{section.1.1}% 5
+\BOOKMARK [2][-]{subsection.1.1.1}{L-band}{section.1.1}% 4
+\BOOKMARK [2][-]{subsection.1.1.2}{S-band}{section.1.1}% 5
 \BOOKMARK [1][-]{section.1.2}{NavIC carrier frequencies}{chapter.1}% 6
-\BOOKMARK [2][-]{subsection.1.2.1}{Standard Positioning Service \(SPS\):}{section.1.2}% 7
-\BOOKMARK [2][-]{subsection.1.2.2}{Restricted Service \(RS\):}{section.1.2}% 8
+\BOOKMARK [2][-]{subsection.1.2.1}{Standard Positioning Service \(SPS\)}{section.1.2}% 7
+\BOOKMARK [2][-]{subsection.1.2.2}{Restricted Service \(RS\)}{section.1.2}% 8
 \BOOKMARK [0][-]{chapter.2}{Transmitter}{}% 9
 \BOOKMARK [1][-]{section.2.1}{Frame structure}{chapter.2}% 10
 \BOOKMARK [2][-]{subsection.2.1.1}{Cyclic Redundancy Check\(CRC\)}{section.2.1}% 11
@@ -46,4 +46,4 @@
 \BOOKMARK [1][-]{section.6.2}{Software}{chapter.6}% 46
 \BOOKMARK [0][-]{appendix.A}{Computing the Position and Velocity of the satellite from the RINEX file}{}% 47
 \BOOKMARK [1][-]{section.A.1}{Installations}{appendix.A}% 48
-\BOOKMARK [1][-]{section.A.2}{Algorithm for finding the position and velocity of satellite From Rinex file}{appendix.A}% 49
+\BOOKMARK [1][-]{section.A.2}{Algorithm}{appendix.A}% 49

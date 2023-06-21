@@ -82,7 +82,7 @@ NavIC signals are transmitted in the L5 frequency band (1176.45 MHz) using BPSK 
 
 \subsection{Signal Acquistion}
 \begin{normalsize}
-\begin{figure}[!h]%
+\begin{figure}[!ht]%
 \centering%
 %\rule{30pt}{20pt}%
 \includegraphics[scale=0.5]{figs/block2}
@@ -98,7 +98,7 @@ $S_T(t)$, the digital signal at the input of an Acquisition block can be written
 x_{IN}[k]=A(t)\hat S_T (t-\tau(t))e^{j(2 \pi f_D(t)t+\Phi))}\bigg|_{t=kT_s} +n(t)\bigg|_{t=kT_s}
 \end{align}
 %\end{Large}
-\begin{table}[h]
+\begin{table}[ht]
 \centering
 	\caption{\Large{Parameters Table in Signal Acquisition}}
 	\input{tables/table}
@@ -170,7 +170,7 @@ Acquisition results for PRN ID 1
 \textbf{Phase locked loop(PLL)}\\
 The carrier loop discriminator defines the type of tracking loop as a PLL, aCostas PLL (which is a PLL-type discriminator that tolerates the presence of data modulation on the baseband signal), or a frequency lock loop (FLL).Carrier tracking loop tracks the frequency and phase of the received signal by detecting the phase error between replicated signal and incoming signal and accordingly replicated signal produced by numerically controlled oscillator (NCO) is adjusted to synchronize with incoming signal in both frequency and phase. For zero phase error detected, navigation data is accurately extracted. 
 %\begin{normalsize}
-\begin{figure}[!h]%
+\begin{figure}[!ht]%
 %\centering%
 %\rule{30pt}{20pt}%
 \includegraphics[scale=0.5]{figs/block3}
@@ -209,7 +209,7 @@ Noncoherent early minus late envelope normalized by $E + L$ to remove amplitude 
 Becomes unstable (divide by zero) at $\pm 1.5$ -chip input error, but this is well beyond code tracking threshold in the presence of noise.
 %\end{Large}\\
 \subsection{Loop filter characteristics}
-\begin{table}[h]
+\begin{table}[ht]
 \centering
 	\caption{\Large{Loop order filters }}
 	\input{tables/loop}
@@ -233,7 +233,7 @@ Received bits inverted:
  [0. 0. 1. 0. 1. 0. 0. 0. 1. 0. 1. 1. 0. 0. 0. 1. 1. 1. 0. 0. 1. 1. 1. 1.0. 1. 0. 1. 1. 0. 1. 0. 0. 1. 0. 0. 0. 1. 0. 1. 1. 1. 0. 1. 1. 0. 0. 1. 0. 0.]
 \end{lstlisting}
 
-\begin{figure}[H]
+\begin{figure}[ht]
 \includegraphics[width=0.5\columnwidth]{figs/tracking_plot.png}
 \caption{tracking result plot}
 \end{figure}

@@ -7,7 +7,7 @@
 \begin{figure}
 \includegraphics[scale=0.2]{figs/hardwareimplement.jpg} 
 \caption{Reciever Hardware implementation}
-\label{fig:rtl-sdr}
+\label{fig:hardware}
 \end{figure}
 List the various components used to implement receiver.
 \\
@@ -20,8 +20,8 @@ List the various components used to implement receiver.
   \label{tab:rxcomponents}
 \end{table}
 Components are listed in the table \tabref{tab:rxcomponents}\\
-The picture of RTL-SDR and Antenna is given in \figref{fig:rtl-sdr}.This set is used to receive the L5,L1,S Band  signals.
-\begin{figure}[H]
+The picture of RTL-SDR and Antenna is given in \figref{fig:hardware}.This set is used to receive the L5,L1,S Band  signals.
+\begin{figure}[ht]
 \centering
 \includegraphics[width=0.5\columnwidth]{figs/rtl-sdr.png}
 \caption{RTL-SDR}
@@ -33,7 +33,7 @@ RTL-SDR is a popular, low cost hardware that can receive wireless signals. The R
   \centering
  \input{tables/sdrtable.tex}
   \caption{RTL-SDR Specification table }
-  \label{tab:rxcomponents}
+  \label{tab:rxspecification}
 \end{table}
 
  Install and open GNU Radio using the following commands
@@ -47,7 +47,7 @@ gnuradio-companion
 	\solution  \\
 \textbf{Step-1}:\\
 Search for QTGUI Time sink  block and add it to the work space.
-\begin{figure}[H]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{figs/add.png}
 \caption{Adding blocks}
@@ -61,7 +61,7 @@ Change the parameters in each block according your values by double clicking on 
 \\
 \textbf{Step-4}:
 Connect them according to the flowgraph shown in \figref{fig:Rx_Block_diagram}.
-\begin{figure}[H]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{figs/RTL_SDR_test.png}
 \caption{Block diagram of Receiver in GNU Radio}
@@ -76,11 +76,11 @@ https://wiki.gnuradio.org/index.php?title=Creating_Your_First_Block
 	\solution \\
 \textbf{1. RTL-SDR Source}:\\
 The RTL-SDR Source block is used to stream samples from RTL-SDR device.
-\begin{figure}[H]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=0.4\columnwidth]{figs/source_block.png}
 \caption{RTL-SDR Source Block}
-\label{fig:source block}
+\label{fig:source block_RTL}
 \end{figure}
 Connect the RTL-SDR to the system and execute the flowgraph in \figref{fig:Rx_Block_diagram}.\\
 
@@ -116,7 +116,7 @@ codes/receiver/rtsdr_rx.py
 
 \section{USRP SDR}
 The picture of Universal software Radio Peripheral-software defiend radios (USRP-SDR)  is given in \figref{fig:USRP-SDR}.This set is used to receive the L5,L1,S Band  signals.
-\begin{figure}[H]
+\begin{figure}[ht]
 \centering
 \includegraphics[width=0.5\columnwidth]{figs/USRP.png}
 \caption{USRP-SDR}
@@ -145,7 +145,7 @@ Search for QTGUI Time sink  block and add it to the work space.
 \centering
 \includegraphics[width=\columnwidth]{figs/add.png}
 \caption{Adding blocks}
-\label{fig:add blocks}
+\label{fig:adding blocks}
 \end{figure}
 \textbf{Step-2}:
 Similarly do for USRP-Source block,complex to real ,complex to imaginary and QTGUI Time sink block.
@@ -159,7 +159,7 @@ Connect them according to the flowgraph shown in \figref{fig:Rx_Block_diagram}.
 \centering
 \includegraphics[width=\columnwidth]{figs/USRP_navic.jpg}
 \caption{Block diagram of Receiver in GNU Radio}
-\label{fig:Rx_Block_diagram}
+\label{fig:Rx_Block_diagram_USRP}
 \end{figure}
 \textbf{Note}:
 Refer the following website for any queries.
@@ -174,9 +174,9 @@ The RTL-SDR Source block is used to stream samples from USRP-SDR device.
 \centering
 \includegraphics[width=0.4\columnwidth]{figs/usrp-sink.jpg}
 \caption{USRP-SDR Source Block}
-\label{fig:source block}
+\label{fig:source block_USRP}
 \end{figure}
-Connect the USRP-SDR as shown flowgraph in \figref{fig:Rx_Block_diagram}.\\
+Connect the USRP-SDR as shown flowgraph in \figref{fig:Rx_Block_diagram_USRP}.\\
 
 
 
