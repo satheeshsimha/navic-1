@@ -13,6 +13,15 @@ Any burst errors during the data transmission can be corrected by interleaving. 
 \subsection{Sync word and Tail bits}
 Each subframe has a 16 bit word synchronization pattern which is not encoded. Sync pattern is EB90 Hex. Tail bit consists of 6 zero value bits enabling completion of FEC decoding of each subframe in the receiver.
 
+
+	\begin{figure}[!ht]
+	\centering
+	\input{figs/spsCode_genBlock.tikz}
+	\caption{SPS Code Generator}
+	\label{figure:codeGen}
+	\end{figure}
+
+
 \section{Modulation}
 \subsection{Standard Positioning Service}
 The SPS signal is BPSK(1) modulated on L5 and S bands. The navigation data at data rate of 50 sps (1/2 rate FEC encoded) is modulo 2 added to PRN code chipped at 1.023 Mcps. The CDMA modulated code, modulates the L5 and S carriers at 1176.45 MHz and 2492.028 MHz respectively.

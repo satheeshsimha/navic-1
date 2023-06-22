@@ -22,60 +22,104 @@
 %\maketitle
 
 %\section{NavIC frequency bands}
+%\AfterEndEnvironment{figure}{\noindent\ignorespaces}
+%\AfterEndEnvironment{table}{\noindent\ignorespaces}
 \section{The Frequency Bands}
-An independent Indian Satellite based positioning system for critical National applications. The main objective is to provide Reliable Position, Navigation and Timing services over India and its neighbourhood, to provide fairly good accuracy to the user. 
-
-	
-	\begin{table}[!ht]
-	\small
-	\centering
-	\caption{the navic frequency bands}
-	\label{table:bands}
-	%\subimport{table/}{table1.tex}
-	\input{tables/bands}
-	\end{table}
-
-%make a table to this data
-Because of satellites’ increased use, number and size, congestion has become a serious issue in the lower frequency bands
-\\
-The higher frequency bands\ref{table:bands} typically give access to wider bandwidths, but are also more susceptible to signal degradation due to ‘rain fade’ (the absorption of radio signals by atmospheric rain, snow or ice).
 	\begin{figure}[!ht]
 	\centering
 	\input{figs/bandsdata.tikz}
 	\caption{Frequency bands of NavIC Signals}
 	\label{figure:bandsfig}
-	\end{figure}	
+	\end{figure}
+
+\noindent Satellite communication utilizes multiple frequency bands to accommodate different types of communication services and address various technical considerations. Here are some reasons why multiple frequency bands are used in satellite communication:
+\\
+\\
+\textbf{Spectrum Allocation:} The electromagnetic spectrum is divided into various frequency bands to allocate different services and applications. This division ensures that different systems can operate without interfering with each other. By utilizing multiple frequency bands, satellite communication can effectively coexist with other wireless services and minimize interference issues.
+\\
+\\
+\textbf{Signal Propagation Characteristics:} Different frequency bands exhibit unique propagation characteristics. Lower frequency bands, such as L band, have better signal penetration through obstacles and are less affected by atmospheric conditions, making them suitable for applications where signal reliability is crucial. Higher frequency bands, such as Ku band or Ka band, offer larger bandwidths and higher data transmission rates, making them ideal for applications requiring high-speed data transfer.
+\\
+\\
+\textbf{Bandwidth and Capacity:} Different frequency bands offer varying bandwidths, and by utilizing multiple bands, satellite communication systems can increase overall capacity. This allows for the simultaneous transmission of multiple signals, accommodating a wide range of services such as television broadcasting, voice communication, internet access, and data transfer.
+\\
+\\
+\textbf{Frequency Reuse and Interference Mitigation:} Satellite systems employ frequency reuse techniques to maximize the utilization of the available frequency spectrum. By using different frequency bands, satellite operators can reuse frequencies in different geographical areas without causing interference. This allows for efficient utilization of the limited spectrum resources.
+\\
+\\
+\textbf{Regulation and International Coordination:} The allocation and usage of frequency bands are regulated by international bodies and national spectrum management organizations. These regulations help ensure efficient spectrum utilization, prevent interference between different systems, and promote global coordination and compatibility of satellite communication services.
+\\
+\\
+In summary, the use of multiple frequency bands in satellite communication enables efficient spectrum utilization, accommodates different services, and addresses various technical considerations such as signal propagation, bandwidth, capacity, and interference mitigation. By leveraging the advantages offered by different frequency ranges, satellite systems can provide reliable, high-speed communication services to a wide range of applications and users.
+
+
+
+
+
+
+
 \subsection{L-band}
-NavIC carriers and also satellite mobile phones, such as Iridium; Inmarsat providing communications at sea, land and air; WorldSpace satellite radio.
+The L band offers several advantages for wireless communication systems, including a balance between signal propagation characteristics and antenna size. It provides good signal penetration through various atmospheric conditions, vegetation, and even some obstacles. These properties make it suitable for applications such as satellite communication, navigation systems, and mobile networks
+\\
+\\
+Satellite communication is one of the significant applications of the L band. Satellites in geostationary orbits often utilize this frequency range for broadcasting television signals, as well as for maritime and aeronautical communications. The L band allows for reliable and efficient transmission over long distances, making it a valuable resource for global connectivity
+\\
+\\
+L1 and L5 are specific frequencies within the L band that are used in Global Navigation Satellite Systems (GNSS), such as GPS (Global Positioning System) and Galileo. These frequencies play a crucial role in providing accurate positioning, navigation, and timing information
+\\
+\subsubsection{L1} 
+L1 refers to the first frequency within the L band used by GNSS. In NavIC, the L1 frequency is centered around 1575.42 megahertz (MHz). The L1 signal carries the primary navigation message and is used for standard positioning and timing applications. It is widely used in various sectors, including transportation, surveying, and consumer applications like personal navigation devices and smartphones.
+\subsubsection{L5}
+L5, on the other hand, is an additional frequency introduced in modernized GNSS systems like GPS and Galileo. The L5 frequency is centered around 1176.45 MHz. It was introduced to provide improved accuracy, integrity, and resistance to interference. The L5 signal carries more precise and reliable positioning information, making it particularly useful in critical applications that require high levels of accuracy, such as aviation, surveying, and scientific research.
+\\
+\\
+By utilizing both L1 and L5 frequencies, GNSS receivers can benefit from enhanced accuracy and robustness. The L1 frequency offers broad coverage and compatibility with legacy systems, while the L5 frequency provides more precise positioning and improved resistance to interference. The combination of these frequencies allows for more reliable and accurate navigation solutions, benefiting a wide range of industries and applications.
+\subsection{S-band} 
+The S band is another frequency range within the electromagnetic spectrum, located between the L band and the C band. It spans a frequency range of approximately 2 to 4 gigahertz (GHz). The S band finds applications in various fields, including communication, radar systems, satellite broadcasting, and scientific research
+\\
+One of the primary uses of the S band is in satellite communication. Satellites in geostationary orbits often utilize S band frequencies for uplink and downlink communication with ground stations. The S band provides a good balance between antenna size and data capacity, making it suitable for broadcasting television signals, voice communication, and data transmission.
+\\	
+The utilisation of above Frequency bands main objective is to provide Reliable Position, Navigation and Timing services over India and its neighbourhood, to provide fairly good accuracy to the user. 
 
-\subsection{S-band}
-Weather radar, surface ship radar, and some communications satellites, especially for communication with ISS and Space Shuttle. 
-	
+%make a table to this data
+Because of satellites’ increased use, number and size, congestion has become a serious issue in the lower frequency bands
+\\
+The higher frequency bands as in \ref{table:bands} typically give access to wider bandwidths, but are also more susceptible to signal degradation due to ‘rain fade’ (the absorption of radio signals by atmospheric rain, snow or ice).
+	\begin{figure}[!ht]
+	\centering
+	\input{figs/bandsdata.tikz}
+	\caption{Frequency bands of NavIC Signals}
+	\label{figure:bandsfig}
+	\end{figure}
 
-With the variety of satellite frequency bands that can be used, designations have been developed so that they can be referred to easily. 
-\begin{enumerate}
-	\item Single frequency NavIC receiver capable of receiving signal in L1/L5/S band frequency.
-	\item A multi-frequency NavIC receiver capable of receiving combinations of L1, L5 and S band signals.
-	\item A multi-constellation receiver compatible with NavIC and other GNSS signals.
-\end{enumerate}
-
-
-Each NavIC satellite provides SPS signals in L1, L5 and S bands.
 
 \section{NavIC carrier frequencies}	
-The seven satellites in the NavIC constellation so far use two frequencies for providing positioning data — the L5 and S bands. The new satellites NVS-01 onwards, meant to replace these satellites, will also have L1 frequency.
+\begin{table}[!ht]
+	\small
+	\centering
+	\caption{the NavIC frequency bands}
+	\label{table:bands}
+	%\subimport{table/}{table1.tex}
+	\input{tables/bands}
+	\end{table}
+\noindent The seven satellites in the NavIC constellation so far use two frequencies for providing positioning data — the L5 and S bands. The new satellites NVS-01 onwards, meant to replace these satellites, will also have L1 frequency.
 
 
 	\begin{figure}[!ht]
 	\centering
 	%\subimport{table/}{table1.tex}
 	\input{figs/segmentBlocks.tikz}
-	\caption{the navic bands segment blocks}
+	\caption{the NavIC bands segment blocks}
 	\label{figs:bandsfig}
 	\end{figure}
-
-The Figure\ref{figs:bandsfig} above specifies the radio frequency interface between space and user segments.
-
+\noindent The Figure\ref{figs:bandsfig} above specifies the radio frequency interface between space and user segments.
+\\
+With the variety of satellite frequency bands that can be used, designations have been developed so that they can be referred to easily. 
+\begin{enumerate}
+	\item Single frequency NavIC receiver capable of receiving signal in L1/L5/S band frequency.
+	\item A multi-frequency NavIC receiver capable of receiving combinations of L1, L5 and S band signals.
+	\item A multi-constellation receiver compatible with NavIC and other GNSS signals.
+\end{enumerate}
 The NavIC will provide basically two types of services:
 	\begin{enumerate}
 	\item Standard Positioning Service (SPS)
@@ -93,7 +137,7 @@ The RS is intended for authorized users and offers enhanced accuracy, integrity,
 Both services will be carried on L5 and S band\ref{figure:bandsfig}. The navigation signals would be transmitted in the S-band frequency and broadcast through a phased array antenna to keep required coverage and signal strength.
 \\
 \\
-navic operated only in the L5-band and S-band frequencies. This was because India hadn't received the International Telecommunication Union authorisation for using the L1 and L2 frequency bands, which are widely used worldwide for navigation services.
+NavIC operated only in the L5-band and S-band frequencies. This was because India hadn't received the International Telecommunication Union authorisation for using the L1 and L2 frequency bands, which are widely used worldwide for navigation services.
 \\
 \\
 Now that L1 band\ref{figure:bandsfig} is available on the NVS-01 satellite(and will be available on subsequent NVS satellites), it is an interoperable frequency and can be used across all chipsets(of mobile devices), provided they use our signal architecture
