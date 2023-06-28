@@ -1,24 +1,12 @@
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {1.1}{\ignorespaces Frequency bands of NavIC Signals}}{1}{figure.1.1}%
-\contentsline {figure}{\numberline {1.2}{\ignorespaces the NavIC bands segment blocks}}{7}{figure.1.2}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces SPS Code Generator}}{11}{figure.2.1}%
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Frequency bands of NavIC Signals\relax }}{3}{figure.caption.4}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces NavIC Architecture\relax }}{9}{figure.caption.6}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces the NavIC bands segment blocks\relax }}{10}{figure.caption.7}%
 \addvspace {10\p@ }
-\addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces The Block Level Architecture}}{22}{figure.4.1}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Reciever Hardware implementation}}{22}{figure.4.2}%
-\contentsline {figure}{\numberline {4.3}{\ignorespaces RTL-SDR}}{23}{figure.4.3}%
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Adding blocks}}{24}{figure.4.4}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces Block diagram of Receiver in GNU Radio}}{25}{figure.4.5}%
-\contentsline {figure}{\numberline {4.6}{\ignorespaces RTL-SDR Source Block}}{25}{figure.4.6}%
-\contentsline {figure}{\numberline {4.7}{\ignorespaces RTL-SDR receiver plots}}{26}{figure.4.7}%
-\contentsline {figure}{\numberline {4.8}{\ignorespaces USRP-SDR}}{27}{figure.4.8}%
-\contentsline {figure}{\numberline {4.9}{\ignorespaces Adding blocks}}{28}{figure.4.9}%
-\contentsline {figure}{\numberline {4.10}{\ignorespaces Block diagram of Receiver in GNU Radio}}{29}{figure.4.10}%
-\contentsline {figure}{\numberline {4.11}{\ignorespaces USRP-SDR Source Block}}{29}{figure.4.11}%
-\contentsline {figure}{\numberline {4.12}{\ignorespaces USRP receiver plots}}{30}{figure.4.12}%
-\addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces tracking result plot}}{40}{figure.5.1}%
-\addvspace {10\p@ }
-\contentsline {figure}{\numberline {6.1}{\ignorespaces The Block Level Architecture in Channel Decoding}}{41}{figure.6.1}%
-\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Transmitter Block diagram\relax }}{13}{figure.caption.8}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Master Frame Structure\relax }}{14}{figure.caption.9}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Structure of subframe 1 and 2\relax }}{15}{figure.caption.10}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Structure of subframe 3 and 4\relax }}{15}{figure.caption.11}%
+\contentsline {figure}{\numberline {3.5}{\ignorespaces SPS PRN Code Generator\relax }}{16}{figure.caption.12}%
+\contentsline {figure}{\numberline {3.6}{\ignorespaces FEC Encoding\relax }}{17}{figure.caption.14}%
