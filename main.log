@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2023.6.9)  29 JUN 2023 00:05
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2023.6.9)  3 JUL 2023 18:16
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1681,7 +1681,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [7]
-<figs/Architecture.jpg, id=259, 963.6pt x 542.025pt>
+<figs/Architecture.jpg, id=261, 963.6pt x 542.025pt>
 File: figs/Architecture.jpg Graphic file (type jpg)
 <use figs/Architecture.jpg>
 Package pdftex.def Info: figs/Architecture.jpg  used on input line 66.
@@ -1724,7 +1724,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 ]
 Chapter 3.
 (./chapters/transmitter/transmitter.tex
-<figs/trans_flow.jpg, id=299, 1006.76125pt x 356.33125pt>
+<figs/trans_flow.jpg, id=301, 1006.76125pt x 356.33125pt>
 File: figs/trans_flow.jpg Graphic file (type jpg)
 <use figs/trans_flow.jpg>
 Package pdftex.def Info: figs/trans_flow.jpg  used on input line 5.
@@ -1736,17 +1736,17 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [13 <./figs/trans_flow.jpg>]
-<figs/master_frame.png, id=306, 500.87125pt x 98.3675pt>
+<figs/master_frame.png, id=308, 500.87125pt x 98.3675pt>
 File: figs/master_frame.png Graphic file (type png)
 <use figs/master_frame.png>
 Package pdftex.def Info: figs/master_frame.png  used on input line 19.
 (pdftex.def)             Requested size: 288.0011pt x 56.56386pt.
-<figs/1_2.png, id=310, 585.18625pt x 156.585pt>
+<figs/1_2.png, id=312, 585.18625pt x 156.585pt>
 File: figs/1_2.png Graphic file (type png)
 <use figs/1_2.png>
 Package pdftex.def Info: figs/1_2.png  used on input line 30.
 (pdftex.def)             Requested size: 288.0011pt x 77.06659pt.
-<figs/3_4.png, id=311, 595.22375pt x 166.6225pt>
+<figs/3_4.png, id=313, 595.22375pt x 166.6225pt>
 File: figs/3_4.png Graphic file (type png)
 <use figs/3_4.png>
 Package pdftex.def Info: figs/3_4.png  used on input line 39.
@@ -1779,7 +1779,7 @@ Underfull \vbox (badness 10000) detected at line 237
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<figs/FEC.png, id=328, 564.1075pt x 203.76125pt>
+<figs/FEC.png, id=330, 564.1075pt x 203.76125pt>
 File: figs/FEC.png Graphic file (type png)
 <use figs/FEC.png>
 Package pdftex.def Info: figs/FEC.png  used on input line 79.
@@ -1811,6 +1811,9 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
  [19]
 (./tables/table1.tex
 Underfull \vbox (badness 10000) detected at line 228
@@ -1834,9 +1837,9 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 218.
  ) 
 Here is how much of TeX's memory you used:
- 31005 strings out of 481239
- 594710 string characters out of 5920378
- 1026285 words of memory out of 5000000
+ 31007 strings out of 481239
+ 594724 string characters out of 5920378
+ 1026287 words of memory out of 5000000
  45306 multiletter control sequences out of 15000+600000
  550685 words of font info for 96 fonts, out of 8000000 for 9000
  1144 hyphenation exceptions out of 8191
@@ -1855,10 +1858,10 @@ hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texli
 ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf/fonts/
 type1/public/cm-super/sfrm0800.pfb>
-Output written on main.pdf (28 pages, 414778 bytes).
+Output written on main.pdf (28 pages, 414602 bytes).
 PDF statistics:
- 437 PDF objects out of 1000 (max. 8388607)
- 362 compressed objects within 4 object streams
- 98 named destinations out of 1000 (max. 500000)
+ 439 PDF objects out of 1000 (max. 8388607)
+ 364 compressed objects within 4 object streams
+ 100 named destinations out of 1000 (max. 500000)
  344 words of extra memory for PDF output out of 10000 (max. 10000000)
 

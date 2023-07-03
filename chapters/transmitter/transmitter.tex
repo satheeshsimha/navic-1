@@ -106,24 +106,26 @@ The SPS signal is BPSK(1) modulated on L5 and S bands. The navigation data at da
 The carrier signal is modulated by BPSK(1), Data channel BOC(5,2), and Pilot Channel BOC(5,2). To have a constant envelop when passed through power amplifier, we add additional signal called interplex signal.
 
 \subsubsection{Mathematical Equations}
+The following equations describe baseband signals for L5 and S band navigation data.
+\\
 \textbf{SPS Data Signal:}
 \begin{equation}
-	s_{sps}(t) = \sum_{i=-\infty}^{\infty} c_{sps}(\abs{i}_{L\_sps}) . d_{sps}(\sbrak{i}_{CD\_sps}) . rect_{T_{c,sps}}(t-iT_{c,sps})
+	s_{sps}(t) = \sum_{i=-\infty}^{\infty} c_{sps}(\abs{i}_{L\_sps}) . d_{sps}(\sbrak{i}_{CD\_sps}) . \rect_{T_{c,sps}}(t-iT_{c,sps})
 \end{equation}
 \textbf{RS BOC Pilot Signal:}
 \begin{equation}
-	s_{rs\_p}(t) = \sum_{i=-\infty}^{\infty} c_{rs\_p}(\abs{i}_{L\_rs\_p}) . rect_{Tc,rs\_p}(t-iT_{c,rs\_p}). sc_{rs\_p}(t,0)
+	s_{rs\_p}(t) = \sum_{i=-\infty}^{\infty} c_{rs\_p}(\abs{i}_{L\_rs\_p}) . \rect_{Tc,rs\_p}(t-iT_{c,rs\_p}). sc_{rs\_p}(t,0)
 \end{equation}
 \textbf{RS BOC Signal:}
 %\begin{equation}
 \begin{multline}
 	s_{rs\_d}(t) = \sum_{i=-\infty}^{\infty} c_{rs\_d}(\abs{i}_{L\_rs\_d}) . d_{rs\_d}(\sbrak{i}_{CD\_rs\_d}).  \\ 
-	                       rect_{T_{c,rs\_d}}(t-iT_{c,rs\_d}). sc_{rs_d}(t,0)
+	                       \rect_{T_{c,rs\_d}}(t-iT_{c,rs\_d}). sc_{rs_d}(t,0)
 \end{multline}
 %\end{equation}
 The sub-carrier is defined as:
 \begin{equation}
-	sc_x(t,\phi) = sgn\sbrak{sin(2 \pi f_{sc,x}t + \phi)}
+	sc_x(t,\phi) = \sgn\sbrak{sin(2 \pi f_{sc,x}t + \phi)}
 \end{equation}
 
 \noindent The IRNSS RS data and pilot BOC signals are sinBOC. Hence the subcarrier phase $\phi=0$.
