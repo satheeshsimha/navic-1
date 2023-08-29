@@ -1,12 +1,14 @@
 import numpy as np
 from fractions import Fraction
-
+import math
 import scipy.constants as sciconst
 import matplotlib.pyplot as plt
+from mpl_toolkits import mplot3d
+from mpl_toolkits.mplot3d import Axes3D
 from scipy.fftpack import fft
 import scipy.signal
 from sk_dsp_comm import fec_conv as fec     #pip/pip3 install scikit-dsp-comm
-
+from numpy_ringbuffer import RingBuffer
 # PRN Sequence generation API
 #R0 regiser initial parameter for Data signal
 SV_L1_Data_r0 = {
@@ -910,13 +912,13 @@ class NavicL5sModulator():
         fsc = m*1.023e6
          
         if(m == 1):
-            subCarrier = np.sign(np.sin(2*np.pi*(fsc*t + self.subCarrPhase1)))
-            self.subCarrPhase1 += fsc*N*ts
-            self.subCarrPhase1 -= int(self.subCarrPhase1)
+            subCarrier = np.sign(np.sin(2*np.pi*fsc*t + self.subCarrPhase1))
+            #self.subCarrPhase1 += fsc*N*ts
+            #self.subCarrPhase1 -= int(self.subCarrPhase1)
         if(m == 6):
-            subCarrier = np.sign(np.sin(2*np.pi*(fsc*t + self.subCarrPhase2)))
-            self.subCarrPhase2 += fsc*N*ts
-            self.subCarrPhase2 -= int(self.subCarrPhase2)
+            subCarrier = np.sign(np.sin(2*np.pi*fsc*t + self.subCarrPhase2))
+            #self.subCarrPhase2 += fsc*N*ts
+            #self.subCarrPhase2 -= int(self.subCarrPhase2)
         return subCarrier
     
     def Release(self,m):
@@ -1549,12 +1551,16 @@ class NavicTracker:
         [u, self.pBuffer] = np.split(np.append(self.pBuffer, u), [round(self.SampleRate*integtime)])
         #[self.pBuffer,u] = np.split(np.append(self.pBuffer, u), [round(self.SampleRate*integtime)])
        
+       #The below line is added to fix the bug related to receiveing correct data with one bit delay
+        [localbuf, buf] = np.split(np.append(self.pBuffer, np.zeros(len(u))), [round(self.SampleRate*integtime)]) 
+       
+       
         # Carrier wipe-off
         fc = self.CenterFrequency + self.InitialDopplerShift - self.pFLLNCOOut
         t = np.arange(self.pNumIntegSamples+1)/self.SampleRate
         phases = 2*np.pi*fc*t + self.pPreviousPhase - self.pPLLNCOOut
-        iqsig = u * np.exp(-1j*phases[:-1])
-        #iqsig = self.pBuffer * np.exp(-1j*phases[:-1])
+        #iqsig = u * np.exp(-1j*phases[:-1])
+        iqsig = localbuf * np.exp(-1j*phases[:-1])
         
         
         self.pPreviousPhase = phases[-1] + self.pPLLNCOOut
@@ -1710,7 +1716,7 @@ class NavicTracker:
 
         #self.updatePromptCode() ##Update the prompt code for next set of sample
 
-        return y_pilot, y_data, fqyerr, fqynco, pherr, phnco, delayerr, delaynco
+        return y_pilot, y_data, fqyerr, fqynco, pherr, phnco, delayerr, delaynco, fc
 
     def __upsample_table(self, codeBase, samplingFreq, codeLength ):
         """Upsample PRN sequence of satellite being tracked
@@ -1850,7 +1856,7 @@ pilotOverlayCodeLength = 1800
 codeFreqBasis = 1.023e6
 
 
-sampleRate = 12*codeFreqBasis
+sampleRate = 10*codeFreqBasis
 samplePeriod = 1/sampleRate
 symbolRate = 100
 #satId is the satellite ID for multiple satellites to track
@@ -1902,7 +1908,7 @@ Nr = k*T*rxBW;
 
 #frequrency shift to be applied to the signal
 #fShift = np.array([489, 1299, 3796, 4888])
-fShift = np.array([3895])
+fShift = np.array([4915])
 channelpfo = PhaseFrequencyOffset(sampleRate)
 #sigDelay is the delay in samples in channels
 #sigDelay = np.array([300.34, 587.21, 425.89, 312.88])
@@ -1955,8 +1961,8 @@ for istep in range(numSteps):
     noisesig = (np.random.normal(scale=Nr**0.5, size=(samplePerStep, )) + 1j*np.random.normal(scale=Nr**0.5, size=(samplePerStep, )))/2**0.5
 
     # Add thermal noise to composite signal
-    #rxwaveform = resultsig + noisesig
-    rxwaveform = resultsig
+    rxwaveform = resultsig + noisesig
+    #rxwaveform = resultsig
     
     # Scale received signal to have unit power
     waveform = rxwaveform/rms(rxwaveform)  
@@ -1972,7 +1978,7 @@ for istep in range(numSteps):
             fMin = -5000
             fMax = 5000
             fStep = 250
-            fSearch = np.arange(fMin, fMax, fStep)
+            fSearch = np.arange(fMin, fMax + fStep , fStep)
 
             tracker = []
             satVis = 0
@@ -2014,11 +2020,12 @@ for istep in range(numSteps):
             phnco = np.empty(trackDataShape)
             delayerr = np.empty(trackDataShape)
             delaynco = np.empty(trackDataShape)
+            fc = np.empty(trackDataShape)
            # input_phase = np.empty(trackDataShape)
 
     # Perform tracking for visible satellites
     for i in range(satVis):
-            y_pilot[istep, i], y_data[istep,i],fqyerr[istep, i], fqynco[istep, i], pherr[istep, i], phnco[istep, i], delayerr[istep, i], delaynco[istep, i] = tracker[i].stepImpl(waveform)
+            y_pilot[istep, i], y_data[istep,i],fqyerr[istep, i], fqynco[istep, i], pherr[istep, i], phnco[istep, i], delayerr[istep, i], delaynco[istep, i] ,fc[istep,i]= tracker[i].stepImpl(waveform)
 
 #print(len(y_pilot))
 
@@ -2031,19 +2038,19 @@ np.set_printoptions(threshold=np.inf)
 for i in range(satVis):
     #pilot_overlay_sent = pilotOverlayCodegen.GetBitStream()[:-1, i]
     #k = np.real(y_pilot[0:,i])
-        n = 1 #Number of data per bit
-        skip = 0 #Forgo few bits as the tracking loops starts early
+    n = 1 #Number of data per bit
+    skip = 0 #Forgo few bits as the tracking loops starts early
     #k = np.real(y_data[n*skip:,i])
-        h = np.real(y_data[n*skip:,i])
+    h = np.real(y_data[n*skip:,i])
     #sync_index, num_tr = gnss_bit_synchronize(k, n)
     #sync_index = 0
     #print("Synchronization index:", sync_index)
 
     #l = np.mean(k[sync_index:(((len(k)-sync_index)//n) * n) + sync_index].reshape(-1,n).T, axis=0)
-        mapbits = lambda l: np.piecewise(l, [l < 0, l >= 0], [1, 0])
-        mapbits_inverted = lambda l: np.piecewise(l, [l < 0, l >= 0], [0, 1])
-        bits = mapbits(h)
-        bits_inverted = mapbits_inverted(h)
+    mapbits = lambda l: np.piecewise(l, [l < 0, l >= 0], [1, 0])
+    mapbits_inverted = lambda l: np.piecewise(l, [l < 0, l >= 0], [0, 1])
+    bits = mapbits(h)
+    bits_inverted = mapbits_inverted(h)
     #print(pilot_overlay_sent)
     #status, fsync_index = find_sync_word(bits)
 
@@ -2055,10 +2062,10 @@ for i in range(satVis):
     #sync_frames = bits[fsync_index:]
    
     
-        print("satellite=",i)
-        num_sf = len(bits)//600
+    print("satellite=",i)
+    num_sf = len(bits)//600
     #navbits = datagen.GetBitStream()[0:600,0].reshape(-1,600)
-        navbits = datagen.GetBitStream()
+    navbits = datagen.GetBitStream()
     #print("Navbits", navbits)
     #print("bits=", bits)
     #print("bit inverted=", bits_inverted)
@@ -2074,9 +2081,44 @@ for i in range(satVis):
      #       print("Not Equal")
     #
     #check = decoder(bits[0:num_sf*600].reshape(-1,600),num_sf).reshape(-1,600)
-        for iter in range(k-1) :
-            print("iter=", iter, navbits[iter]==bits[iter+1], navbits[iter]==bits_inverted[iter+1], pherr[iter,i] )
-        print("k=", k)
+    for iter in range(k) :
+            print("iter=", iter, navbits[iter,i]==bits[iter], navbits[iter,i]==bits_inverted[iter], fc[iter,i],fqyerr[iter,i],fqynco[iter,i] )
+    print("k=", k)
+    
+    plt.subplot(6,1,1)
+    plt.plot(fqyerr[:,i])
+    #plt.ylim([0,0.05])
+    plt.xlabel('time') ; plt.ylabel('Fqy Error')
+    
+    plt.subplot(6,1,2)
+    plt.plot(fqynco[:,i])
+    #plt.ylim([0,0.05])
+    plt.xlabel('time') ; plt.ylabel('Fqy NCO')
+
+    plt.subplot(6,1,3)
+    plt.plot(pherr[:,i])
+    #plt.ylim([0,0.05])
+    plt.xlabel('time') ; plt.ylabel('Phase Error')
+
+    plt.subplot(6,1,4)
+    plt.plot(phnco[:,i])
+    #plt.ylim([0,0.05])
+    plt.xlabel('time') ; plt.ylabel('Phase NCO')
+
+    plt.subplot(6,1,5)
+    plt.plot(delayerr[:,i])
+    #plt.ylim([0,0.05])
+    plt.xlabel('time') ; plt.ylabel('Delay Error')
+    
+    plt.subplot(6,1,6)
+    plt.plot(delaynco[:,i])
+    #plt.ylim([0,0.05])
+    plt.xlabel('time') ; plt.ylabel('Delay NCO')
+    
+    
+    plt.savefig('./myplot.png')
+    plt.show()
+
 '''
     for j in range(num_sf):print("pherr=", pherr[k:(j+1)*600:, i])
         print("j=", j)
@@ -2138,29 +2180,6 @@ for iter in range(k-1):
 
 #print("Transmitted Bits:\n",datagen.GetBitStream()[::-1, 0])
 
-
-
-plt.subplot(4,1,1)
-plt.plot(fqyerr[:,0])
-#plt.ylim([0,0.05])
-plt.xlabel('time') ; plt.ylabel('Fqy Error')
-
-plt.subplot(4,1,2)
-plt.plot(pherr[:,0])
-#plt.ylim([0,0.05])
-plt.xlabel('time') ; plt.ylabel('Phase Error')
-
-plt.subplot(4,1,3)
-plt.plot(phnco[:,0])
-#plt.ylim([0,0.05])
-plt.xlabel('time') ; plt.ylabel('Phase NCO')
-
-plt.subplot(4,1,4)
-plt.plot(delayerr[:,0])
-#plt.ylim([0,0.05])
-plt.xlabel('time') ; plt.ylabel('Delay Error')
-plt.savefig('./myplot.png')
-plt.show()
 
 '''
 
