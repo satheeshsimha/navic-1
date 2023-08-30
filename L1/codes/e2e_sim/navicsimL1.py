@@ -1357,7 +1357,7 @@ class LockIndicator():
 #acquisition will provide rough frequency and code offsets. tracking will do precise calculation of frequency shifts and code delays
 #thereby locks the values once threshold is reached
 class NavicTracker:
-    def __init__(self, prnId):
+    def __init__(self, prnId ):
         # Public, tunable properties
         self.InitialCodePhaseOffset = 0
         self.InitialDopplerShift = 0
@@ -1426,13 +1426,14 @@ class NavicTracker:
         #Code Tables
         
         
-        self.dataCodeLength = dataCodeLength
+        #self.dataCodeLength = dataCodeLength
         #self.pilotCodeLength = pilotCodeLength
-        #self.pilotOverlayCodeLength = pilotOverlayCodeLength
-        #self.symbolRate = symbolRate
+        #self.pilotOverlayCodeLength = 10230
+        #self.symbolRate = 100
         self.codeTable_data = genNavicCaCode_Data(self.PRNID).astype(float)
         self.codeTable_pilot = genNavicCaCode_Pilot(self.PRNID).astype(float)
-        #self.codeTable_pilot_overlay = genNavicCaCode_Pilot_Overlay(self.PRNID)
+        #self.codeTable_pilot_overlay =  genNavicCaCode_Pilot_Overlay(self.PRNID).astype(float) 
+        #self.overlaycode_pointer = 0
         
         #Subcarrier
         self.subcarrierFrequency = 1.023e6 # Subcarrier frequency
@@ -1443,6 +1444,7 @@ class NavicTracker:
         self.bufsize_power_estimation = 10
         self.lock_fail_counter = 0
         self.lock_fail_counter_threshold = 50
+        
                 
     def updatePromptCode(self):
         # Initialize the code
@@ -1540,7 +1542,8 @@ class NavicTracker:
         # Calculate number of samples in delay
         numsamprot = round(self.InitialCodePhaseOffset * self.pSamplesPerChip) # Number of samples to rotate
         self.pNumSamplesToAppend = self.numSamplesPerCodeBlock - (numsamprot % self.numSamplesPerCodeBlock)
-
+        
+        
     def stepImpl(self, u):
         # Implement algorithm. Calculate y as a function of input u and
         # discrete states.
@@ -1618,21 +1621,29 @@ class NavicTracker:
         y_pilot = np.mean(millisecdata_pilot, axis=0) # Each element contains integrated value of one millisecond of data
         #y_pilot = np.mean(millisecdata_pilot, axis=0)
         integpval_pilot = np.sum(y_pilot)
+        
         if len(iq_p_pilot) % 2 != 0: # Odd number of samples
             fllin_pilot = np.mean(np.reshape(np.concatenate([iq_p_pilot, [0]]), (2, -1)).T, axis=0) # Append a zero
+            #fllin_pilot = np.mean(np.reshape(np.concatenate([remove_overlay, [0]]), (2, -1)).T, axis=0)
         else:
             fllin_pilot = np.mean(iq_p_pilot.reshape((2, -1)).T, axis=0)
-
+            #fllin_pilot = np.mean(remove_overlay.reshape((2, -1)).T, axis=0)
+        
+        
         #Extract Data from Data Channel
         millisecdata_data = iq_p_data.reshape((int(self.PLLIntegrationTime/10), -1)).T # Each column contains ten millisecond of data
         
         y_data = np.mean(millisecdata_data, axis=0) # Each element contains integrated value of one millisecond of data
         #y_data = np.mean(millisecdata_data, axis=0) 
         integpval_data = np.sum(y_data)
+        
+        
         if len(iq_p_data) % 2 != 0: # Odd number of samples
             fllin_data = np.mean(np.reshape(np.concatenate([iq_p_data, [0]]), (2, -1)).T, axis=0) # Append a zero
+            
         else:
             fllin_data = np.mean(iq_p_data.reshape((2, -1)).T, axis=0)
+            
         
         # DLL discriminator Pilot
         E_pilot = np.linalg.norm([integeval_pilot, integveval_pilot])
@@ -1671,25 +1682,16 @@ class NavicTracker:
         fqyerr = 0
         fqyerr_pilot =0
         fqyerr_data = 0
-        '''
-        if(self.previous_prompt_pilot != None):
-            
-            
-            phasor_pilot = np.conj(self.previous_prompt_pilot)*y_pilot
-            fqyerr_pilot = -np.angle(phasor_pilot)/(2*np.pi*integtime)
-            
-        if(self.previous_prompt_data != None):
-            
-            
-            phasor_data = np.conj(self.previous_prompt_data)*y_data
-            fqyerr_data = -np.angle(phasor_data)/(2*np.pi*integtime)
         
-        '''
+        
         # FLL discriminator Pilot
         phasor_pilot = np.conj(fllin_pilot[0])*fllin_pilot[1]
-        # phasor = np.conj(self.pPreviousIntegPVal)*integpval
-          # angle is given between -pi and +pi
-        fqyerr_pilot = -np.angle(phasor_pilot)/(np.pi*integtime)
+        #phasor_pilot = (np.conj(fllin_pilot[0])*fllin_pilot[1]) * (1-2*self.codeTable_pilot_overlay[self.overlaycode_pointer])
+        
+          
+        #fqyerr_pilot = 1/integtime - np.angle(phasor_pilot)/(np.pi*integtime)
+        fqyerr_pilot =  -np.angle(phasor_pilot)/(np.pi*integtime)
+        
         
         # FLL discriminator Data
         phasor_data = np.conj(fllin_data[0])*fllin_data[1]
@@ -1753,7 +1755,7 @@ class NavicTracker:
 
         #self.updatePromptCode() ##Update the prompt code for next set of sample
         
-        
+        #self.overlaycode_pointer += 1
         
         return y_pilot, y_data, fqyerr, fqynco, pherr, phnco, delayerr, delaynco, fc
 
@@ -2040,7 +2042,7 @@ for istep in range(numSteps):
 # If a satellite is visible, initialize tracking loop
                 if(status == True):
                     satVis += 1 
-                    tracker.append(NavicTracker(satId[prnId]))
+                    tracker.append(NavicTracker(satId[prnId]) )
                     tracker[-1].SampleRate = sampleRate
                     tracker[-1].CenterFrequency = 0
                     tracker[-1].PLLNoiseBandwidth = PLLNoiseBandwidth
