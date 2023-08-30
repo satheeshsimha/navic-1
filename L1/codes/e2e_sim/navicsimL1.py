@@ -1392,6 +1392,12 @@ class NavicTracker:
         self.pFLLWPrevious1 = 0
         self.pFLLWPrevious2 = 0
         self.pFLLNCOOut = 0
+        self.evensample_flag = True
+        self.previous_fc = 0
+        
+        # Used for Frequency error computation for FLL
+        self.previous_pherr_pilot = 0
+        self.previous_pherr_data = 0
 
         # PLL properties
         self.pPLLNaturalFrequency = None
@@ -1579,14 +1585,19 @@ class NavicTracker:
        
        
         # Carrier wipe-off
+        #if (self.evensample_flag) : # Set frequency for even samples
         fc = self.CenterFrequency + self.InitialDopplerShift - self.pFLLNCOOut
+            #self.previous_fc = self.CenterFrequency + self.InitialDopplerShift - self.pFLLNCOOut
+            
         t = np.arange(self.pNumIntegSamples+1)/self.SampleRate
-        phases = (2*np.pi*fc*t + self.pPreviousPhase - self.pPLLNCOOut) %(2*np.pi)
+        #phases = (2*np.pi*fc*t + self.pPreviousPhase - self.pPLLNCOOut)
+        phases = (2*np.pi*fc*t + self.pPreviousPhase - self.pPLLNCOOut)
+        
         #iqsig = u * np.exp(-1j*phases[:-1])
         iqsig = localbuf * np.exp(-1j*phases[1:])
         #iqsig = localbuf * np.exp(-1j*phases[:-1])
         
-        self.pPreviousPhase = (phases[-1] + self.pPLLNCOOut)%(2*np.pi)
+        self.pPreviousPhase = (phases[-1] + self.pPLLNCOOut)
         
         numSamplesPerHalfChip = round(self.pSamplesPerChip*0.15)
         numSamplesPerThreeQuarterChip = round(self.pSamplesPerChip*0.6)
@@ -1679,41 +1690,7 @@ class NavicTracker:
         delaynco = self.pDLLNCOOut + integtime*loopfilterout
         self.pDLLNCOOut = delaynco
         
-        fqyerr = 0
-        fqyerr_pilot =0
-        fqyerr_data = 0
         
-        
-        # FLL discriminator Pilot
-        phasor_pilot = np.conj(fllin_pilot[0])*fllin_pilot[1]
-        #phasor_pilot = (np.conj(fllin_pilot[0])*fllin_pilot[1]) * (1-2*self.codeTable_pilot_overlay[self.overlaycode_pointer])
-        
-          
-        #fqyerr_pilot = 1/integtime - np.angle(phasor_pilot)/(np.pi*integtime)
-        fqyerr_pilot =  -np.angle(phasor_pilot)/(np.pi*integtime)
-        
-        
-        # FLL discriminator Data
-        phasor_data = np.conj(fllin_data[0])*fllin_data[1]
-        # phasor = np.conj(self.pPreviousIntegPVal)*integpval
-        fqyerr_data = -np.angle(phasor_data)/(np.pi*integtime)
-        
-        fqyerr = self.alpha * fqyerr_pilot + (1-self.alpha)* fqyerr_data
-        #fqyerr = fqyerr_pilot
-        
-        
-        # FLL loop filter
-        if self.FLLOrder == 2:
-            # 1st integrator
-            wcurrent = fqyerr*self.pFLLGain1*integtime + self.pFLLWPrevious1
-            loopfilterout = (wcurrent + self.pFLLWPrevious1)/2 + fqyerr*self.pFLLGain2
-            self.pFLLWPrevious1 = wcurrent # Acceleration accumulator
-        elif self.FLLOrder == 1:
-            loopfilterout = fqyerr*self.pFLLGain1
-
-        # FLL NCO
-        fqynco = self.pFLLNCOOut + integtime*loopfilterout
-        self.pFLLNCOOut = fqynco
         
         pherr_pilot = 0
         pherr_data = 0
@@ -1732,6 +1709,8 @@ class NavicTracker:
         
         #pherr = self.alpha * pherr_pilot + (1-self.alpha)* pherr_data
         pherr = pherr_pilot
+        
+        
         
         # PLL loop filter
         if self.PLLOrder == 3:
@@ -1752,12 +1731,76 @@ class NavicTracker:
         # PLL NCO
         phnco = self.pPLLNCOOut + integtime*loopfilterout
         self.pPLLNCOOut = phnco
+        
+        fqyerr = 0
+        fqyerr_pilot =0
+        fqyerr_data = 0
+        
+        # FLL discriminator Pilot
+        phasor_pilot = np.conj(fllin_pilot[0])*fllin_pilot[1]
+        
+        fqyerr_pilot =  -np.angle(phasor_pilot)/(np.pi*integtime)
+        #fqyerr_pilot = np.arctan(np.imag(phasor_pilot)/np.real(phasor_pilot))/(np.pi*integtime)
+        #fqyerr_pilot = self.__phase_for_fqyerr(phasor_pilot, integtime)
+        
+        
+        # FLL discriminator Data
+        phasor_data = np.conj(fllin_data[0])*fllin_data[1]
+        
+        fqyerr_data = -np.angle(phasor_data)/(np.pi*integtime)
+        #fqyerr_data = -np.arctan(np.imag(phasor_data)/np.real(phasor_data))/(np.pi*integtime)
+        #fqyerr_data = self.__phase_for_fqyerr(phasor_data, integtime)
+        '''
+        
+        if (self.evensample_flag) :
+            self.previous_pherr_pilot = pherr_pilot
+            self.previous_pherr_data = pherr_data
+        else :      # Compute Frequency error using Differential Arctangent Discriminator method
+            val = self.__phase_for_fqyerr(pherr_pilot, self.previous_pherr_pilot)
+            fqyerr_pilot = val/(2*np.pi*integtime)
+            val = self.__phase_for_fqyerr(pherr_data, self.previous_pherr_data)
+            fqyerr_data = val/(2*np.pi*integtime)
+        '''
+        
+        fqyerr = self.alpha * fqyerr_pilot + (1-self.alpha)* fqyerr_data
+        
+        #fqyerr = fqyerr_pilot
+        
+        
+        # FLL loop filter
+        if self.FLLOrder == 2:
+        # 1st integrator
+            wcurrent = fqyerr*self.pFLLGain1*integtime + self.pFLLWPrevious1
+            loopfilterout = (wcurrent + self.pFLLWPrevious1)/2 + fqyerr*self.pFLLGain2
+            self.pFLLWPrevious1 = wcurrent # Acceleration accumulator
+        elif self.FLLOrder == 1:
+            loopfilterout = fqyerr*self.pFLLGain1
+
+        # FLL NCO
+        fqynco = self.pFLLNCOOut + integtime*loopfilterout
+        self.pFLLNCOOut = fqynco
 
         #self.updatePromptCode() ##Update the prompt code for next set of sample
         
         #self.overlaycode_pointer += 1
         
+        self.evensample_flag = not self.evensample_flag # flip the flag
+        
         return y_pilot, y_data, fqyerr, fqynco, pherr, phnco, delayerr, delaynco, fc
+        #return y_pilot, y_data, fqyerr, self.pFLLNCOOut, pherr, phnco, delayerr, delaynco,self.previous_fc
+    
+    def __phase_for_fqyerr(self, phasor, integtime) :
+        
+        ang = np.angle(phasor)
+        if (ang >= np.pi/2) :
+            ang = ang - np.pi
+            return  (1/integtime -ang/(np.pi*integtime))
+        elif ( ang <= -np.pi/2 ) : 
+            ang = ang + np.pi
+            return  (1/integtime -ang/(np.pi*integtime))
+        else :
+            return -ang/(np.pi*integtime)
+        
 
     def __upsample_table(self, codeBase, samplingFreq, codeLength ):
         """Upsample PRN sequence of satellite being tracked
@@ -1901,7 +1944,7 @@ sampleRate = 10*codeFreqBasis
 samplePeriod = 1/sampleRate
 symbolRate = 100
 #satId is the satellite ID for multiple satellites to track
-satId = np.array([25, 37, 63, 41])
+satId = np.array([2, 47, 63, 51])
 #satId = np.array([25,41])
 #satId = np.array([27])
 numChannel = len(satId)
@@ -1909,7 +1952,7 @@ numChannel = len(satId)
 
 #frequrency shift to be applied to the signal
 #fShift = np.array([489, 1299, 3796, 4888])
-fShift = np.array([4853,4988,3868,1835])
+fShift = np.array([971,4958,3875,1850])
 channelpfo = PhaseFrequencyOffset(sampleRate)
 #sigDelay is the delay in samples in channels
 sigDelay = np.array([300.34, 587.21, 425.89, 312.88])
@@ -2021,7 +2064,7 @@ for istep in range(numSteps):
         # Acqusition doppler search space
             fMin = -5000
             fMax = 5000
-            fStep = 250
+            fStep = 100
             fSearch = np.arange(fMin, fMax + fStep , fStep)
 
             tracker = []

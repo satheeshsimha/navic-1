@@ -3,34 +3,37 @@ import numpy as np
 a = -0.00258 + 0.02179j
 b = 0.0470 - 0.0199j
 c = -0.00975 + 0.0162j
-d = -0.08845 + 0.0471j
-#d= 0.00408 + 0.0072j
+#d = -0.08845 + 0.0471j
+d= 0.00408 + 0.0072j
+#print("d angle=",np.angle(d))
 
-comp_val = np.array([-0.00258 + 0.02179j, 0.0470 - 0.0199j, -0.00975 + 0.0162j, 0.00408 + 0.0072j ])
-
+#comp_val = np.array([a,b,c,d ])
+comp_val = np.array([-1.34, 1.34, 0.75, -0.65])
 k = len(comp_val)
 integtime = 0.01
 
 for i in range(k) :
-    ang = np.angle(comp_val[i])
-    if (ang < 0) :
-        print(-ang/(np.pi*integtime))
+    #ang = np.angle(comp_val[i])
+    ang = comp_val[i]
+    print(ang)
+    if (ang >= np.pi/2) :
+        ang = ang - np.pi
+        print("Modified angle=",ang)
+        print( "in if ", 1/integtime -ang/(np.pi*integtime))
+    elif ( ang <= -np.pi/2 ) : 
+        ang = ang + np.pi
+        print("Modified angle=",ang)
+        print( "in elif", 1/integtime -ang/(np.pi*integtime))
     else :
-        print((2*np.pi - ang)/(np.pi*integtime))
+        print( "in else", -ang/(np.pi*integtime))
+    
 print("\n")
 
-a1 = -1*a
-b1 = -1*b
-c1 = -1*c
-d1 = -1*d
 
-print(a1)
 
-print("a fqyerr = ", 1/integtime - 1*np.angle(a1)/(np.pi*integtime))
-print("b fqyerr = ", 1/integtime -1*np.angle(b1)/(np.pi*integtime))
-print("c fqyerr = ", 1/integtime -1*np.angle(c1)/(np.pi*integtime))
-print("d fqyerr = ", 1/integtime -1*np.angle(d1)/(np.pi*integtime))
-print("\n")
+
+
+
 
 
 #-1*np.angle(-0.00975+0.0162j)/(np.pi*integtime)
