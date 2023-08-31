@@ -1310,6 +1310,21 @@ def navic_pcps_acquisition(x, prnSeq_pilot, fs, fSearch, threshold=0):
     #plt.plot(np.abs(Rxd)**2)
     #plt.ylim([0,0.05])
     #plt.xlabel('time') ; plt.ylabel('Nav Data')
+    #l=np.abs(Rxd)**2
+    #time_values = np.arange(K)
+    #X, Y = np.meshgrid(time_values, fSearch)
+    #fig = plt.figure()
+    #ax = fig.add_subplot(111, projection='3d')
+    #cmap = plt.get_cmap('jet')  # You can use other colormaps as well
+    #norm = plt.Normalize(l.min(), l.max())
+    #colors = cmap(norm(l))
+    #surf = ax.plot_surface(X, Y, l.T, cmap=cmap)
+
+    #ax.set_xlabel('Time')
+    #ax.set_ylabel('Doppler Frequency')
+    #ax.set_zlabel('Rxd')
+    #ax.set_title('3D Plot of Matrix Data with Doppler Frequencies')
+    #fig.colorbar(surf, ax=ax, shrink=0.5, aspect=10)
     #plt.show()
     
     
@@ -1392,13 +1407,7 @@ class NavicTracker:
         self.pFLLWPrevious1 = 0
         self.pFLLWPrevious2 = 0
         self.pFLLNCOOut = 0
-        self.evensample_flag = True
-        self.previous_fc = 0
         
-        # Used for Frequency error computation for FLL
-        self.previous_pherr_pilot = 0
-        self.previous_pherr_data = 0
-
         # PLL properties
         self.pPLLNaturalFrequency = None
         self.pPLLGain1 = None
@@ -1432,14 +1441,13 @@ class NavicTracker:
         #Code Tables
         
         
-        #self.dataCodeLength = dataCodeLength
+        self.dataCodeLength = 10230
         #self.pilotCodeLength = pilotCodeLength
         #self.pilotOverlayCodeLength = 10230
         #self.symbolRate = 100
         self.codeTable_data = genNavicCaCode_Data(self.PRNID).astype(float)
         self.codeTable_pilot = genNavicCaCode_Pilot(self.PRNID).astype(float)
-        #self.codeTable_pilot_overlay =  genNavicCaCode_Pilot_Overlay(self.PRNID).astype(float) 
-        #self.overlaycode_pointer = 0
+        
         
         #Subcarrier
         self.subcarrierFrequency = 1.023e6 # Subcarrier frequency
@@ -1495,7 +1503,7 @@ class NavicTracker:
         
         
     
-    def setupImpl(self):
+    def setupImpl(self, dataCodeLength, U, cn0_min, detector_threshold, lock_fail_counter_threshold):
 
         # Perform one-time calculations, such as computing constants
         self.pNumIntegSamples = self.SampleRate*self.PLLIntegrationTime*1e-3
@@ -1543,6 +1551,13 @@ class NavicTracker:
             self.pPLLGain2 = self.pPLLNaturalFrequency*1.1
             self.pPLLGain3 = self.pPLLNaturalFrequency*2.4
         
+        #Lock Indicator parameters for Power Estimation and Phase Lock Indicator
+        self.dataCodeLength = dataCodeLength
+        self.bufsize_power_estimation = U
+        self.lock_indicator = LockIndicator(self.bufsize_power_estimation,self.SampleRate , self.dataCodeLength)
+        self.CN0_min = cn0_min 
+        self.carrier_lock_detector_threshold = detector_threshold
+        self.lock_fail_counter_threshold = lock_fail_counter_threshold
         self.updatePromptCode()
         
         # Calculate number of samples in delay
@@ -1710,8 +1725,6 @@ class NavicTracker:
         #pherr = self.alpha * pherr_pilot + (1-self.alpha)* pherr_data
         pherr = pherr_pilot
         
-        
-        
         # PLL loop filter
         if self.PLLOrder == 3:
             # 1st integrator
@@ -1740,16 +1753,13 @@ class NavicTracker:
         phasor_pilot = np.conj(fllin_pilot[0])*fllin_pilot[1]
         
         fqyerr_pilot =  -np.angle(phasor_pilot)/(np.pi*integtime)
-        #fqyerr_pilot = np.arctan(np.imag(phasor_pilot)/np.real(phasor_pilot))/(np.pi*integtime)
-        #fqyerr_pilot = self.__phase_for_fqyerr(phasor_pilot, integtime)
         
         
         # FLL discriminator Data
         phasor_data = np.conj(fllin_data[0])*fllin_data[1]
         
         fqyerr_data = -np.angle(phasor_data)/(np.pi*integtime)
-        #fqyerr_data = -np.arctan(np.imag(phasor_data)/np.real(phasor_data))/(np.pi*integtime)
-        #fqyerr_data = self.__phase_for_fqyerr(phasor_data, integtime)
+        
         '''
         
         if (self.evensample_flag) :
@@ -1781,26 +1791,25 @@ class NavicTracker:
         self.pFLLNCOOut = fqynco
 
         #self.updatePromptCode() ##Update the prompt code for next set of sample
+        # Phase lock indictor and SNR Threshold calcuator
+        cn0_cap, pli = self._Lock_indicator_calc(y_data)
         
-        #self.overlaycode_pointer += 1
+        if ( (not math.isnan(cn0_cap))  and (not math.isnan(pli)) ) :
+            if ( cn0_cap <  self.CN0_min or pli < self.carrier_lock_detector_threshold ) :
+                self.lock_fail_counter  += 1
+            else :
+                 self.lock_fail_counter = max(self.lock_fail_counter-1, 0)
+        else :
+            self.lock_fail_counter  += 1
         
-        self.evensample_flag = not self.evensample_flag # flip the flag
-        
-        return y_pilot, y_data, fqyerr, fqynco, pherr, phnco, delayerr, delaynco, fc
+        return y_pilot, y_data, fqyerr, fqynco, pherr, phnco, delayerr, delaynco, cn0_cap, pli, self.lock_fail_counter,fc
         #return y_pilot, y_data, fqyerr, self.pFLLNCOOut, pherr, phnco, delayerr, delaynco,self.previous_fc
     
-    def __phase_for_fqyerr(self, phasor, integtime) :
+    def _Lock_indicator_calc(self, y_data) :
         
-        ang = np.angle(phasor)
-        if (ang >= np.pi/2) :
-            ang = ang - np.pi
-            return  (1/integtime -ang/(np.pi*integtime))
-        elif ( ang <= -np.pi/2 ) : 
-            ang = ang + np.pi
-            return  (1/integtime -ang/(np.pi*integtime))
-        else :
-            return -ang/(np.pi*integtime)
-        
+        self.lock_indicator.addVal (y_data)
+        return self.lock_indicator.CN0_cap(), self.lock_indicator.phase_lock_indicator()
+    
 
     def __upsample_table(self, codeBase, samplingFreq, codeLength ):
         """Upsample PRN sequence of satellite being tracked
@@ -1819,7 +1828,6 @@ class NavicTracker:
     def resetImpl(self):
         # Initialize / reset discrete-state properties
         self.pBuffer = np.zeros(round(self.pNumSamplesToAppend))
-        self.pBuffer_data = np.zeros(round(self.pNumSamplesToAppend))
         self.pFLLWPrevious1 = 0
         self.pFLLWPrevious2 = 0
         self.pFLLNCOOut = 0
@@ -1939,6 +1947,12 @@ pilotCodeLength = 10230
 pilotOverlayCodeLength = 1800
 codeFreqBasis = 1.023e6
 
+bufsize_power_estimation = 10  # number of samples to be considred for estimating SNR
+cn0_min = 25 # Min  Squared Signal-to-Noise Variance estimator in db-Hz
+detector_threshold = 0.85 # Phase lock detector threshold
+lock_fail_counter_threshold = 20 #Maximum value for the lock fail counter
+
+
 
 sampleRate = 10*codeFreqBasis
 samplePeriod = 1/sampleRate
@@ -1952,7 +1966,7 @@ numChannel = len(satId)
 
 #frequrency shift to be applied to the signal
 #fShift = np.array([489, 1299, 3796, 4888])
-fShift = np.array([971,4958,3875,1850])
+fShift = np.array([2931,4958,3845,1887])
 channelpfo = PhaseFrequencyOffset(sampleRate)
 #sigDelay is the delay in samples in channels
 sigDelay = np.array([300.34, 587.21, 425.89, 312.88])
@@ -1971,7 +1985,7 @@ DLLNoiseBandwidth = 1  # In Hz
 
 
 #simulation duration, steps at which values are recorded(here for every 10ms)
-simDuration = 6
+simDuration = 24
 
 #timeStep = 1
 timeStep = PLLIntegrationTime
@@ -2082,10 +2096,10 @@ for istep in range(numSteps):
             
                 print(f"Acquisition results for PRN ID {satId[prnId]}\n Status:{status} Doppler:{doppler} Delay/Code-Phase:{delaySamp}/{codePhase}")
 
-# If a satellite is visible, initialize tracking loop
+                # If a satellite is visible, initialize tracking loop
                 if(status == True):
                     satVis += 1 
-                    tracker.append(NavicTracker(satId[prnId]) )
+                    tracker.append(NavicTracker(satId[prnId]))
                     tracker[-1].SampleRate = sampleRate
                     tracker[-1].CenterFrequency = 0
                     tracker[-1].PLLNoiseBandwidth = PLLNoiseBandwidth
@@ -2095,29 +2109,32 @@ for istep in range(numSteps):
                     tracker[-1].PRNID = satId[prnId]
                     tracker[-1].InitialDopplerShift = doppler
                     tracker[-1].InitialCodePhaseOffset = codePhase
-                    tracker[-1].setupImpl()
+                    tracker[-1].setupImpl(dataCodeLength, bufsize_power_estimation, cn0_min, detector_threshold, lock_fail_counter_threshold)
                     tracker[-1].resetImpl()
             #trackDataShape = (numSteps*round(PLLIntegrationTime*1e3), satVis)
-                trackDataShape = (round(numSteps), satVis)
-                y_pilot = np.empty(trackDataShape, dtype=np.complex_)
-                y_data = np.empty(trackDataShape, dtype=np.complex_)
-                fqyerr = np.empty(trackDataShape)
-                fqynco = np.empty(trackDataShape)
-                pherr = np.empty(trackDataShape)
-                phnco = np.empty(trackDataShape)
-                delayerr = np.empty(trackDataShape)
-                delaynco = np.empty(trackDataShape)
-                fc = np.empty(trackDataShape)
+            trackDataShape = (round(numSteps), satVis)
+            y_pilot = np.empty(trackDataShape, dtype=np.complex_)
+            y_data = np.empty(trackDataShape, dtype=np.complex_)
+            fqyerr = np.empty(trackDataShape)
+            fqynco = np.empty(trackDataShape)
+            pherr = np.empty(trackDataShape)
+            phnco = np.empty(trackDataShape)
+            delayerr = np.empty(trackDataShape)
+            delaynco = np.empty(trackDataShape)
+            cn0_cap = np.empty(trackDataShape)
+            pli = np.empty(trackDataShape)
+            lock_fail_counter = np.empty(trackDataShape)
+            fc = np.empty(trackDataShape)
            # input_phase = np.empty(trackDataShape)
 
     # Perform tracking for visible satellites
     for i in range(satVis):
-            y_pilot[istep, i], y_data[istep,i],fqyerr[istep, i], fqynco[istep, i], pherr[istep, i], phnco[istep, i], delayerr[istep, i], delaynco[istep, i] ,fc[istep,i]= tracker[i].stepImpl(waveform)
+            y_pilot[istep, i], y_data[istep,i],fqyerr[istep, i], fqynco[istep, i], pherr[istep, i], phnco[istep, i], delayerr[istep, i], delaynco[istep, i], cn0_cap[istep,i], pli[istep,i], lock_fail_counter [istep,i],fc[istep,i] = tracker[i].stepImpl(waveform)
 
 #print(len(y_pilot))
 
 k = len(y_data)    
-np.set_printoptions(threshold=np.inf)
+#np.set_printoptions(threshold=np.inf)
 
 #print("y-pilot=", y_pilot)
 #print("y_data=", y_data)
@@ -2169,7 +2186,11 @@ for i in range(satVis):
     #
     #check = decoder(bits[0:num_sf*600].reshape(-1,600),num_sf).reshape(-1,600)
     for iter in range(k) :
-            print("iter=", iter, navbits[iter,i]==bits[iter], navbits[iter,i]==bits_inverted[iter], fc[iter,i],fqyerr[iter,i],fqynco[iter,i] )
+            #print("iter=", iter, navbits[iter,i], bits[iter],bits_inverted[iter], navbits[iter,i]==bits[iter], navbits[iter,i]==bits_inverted[iter], fc[iter,i],fqyerr[iter,i],lock_fail_counter[iter,i]  )
+            print("iter=", iter, navbits[iter,i], bits[iter], navbits[iter,i]==bits[iter], navbits[iter,i]==bits_inverted[iter], fc[iter,i],cn0_cap[iter,i],pli[iter,i], lock_fail_counter[iter,i]  )
+            #print("iter=", iter, navbits[iter,i], bits[iter],bits_inverted[iter], navbits[iter,i]==bits[iter], navbits[iter,i]==bits_inverted[iter], cn0_cap[iter,i], pli[iter,i], lock_fail_counter[iter,i] )
+            #print("iter=", iter, pilot_overlay_sent[iter,i], bits[iter],bits_inverted[iter], pilot_overlay_sent[iter,i]==bits[iter], pilot_overlay_sent[iter,i]==bits_inverted[iter], cn0_cap[iter,i], pli[iter,i], lock_fail_counter[iter,i] )
+            #print("iter=", iter, pilot_overlay_sent[iter,i], bits[iter],bits_inverted[iter], pilot_overlay_sent[iter,i]==bits[iter], pilot_overlay_sent[iter,i]==bits_inverted[iter], fc[iter,i],fqyerr[iter,i],lock_fail_counter[iter,i] )
     print("k=", k)
     
     plt.subplot(6,1,1)
