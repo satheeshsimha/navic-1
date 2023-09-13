@@ -11,37 +11,41 @@
 \BOOKMARK [1][-]{section.2.3}{NavIC Services}{chapter.2}% 11
 \BOOKMARK [2][-]{subsection.2.3.1}{Standard Positioning Service \(SPS\)}{section.2.3}% 12
 \BOOKMARK [2][-]{subsection.2.3.2}{Restricted Service \(RS\)}{section.2.3}% 13
-\BOOKMARK [0][-]{chapter.3}{Transmitter}{}% 14
-\BOOKMARK [1][-]{section.3.1}{IRNSS Navigation data}{chapter.3}% 15
-\BOOKMARK [1][-]{section.3.2}{Frame structure}{chapter.3}% 16
-\BOOKMARK [1][-]{section.3.3}{Encoding}{chapter.3}% 17
-\BOOKMARK [2][-]{subsection.3.3.1}{PRN codes for SPS}{section.3.3}% 18
-\BOOKMARK [2][-]{subsection.3.3.2}{FEC Encoding}{section.3.3}% 19
-\BOOKMARK [2][-]{subsection.3.3.3}{Interleaving}{section.3.3}% 20
-\BOOKMARK [2][-]{subsection.3.3.4}{Sync word and Tail bits}{section.3.3}% 21
-\BOOKMARK [2][-]{subsection.3.3.5}{Cyclic Redundancy Check\(CRC\)}{section.3.3}% 22
-\BOOKMARK [1][-]{section.3.4}{Modulation}{chapter.3}% 23
-\BOOKMARK [2][-]{subsection.3.4.1}{Standard Positioning Service}{section.3.4}% 24
-\BOOKMARK [2][-]{subsection.3.4.2}{Baseband Modulation}{section.3.4}% 25
-\BOOKMARK [0][-]{chapter.4}{Channel Modelling}{}% 26
-\BOOKMARK [1][-]{section.4.1}{Doppler shift}{chapter.4}% 27
-\BOOKMARK [1][-]{section.4.2}{Delay}{chapter.4}% 28
-\BOOKMARK [1][-]{section.4.3}{Power Scaling}{chapter.4}% 29
-\BOOKMARK [1][-]{section.4.4}{Thermal noise}{chapter.4}% 30
-\BOOKMARK [0][-]{chapter.5}{Receiver}{}% 31
-\BOOKMARK [1][-]{section.5.1}{Signal Acquistion}{chapter.5}% 32
-\BOOKMARK [2][-]{subsection.5.1.1}{Implementation of CA PCPS Acquisition}{section.5.1}% 33
-\BOOKMARK [1][-]{section.5.2}{Tracking}{chapter.5}% 34
-\BOOKMARK [2][-]{subsection.5.2.1}{Carrier and code wipeoff}{section.5.2}% 35
-\BOOKMARK [2][-]{subsection.5.2.2}{Pre-detection and integration}{section.5.2}% 36
-\BOOKMARK [2][-]{subsection.5.2.3}{Baseband signal processing}{section.5.2}% 37
-\BOOKMARK [1][-]{section.5.3}{Demodulation}{chapter.5}% 38
-\BOOKMARK [1][-]{section.5.4}{Decoding}{chapter.5}% 39
-\BOOKMARK [2][-]{subsection.5.4.1}{Process}{section.5.4}% 40
-\BOOKMARK [2][-]{subsection.5.4.2}{Convolutional Code Representation}{section.5.4}% 41
-\BOOKMARK [2][-]{subsection.5.4.3}{Decoding Output}{section.5.4}% 42
-\BOOKMARK [2][-]{subsection.5.4.4}{Example}{section.5.4}% 43
-\BOOKMARK [0][-]{chapter.6}{Results}{}% 44
-\BOOKMARK [1][-]{section.6.1}{Acquisition}{chapter.6}% 45
-\BOOKMARK [1][-]{section.6.2}{Tracking and Decoding}{chapter.6}% 46
-\BOOKMARK [0][-]{appendix.A}{References}{}% 47
+\BOOKMARK [0][-]{chapter.3}{Navigation Data}{}% 14
+\BOOKMARK [1][-]{section.3.1}{Frame structure}{chapter.3}% 15
+\BOOKMARK [1][-]{section.3.2}{Sync word and Tail bits}{chapter.3}% 16
+\BOOKMARK [1][-]{section.3.3}{Cyclic Redundancy Check\(CRC\)}{chapter.3}% 17
+\BOOKMARK [0][-]{chapter.4}{Simulation Approach}{}% 18
+\BOOKMARK [0][-]{chapter.5}{Transmitter}{}% 19
+\BOOKMARK [1][-]{section.5.1}{Encoding}{chapter.5}% 20
+\BOOKMARK [2][-]{subsection.5.1.1}{FEC Encoding}{section.5.1}% 21
+\BOOKMARK [2][-]{subsection.5.1.2}{Interleaving}{section.5.1}% 22
+\BOOKMARK [1][-]{section.5.2}{PRN codes for SPS}{chapter.5}% 23
+\BOOKMARK [1][-]{section.5.3}{Modulation}{chapter.5}% 24
+\BOOKMARK [2][-]{subsection.5.3.1}{Standard Positioning Service}{section.5.3}% 25
+\BOOKMARK [2][-]{subsection.5.3.2}{Baseband Modulation}{section.5.3}% 26
+\BOOKMARK [0][-]{chapter.6}{Channel Modelling}{}% 27
+\BOOKMARK [1][-]{section.6.1}{Doppler shift}{chapter.6}% 28
+\BOOKMARK [1][-]{section.6.2}{Delay}{chapter.6}% 29
+\BOOKMARK [1][-]{section.6.3}{Power Scaling}{chapter.6}% 30
+\BOOKMARK [1][-]{section.6.4}{Thermal noise}{chapter.6}% 31
+\BOOKMARK [0][-]{chapter.7}{Receiver}{}% 32
+\BOOKMARK [1][-]{section.7.1}{Signal Acquistion}{chapter.7}% 33
+\BOOKMARK [2][-]{subsection.7.1.1}{Implementation of CA PCPS Acquisition}{section.7.1}% 34
+\BOOKMARK [1][-]{section.7.2}{Tracking}{chapter.7}% 35
+\BOOKMARK [2][-]{subsection.7.2.1}{Carrier and code wipeoff}{section.7.2}% 36
+\BOOKMARK [2][-]{subsection.7.2.2}{Pre-detection and integration}{section.7.2}% 37
+\BOOKMARK [2][-]{subsection.7.2.3}{Baseband signal processing}{section.7.2}% 38
+\BOOKMARK [1][-]{section.7.3}{Synchronization}{chapter.7}% 39
+\BOOKMARK [2][-]{subsection.7.3.1}{Bit synchronization}{section.7.3}% 40
+\BOOKMARK [2][-]{subsection.7.3.2}{Frame synchronization}{section.7.3}% 41
+\BOOKMARK [1][-]{section.7.4}{Demodulation}{chapter.7}% 42
+\BOOKMARK [1][-]{section.7.5}{Decoding}{chapter.7}% 43
+\BOOKMARK [2][-]{subsection.7.5.1}{Process}{section.7.5}% 44
+\BOOKMARK [2][-]{subsection.7.5.2}{Convolutional Code Representation}{section.7.5}% 45
+\BOOKMARK [2][-]{subsection.7.5.3}{Decoding Output}{section.7.5}% 46
+\BOOKMARK [2][-]{subsection.7.5.4}{Example}{section.7.5}% 47
+\BOOKMARK [0][-]{chapter.8}{Results}{}% 48
+\BOOKMARK [1][-]{section.8.1}{Acquisition}{chapter.8}% 49
+\BOOKMARK [1][-]{section.8.2}{Tracking and Decoding}{chapter.8}% 50
+\BOOKMARK [0][-]{appendix.A}{References}{}% 51

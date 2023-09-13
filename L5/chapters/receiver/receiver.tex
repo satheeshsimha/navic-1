@@ -27,6 +27,7 @@ The signal processing part for NavIC signals at receiver are as shown in figure 
 	\item \textbf{Signal acquisition:} The receiver searches for and acquires the NavIC signal for a given satellite(s) by correlating the received signal with a locally generated replica of the spreading code used by the satellite(s). This process helps in identifying the presence of the NavIC signal and estimating coarse value of both doppler frequency shift and code delay.
 \item \textbf{Carrier tracking:} Once the signal is acquired, the receiver performs carrier tracking to estimate and track the carrier frequency and phase of the received signal. This is crucial for demodulation as it ensures accurate demodulation of the navigation message and ranging signal.
 \item \textbf{Code delay tracking:} The receiver performs code delay tracking to estimate and track the spreading code used by the satellites. This helps in maintaining synchronization with the transmitted signal and extracting the navigation data and ranging information.
+\item \textbf{Synchronization:} Both bit and frame synchronization ensure correct starting points for Nav data and Sub frames  
 \item \textbf{Signal demodulation:}After the aquisition and tracking has been performed, the received data is mapped back using BPSK demodulation, mapping $-1$ to binary $1$ and $+1$ to binary $0$.
 \item \textbf{Signal decoding:} Once the signal has been demodulated, the decoding is performed removing all the extra bits that were added to navigation data during the encoding process.
 \end{enumerate}
@@ -189,6 +190,14 @@ error is filtered and then applied to the code loop NCO, where the output code s
 \end{table}
 \noindent The values for the second-order coefficient $a_2$ and third-order coefficients $a_3$ and $b_3$ can be determined from Table 3. These coefficients are the same for FLL, PLL, or DLL applications if the loop
 order and the noise bandwidth,$B_n$ , are the same.Note that the FLL coefficient insertion point into the filter is one integrator back from the PLL and DLL insertion points.This is because the FLL error is in units of hertz (change in range per unit of time).
+
+\section{Synchronization}
+\subsection{Bit synchronization}
+\noindent Bit synchronization is used to identify  the navigation symbol boundary in the output of the tracking loop. Each code block is of 1ms duration and symbol is of 20ms duration. Consider 100 such symbols (2000 samples) and find out index at which maximum number of bit transitions occur. From that index, organize the rest of the samples , to form proper symbol infomration.
+
+
+\subsection{Frame synchronization}
+\noindent Frame synchronization determines the exact starting and ending points of a subframe.  This is needed for Decoder to process the encoded data. Output from bit synchronization is searched for 16-bit sync word (EB90 Hex) and subframes are separated accordingly.
 
 \section{Demodulation}
 Demodulation is the process of extracting the original information or baseband signal from a modulated carrier signal. The purpose of demodulation is to retrieve the modulating signal, which could be analog or digital data, audio, video, or other forms of information. Demodulation is essential in various communication systems such as radio, television, cellular networks, and wireless data transmission.

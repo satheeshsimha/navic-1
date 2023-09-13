@@ -43,6 +43,8 @@ sample_rate = 12 * 1.023*1e6
 length = 10230
 i = LockIndicator(5,sample_rate , length)
 
+print("initial",i.buf)
+
 i.addVal(-1+1j)
 i.addVal(1+2j)
 i.addVal(-3+2j)
