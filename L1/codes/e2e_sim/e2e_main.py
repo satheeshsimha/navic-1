@@ -312,10 +312,7 @@ for i in range(satVis):
         navic_raw_data = navic_raw_data[:883]
 
     
-    
-    
-    
-    #print("satellite=",i)
+    print("PRN Id=",satId[i])
     #num_sf = len(bits)//600
     '''
     for iter in range(k) :
@@ -347,16 +344,16 @@ for i in range(satVis):
     
     s1_decoded,s2_decoded,s3_decoded=decode.subframes_decode(bits)
     
-    #print("Subframe1 Before Encoding (9 bits):",navic_raw_data[:9])
+    print("Subframe1 Before Encoding (9 bits):",navic_raw_data[:9])
     #print("Subframe1 After Encoding (52 Symbols):",navbits[:52])
     #print("Subframe1 After Receiving (52 Symbols):",bits[:52])
-    #print("Subframe1 After decoding (9 bits):",s1_decoded)
+    print("Subframe1 After decoding (9 bits):",s1_decoded)
     print("Subframe 1 is same before encoding and after decoding:",np.all(navic_raw_data[:9]==s1_decoded))
 
-    #print("Subframe2 Before Encoding (600 bits):",navic_raw_data[9:609])
+    print("Subframe2 Before Encoding (600 bits):",navic_raw_data[9:609])
     #print("Subframe2 After Encoding (1200 Symbols):",navbits[52:1252])
     #print("Subframe2 After Receiving (1200 Symbols):",bits[52:1252])
-    #print("Subframe2 After decoding (600 bits):",s2_decoded)
+    print("Subframe2 After decoding (600 bits):",s2_decoded)
     print("Subframe 2 is same before encoding and after decoding:",np.all(navic_raw_data[9:609]==s2_decoded))
         
     #test code for crc
@@ -369,10 +366,10 @@ for i in range(satVis):
         
     decode.printlongdiv(subframe2decodedint, 25578747)
  
-    #print("Subframe3 Before Encoding (274 bits):",navic_raw_data[609:])
+    print("Subframe3 Before Encoding (274 bits):",navic_raw_data[609:])
     #print("Subframe3 After Encoding (548 Symbols):",navbits[1252:])
     #print("Subframe3 After Receiving (548 Symbols):",bits[1252:])
-    #print("Subframe3 After decoding (274 bits):",s3_decoded)
+    print("Subframe3 After decoding (274 bits):",s3_decoded)
     print("Subframe 3 is same before encoding and after decoding:",np.all(navic_raw_data[609:]==s3_decoded))
 
     #test code for crc

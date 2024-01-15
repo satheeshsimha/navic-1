@@ -1543,23 +1543,23 @@ def navic_pcps_acquisition(x, prnSeq_pilot, fs, fSearch,coherent_integ, non_cohe
     plt.ylim([0,0.05])
     plt.xlabel('time') ; plt.ylabel('Nav Data')
     '''
-    l=np.abs(full)**2
-    time_values = np.arange(K)
-    X, Y = np.meshgrid(time_values, fSearch)
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
-    cmap = plt.get_cmap('jet')  # You can use other colormaps as well
-    norm = plt.Normalize(l.min(), l.max())
-    colors = cmap(norm(l))
-    surf = ax.plot_surface(X, Y, l.T, cmap = plt.cm.cividis)
+    # l=np.abs(full)**2
+    # time_values = np.arange(K)
+    # X, Y = np.meshgrid(time_values, fSearch)
+    # fig = plt.figure()
+    # ax = fig.add_subplot(111, projection='3d')
+    # cmap = plt.get_cmap('jet')  # You can use other colormaps as well
+    # norm = plt.Normalize(l.min(), l.max())
+    # colors = cmap(norm(l))
+    # surf = ax.plot_surface(X, Y, l.T, cmap = plt.cm.cividis)
 
-    ax.set_xlabel('Time')
-    ax.set_ylabel('Doppler Frequency')
-    ax.set_zlabel('Rxd')
-    ax.set_zlim(0,0.02)
-    ax.set_title('3D Plot of Matrix Data with Doppler Frequencies')
-    fig.colorbar(surf, ax=ax, shrink=0.5, aspect=10)
-    plt.show()
+    # ax.set_xlabel('Time')
+    # ax.set_ylabel('Doppler Frequency')
+    # ax.set_zlabel('Rxd')
+    # ax.set_zlim(0,0.02)
+    # ax.set_title('3D Plot of Matrix Data with Doppler Frequencies')
+    # fig.colorbar(surf, ax=ax, shrink=0.5, aspect=10)
+    # plt.show()
     
     
     #powIn = np.mean(np.abs(x[0:K])**2)
