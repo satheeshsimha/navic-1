@@ -14,7 +14,7 @@ The signal processing part for NavIC signals at receiver are as shown in figure 
 \begin{normalsize}
 	\begin{figure}[ht]
 		\centering
-		\includegraphics[width=1\columnwidth]{figs/signal_aq_tr.jpg}
+		\includegraphics[width=1\columnwidth]{figs/receiver_block}
 		\centering
 		\captionsetup{justification=centering}
 		\caption{The Block Level Architecture for Receiver}
@@ -27,7 +27,9 @@ The signal processing part for NavIC signals at receiver are as shown in figure 
 	\item \textbf{Signal acquisition:} The receiver searches for and acquires the NavIC signal for a given satellite(s) by correlating the received signal with a locally generated replica of the spreading code used by the satellite(s). This process helps in identifying the presence of the NavIC signal and estimating coarse value of both doppler frequency shift and code delay.
 \item \textbf{Carrier tracking:} Once the signal is acquired, the receiver performs carrier tracking to estimate and track the carrier frequency and phase of the received signal. This is crucial for demodulation as it ensures accurate demodulation of the navigation message and ranging signal.
 \item \textbf{Code delay tracking:} The receiver performs code delay tracking to estimate and track the spreading code used by the satellites. This helps in maintaining synchronization with the transmitted signal and extracting the navigation data and ranging information.
+
 \item \textbf{Signal demodulation:}After the aquisition and tracking has been performed, the received data is mapped back using BPSK demodulation, mapping $-1$ to binary $1$ and $+1$ to binary $0$.
+\item \textbf{Frame Synchronization:} The pilot PRN for every satellite is locally generated to determine the start of frame.
 \item \textbf{Signal decoding:} Once the signal has been demodulated, the decoding is performed removing all the extra bits that were added to navigation data during the encoding process.
 \end{enumerate}
 
@@ -53,7 +55,7 @@ The Parallel Code Phase Search (PCPS) algorithm is used in Acquisition block and
 \begin{normalsize}
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=1\columnwidth]{figs/pcps.jpg}
+	\includegraphics[width=1\columnwidth]{figs/pcps}
 	\centering
 	\captionsetup{justification=centering}
 	\caption{PCPS algorithm flow}
@@ -100,11 +102,7 @@ The Parallel Code Phase Search (PCPS) algorithm is used in Acquisition block and
 	Declare positive acquisition and provides coarse estimation of code delay $\hat \tau_{acq} = \tau_j $ and Doppler shift $\hat f_{D_{acq}}=f_i$,\\
 	other wise declare negative acquisition.\\
 \end{enumerate}
-The acquisition results are generated using the below code\\
-\textbf{Code}
-\begin{lstlisting}
-	code/e2e_sim/main.ipynb
-\end{lstlisting}
+
 
 \section{Tracking}
 The role of tracking block is to follow signal synchronization parameters: code phase, Doppler shift and carrier phase and extract the baseband signal. It performs the following 3 function to decipher the baseband signal from the incoming signal as shown in figure \ref{fig:tracking}. 
@@ -117,7 +115,7 @@ The role of tracking block is to follow signal synchronization parameters: code 
 \begin{normalsize}
 \begin{figure}[ht]
 \centering
-\includegraphics[width=1\columnwidth]{figs/block3}
+\includegraphics[width=1.25\columnwidth]{figs/tracking}
 \centering
 \captionsetup{justification=centering}
 \caption{Tracking block diagram}
@@ -125,32 +123,24 @@ The role of tracking block is to follow signal synchronization parameters: code 
 \end{figure}
 \end{normalsize}
 \subsection{Carrier and code wipeoff}
-\textbf{Carrier wipeoff: }Referring to the figure \ref{fig:tracking}, first the digital IF is stripped off the carrier (plus carrier Doppler) by the replica carrier (plus carrier Doppler) signals to produce in-phase (I) and quadraphase (Q) sampled data. The I and Q signals at the outputs of the mixers have the desired phase relationships with respect to the detected carrier of the desired satellite. The replica carrier (including carrier Doppler) signals are synthesized by the carrier numerically controlled oscillator (NCO) and the discrete sine and cosine mapping functions. In closed loop operation, the carrier NCO is controlled by the carrier tracking loop in the receiver processor.
+\textbf{Carrier wipeoff: }Referring to the figure \ref{fig:tracking}, first the incoming signal is stripped off the carrier (plus carrier Doppler) by the replica carrier (plus carrier Doppler) signals. The replica carrier (including carrier Doppler) signals are synthesized by the carrier numerically controlled oscillator (NCO). In closed loop operation, the carrier NCO is controlled by the carrier tracking loop in the receiver processor.
 \\
-\textbf{Code wipeoff: } The I and Q signals are then correlated with early(E), prompt(P), and late(L) replica codes (plus code Doppler) synthesized by the code generator, a 2-bit shift register, and the code NCO. In closed loop operation, the code NCO is controlled by the code tracking loop in the receiver processor. E and L are typically separated in phase by 1 chip and P is in the middle. The prompt replica code phase is aligned with the incoming satellite code phase producing maximum correlation if it is tracking the incoming satellite code phase. Under this circumstance, the early phase is aligned a fraction of a chip period early, and the late phase is aligned the same fraction of the chip period late with respect to the incoming  code phase, and these correlators produce about half the maximum correlation. Any misalignment in the replica code phase with respect to the incoming code phase produces a difference in the vector magnitudes of the early and late correlated outputs so that the amount and direction of the phase change can be detected and corrected by the code tracking loop.
+\textbf{Code wipeoff: } The received signal is then correlated with very early(VE), early(E), prompt(P), late(L) and very late(VL) replica codes (plus code Doppler) synthesized by a multi-delay sampler. In the closed loop operation, the code NCO is controlled by the code tracking loop in the receiver processor. E and L are typically separated in phase by 0.3 chips and P is in the middle. VE and VL are separated by 1.2 chips. The prompt replica code phase is aligned with the incoming satellite code phase producing maximum correlation if it is tracking the incoming satellite code phase. Under this circumstance, the early phase is aligned a fraction of a chip period early, and the late phase is aligned the same fraction of the chip period late with respect to the incoming  code phase, and these correlators produce about half the maximum correlation. Any misalignment in the replica code phase with respect to the incoming code phase produces a difference in the vector magnitudes of the early and late correlated outputs so that the amount and direction of the phase change can be detected and corrected by the code tracking loop.
 \subsection{Pre-detection and integration}
-Extensive digital predetection integration and dump processes occur after the carrier and code wiping off processes. Figure \ref{fig:tracking} shows three complex correlators required to produce three in-phase
-components, which are integrated and dumped to produce $I_E , I_P , I_L$ and three quadraphase components integrated and dumped to produce $Q_E , Q_P , Q_L$ . The carrier wipeoff and code wipeoff processes must be performed at the digital IF sample rate, while the integrate and dump accumulators provide filtering and resampling at the processor baseband input rate, which can be at 1,000 Hz during search modes or as low as 50 Hz during
+Extensive digital predetection integration and dump processes occur after the carrier and code wiping off processes. Figure \ref{fig:tracking} shows five complex correlators required to produce five
+components, which are integrated and dumped to produce very early, early, prompt, late and very late vesions of the signal . The carrier wipeoff and code wipeoff processes must be performed at the digital IF sample rate, while the integrate and dump accumulators provide filtering and resampling at the processor baseband input rate, which can be at 1,000 Hz during search modes or as low as 50 Hz during
 track modes, depending on the desired dwell time during search or the desired predetection integration time during track.
 \subsection{Baseband signal processing}
-This entails Carrier tracking and Code tracking using Phase locked loop (PLL), Frequency locked loop (FLL) and Delay locked loop (DLL). The general block diagram is as shown in Figure \ref{fig:Carrier_Code_Tracking}. 
+This entails Carrier tracking and Code tracking using Phase locked loop (PLL), Frequency locked loop (FLL) and Delay locked loop (DLL). 
 
-\begin{normalsize}
-	\begin{figure}[ht]
-		\centering
-		\includegraphics[width=1\columnwidth]{figs/tracking_loop}
-		\centering
-		\captionsetup{justification=centering}
-		\caption{Generic baseband processor code and carrier tracking loops block diagram}
-		\label{fig:Carrier_Code_Tracking}
-	\end{figure}
-\end{normalsize}
 
 \subsubsection{Carrier tracking loop}
 \textbf{Phase locked loop(PLL)}\\
 The carrier loop discriminator defines the type of tracking loop as a PLL, a Costas PLL (which is a PLL-type discriminator that tolerates the presence of data modulation on the baseband signal), or a frequency lock loop (FLL). Carrier tracking loop tracks the frequency and phase of the received signal by detecting the phase error between replicated signal and incoming signal and accordingly replicated signal produced by numerically controlled oscillator (NCO) is adjusted to synchronize with incoming signal in both frequency and phase. For zero phase error detected, navigation data is accurately extracted. 
 \begin{align}
-  \text{Phase error} =ATAN2(I_P,Q_P) = \tan^{-1}\brak{\frac{I_P}{Q_P}}
+  %\text{Phase error} =ATAN2(I_P,Q_P) = \tan^{-1}\brak{\frac{I_P}{Q_P}}
+  \text{Phase error}_{pilot} &=ATAN2(I_P,Q_P) = \tan^{-1}\brak{\frac{I_P}{Q_P}}\\
+  \text{Phase error}_{data} &=ATAN2(Q_P,I_P) = \tan^{-1}\brak{\frac{Q_P}{I_P}}
 \end{align}
 The ATAN2 discriminator is the only one that remains linear over the full input error range of $\pm180^{\circ}$. However, in the presence of noise, both of the discriminator outputs are linear only near the $0^{\circ}$ region. These PLL discriminators will achieve the 6-dB improvement in signal tracking threshold (by comparison with the Costas discriminators) for the dataless carrier because they track the full four quadrant range of the input signal.
 \\
@@ -161,19 +151,19 @@ PLLs replicate the exact phase and frequency of the incoming SV (converted to IF
 	\text{Frequency error} = \frac{\phi_2-\phi_1}{t_2-t_1}
 \end{align}
 
-\noindent The pahse change $\phi_2 - \phi_1$ between two adjacent samples of $I_{PS}$ and $Q_{PS}$ at times $t_2$ and $t_1$ is computed. This phase change in a fixed interval of time is proportinal to frequenct error in the carrier tracking loop. The error is fed to carier NCO to adjust the frequency to lock to the right frequency.
+\noindent The phase change $\phi_2 - \phi_1$ between two adjacent samples of $I_{PS}$ and $Q_{PS}$ at times $t_2$ and $t_1$ is computed. This phase change in a fixed interval of time is proportinal to frequenct error in the carrier tracking loop. The error is fed to carier NCO to adjust the frequency to lock to the right frequency.
 
 \subsubsection{Code tracking loop}
 \textbf{Delay locked loop:}
 Post the carrier signal synchronization, received CA code samples are synchronized by aligning with replicated CA code samples by shifting right or left. To determine the direction of shift, the I and Q outputs are multiplied with prompt code (PRN code which is phase aligned), early code (prompt PRN code shifted by some samples to the right) and late code (prompt PRN code shifted by some samples to the left) resulting in corresponding to I and Q channel respectively. Following algorithm is used to lock the code phase.
 
 \begin{align}
-	E&=\sqrt[]{I_{ES}^2+Q_{ES}^2}\\
-	L&=\sqrt[]{I_{LS}^2+Q_{LS}^2}
+	E_K&=\sqrt[]{VE^2+E^2}\\
+	L_K&=\sqrt[]{VL^2+L^2}
 \end{align}
 
 \begin{align}
-	\text{DLL Discriminator} (\epsilon)&=\frac{1}{2}\frac{E-L}{E+L}
+	\text{DLL Discriminator} (\epsilon)&=\frac{1}{2}\frac{E_K-L_K}{E_K+L_K}
 \end{align}
 
 \noindent If the replica code is aligned, then the early and late envelopes are equal in amplitude and no error is generated by the discriminator. If the replica code is misaligned, then the early and late envelopes are unequal by an amount that is proportional to the amount of code phase error between the replica and the incoming signal (within the limits of the correlation interval). The code discriminator senses the amount of error in the replica code and the direction (early or late) from the difference in the amplitudes of the early and late envelopes. This
@@ -190,21 +180,75 @@ error is filtered and then applied to the code loop NCO, where the output code s
 \noindent The values for the second-order coefficient $a_2$ and third-order coefficients $a_3$ and $b_3$ can be determined from Table 3. These coefficients are the same for FLL, PLL, or DLL applications if the loop
 order and the noise bandwidth,$B_n$ , are the same.Note that the FLL coefficient insertion point into the filter is one integrator back from the PLL and DLL insertion points.This is because the FLL error is in units of hertz (change in range per unit of time).
 
+\subsubsection{Implemented tracking algorithm.}
+Complex sample stream, $x_{IN}$ ; estimations of code
+phase $\hat{\tau}_{acq}$ and Doppler shift $\hat{f}_{d_{acq}}$ ; buffer size for
+power estimation, U; carrier lock detector threshold, $\tau$ ;
+$CN0_{min}$ ; maximum value for the lock fail counter, $\vartheta$; cor-
+relators spacing $\epsilon$ and $\epsilon'$ ; loop filters bandwidth $BW_{DLL}$
+and $BW_{PLL}$ ; integration time $T_{int}$.
+Using $\hat{\tau}_{\text{acq}}$ and a sample counter $N$, skip samples until $x_{\text{IN}}$ is aligned with local PRN replica. Set $\upsilon = 0, k = 0, \hat{f}_{d0} = \hat{f}_{\text{dacq}}, \hat{\phi}_0 = 0, \psi_1 = 0, N_1 = \text{round}(T_{\text{int}}f_{\text{IN}})$.
+
+\begin{enumerate}
+  \item Increase the integration period counter: $k = k + 1$.
+  \item Generate local code references: for $n = 1...N_k$, $s[n] = d_{\text{E1B/E1C}} \left( p[\text{round}(\delta_k \cdot n + \psi_k)] \right)$, where
+  \[ \delta_k =\frac{1}{T_c,E_1B.f_{IN}}(1+\frac{\hat{f}_{k-1}}{{f_c}^{(Gal E1)}})\]
+  and the Very Early, Early Late,and Very Late Versions with $\epsilon$ and $\epsilon'$.
+  \item  Generate local carrier: for $n = 1...N_k$,
+\[ c[n] = e^{-j (2\pi \hat{f}_{d_{k-1}}\frac{n}{\text{f}_{IN}}+ \text{mod}(\hat{\phi}_{k-1}, 2\pi))}  \]
+  \item Perform carrier wipe-off and compute the complex samples $VE_k$, $E_k$, $P_k$, $P_k$, and $VL_k$.
+ 
+ Example:  \[ P_k = \frac{1}{N_k}\sum_{n=0}^{N_k-1} x_{\text{IN}}[n]s[n]c[n] \]
+  \item Compute PLL Discriminator: $\Delta \hat{\phi}_k$ = \text{atan2}$(\frac{P_{Q_k}}{P_{I_k}})$
+   \item Filter  $\Delta \hat{\phi}_k$ with a bandwidth BW{PLL}:$h_{PLL}(\Delta \hat{\phi}_k)$
+   \item Update Carrier frequency estimation (in Hz):
+   \[ \hat{f}_{d_k} = \hat{f}_{d_{acq}}+\frac{1}{2\phi T_{int}}h_{PLL}(\Delta \hat{\phi}_k) \].
+   \item Update carrier phase estimation (in rad):
+   \[ \hat{\phi_k}=\hat{\phi}_{k-1}+2\pi\hat{f_{d_k}}T_{int}+h_{PLL}(\Delta\hat{\phi}).\]
+   \item Compute DLL discriminator: $\Delta \hat{\tau}_k=\frac{E_k-L_k}{E_k+L_k}$,Where :
+    \[ E_K=\sqrt{{VE}_{I_K}^2+VE_{Q_K}^2+E_{I_K}^2+E_{Q_K}^2},\]
+    \[ L_K=\sqrt{{VL}_{I_K}^2+VL_{Q_K}^2+L_{I_K}^2+L_{Q_K}^2},\]
+     \item Filter  $\Delta \hat{\tau}_k$ with a bandwidth BW{PLL}:$h_{DLL}(\Delta \hat{\tau}_k)$
+    \item Update code phase estimation (in samples):
+        $N_{K+1}$ =round(S) and $\psi_{k+1} =S-N_{K+1}$,where 
+       \[S=\frac{T_{int}f_{IN}}{(1+\frac{\hat{f}d_k}{{f_c}^{(Gal E1)}})}+\psi_k+ h_{DLL} (\Delta \hat{\tau}_k)f_{IN}\]
+    \item Code lock indicator:
+    C$\hat{N}0=10.log_{10}(\hat{\rho}+10.log_{10}(\frac{f_{IN}}{2})-10.log_{10}(L_{PRN})$,Where :\[\hat{\rho}=\frac{\hat{P_s}}{\hat{P_n}}=\frac{\hat{P}}{\hat{P}_{tot}-\hat{P_s}},\]
+    \[ \hat{P}_s = (\frac{1}{u} \sum_{i=0}^{u-1} \lvert P_{I_{k-i}} \rvert )^2 ,  \hat{P_{tot}} = (\frac{1}{u} \sum_{i=0}^{u-1} \lvert P_{{k-i}} \rvert )^2 \]
+    \item Phase lock indicator :
+   \[ T_{carrier} = \frac{( \sum_{i=0}^{u-1}  P_{I_{k-i}})^2 - ( \sum_{i=0}^{u-1} P_{Q_{k-i}})^2 }{( \sum_{i=0}^{u-1}  P_{I_{k-i}})^2 +( \sum_{i=0}^{u-1}  P_{Q_{k-i}})^2 } \]
+   \item \textbf{If} $T_{\text{carrier}} < \tau$ or $\text{CN0} < \text{CN0}_{\text{min}} \textbf{then}$:
+    \begin{itemize}
+            \item Increase lock fail counter $\nu \leftarrow \nu + 1$.
+        \end{itemize}
+   \item  \textbf{else}
+        \begin{itemize}
+            \item Decrease lock fail counter $\nu \leftarrow \max(\nu - 1, 0)$.
+        \end{itemize}
+    \item \textbf{endif}
+    \item \textbf{If} $\nu > \vartheta$ \textbf{then}:
+        \begin{itemize}
+            \item Notify the loss of lock to the control plane through the message queue.
+        \end{itemize}
+    \item \textbf{end if} 
+    \item Output: $P_k$, accumulated carrier phase error $\hat{\phi}_k$ code phase $\hat{N} \leftarrow \hat{N} + N_k + \psi_k$, $C\hat{N0}$.
+     
+\end{enumerate}
 \section{Demodulation}
 Demodulation is the process of extracting the original information or baseband signal from a modulated carrier signal. The purpose of demodulation is to retrieve the modulating signal, which could be analog or digital data, audio, video, or other forms of information. Demodulation is essential in various communication systems such as radio, television, cellular networks, and wireless data transmission.
 \\
 \\
 After the aquisition and tracking has been performed, the received data is mapped back using BPSK demodulation, mapping $-1$ to binary $1$ and $+1$ to binary $0$.
-
+\section{Frame Synchronization}
+The pilot PRN of every satellite is locally generated to determine the starting point of the recieving frame. This is done by correlating the locally generated PRN with the recieved pilot PRN. The pilot PRN is correlated with the received pilot PRN from the latter's forst bit. The correlation output is stored. The pilot PRN then slides to the right by one bit so that it starts at the second bit of the received PRN. Correlation is carried out and the output is stored. This process is repeated for the entire length of the received frame. The index where the first occurence of maximum correlation takes place is taken as the start of the frame.
 \section{Decoding}
-Demodulated data is deintrleaved and sent to Channel decoding module for futher processing. The deinterleaving process involves reversing the interleaving algorithm used during transmission. By applying the inverse operation, the interleaved data are rearranged back into their original order. 
-Channel decoding involves the process of error correction and retrieval of the original data transmitted over the satellite link. The channel decoding scheme used in NavIC is based on a convolutional coding technique known as Rate 1/2 Convolutional Code with Viterbi decoding.
+Demodulated data is first separated into subframes. Subframes 2 and 3 are deinterleaved and decoded using belief propagation. The deinterleaving process involves reversing the interleaving algorithm used during transmission. By applying the inverse operation, the interleaved data are rearranged back into their original order. Then belief propagation algorithm is used to calculate the decoded sequence. After decoding, CRC is calculated to verify if there are any errors. Subframe 1 is decoded using Maximum-likelihood method.
 \subsection{Process}
 The high-level description of the channel decoding process in NavIC is shown in figure \ref{fig:decoding_r}
 \begin{normalsize}
 \begin{figure}[ht]
 \centering
-\includegraphics[width=1\columnwidth]{figs/decoding_r.jpg}
+\includegraphics[width=1.2\columnwidth]{figs/decoding_r}
 \centering
 \captionsetup{justification=centering}
 \caption{The Block Level Architecture for Channel decoding}
@@ -213,83 +257,25 @@ The high-level description of the channel decoding process in NavIC is shown in 
 \end{normalsize}
 
 
-\subsection{Convolutional Code Representation}
+\subsection{Maximum Likelihood Decoding}
+The first 52 bits of the frame are a part of subframe 1 and are BCH encoded. To decode these bits, we use a modified version of ML decoding. Before encoding, subframe 1 has 9 bits. These 9 bits give us the TOI (Time of Interval) data. The TOI for NavIC L1 ranges from 1 (000000001) to 400 (110010000). After encoding, SF1 will have 52 symbols. So there will be 400 possible combinations of SF1 before and after encoding. 
 
-The convolutional code is represented as a state diagram or Trellis, where each state represents a unique history of the encoded bits.
-The Trellis consists of nodes and branches. Nodes correspond to states, and branches represent transitions between states.
-Each branch is labeled with the input bit and the encoded output bits associated with the transition.
+So, on the receiving side, we generate these 400 possible codewords and keep them in a lookup table. When a frame is received, the first 52 symbols are separated. The received codeword is compared with every other codeword in the loookup table and the hamming distance is calculated. The codeword in the lookup table which has the least hamming distance with the received codeword is the  corrected codeword (NOTE: Works only if error < 20 bits. This method fails for very noisy channels). The corresponding bit sequence (decoded) can be mapped from the chosen codeword.
 
-\subsubsection{Branch Metrics}
-At each time step, the Viterbi algorithm calculates branch metrics, which quantify the similarity between the received signal and the expected signal for each branch.
-The branch metric is typically based on a distance measure, such as Hamming distance or Euclidean distance, between the received signal and the expected signal.
-Let's denote the received signal at time step t as r(t) and the expected signal for a particular branch as c(t). The branch metric B(t) for that branch at time step t is computed as the distance between r(t) and c(t).
+\subsection{Deinterleaving}
+To reduce the burst error while transimission, the LDPC encoded symbols are interleaved into a 38x46 matrix. Data is written in columns and then, read in rows. So even if there is any burst error, it is spread out. At the receiving side, the matrix is then converted to a regular row of symbols.
 
-\subsubsection{Path Metrics}
-The Viterbi algorithm computes a path metric for each state at each time step, which represents the accumulated likelihood of reaching that state along a particular path.
-The path metric is typically computed as the minimum (or maximum, depending on the metric used) of the sum of the previous path metric and the branch metric.
-Let's denote the path metric for state i at time step t as P(i, t). The path metric for state i at time step t is computed as:
-\begin{center}
-P(i, t) = min{P(j, t-1) + B(t)}, where j is the previous state connected to state i.
-\end{center}
+\subsection{Belief Propagation}
+The basic concept of the algorithm involves message passing. Messages are passed iteratively between adjacent nodes until convergence dictated maximal number of iterations. The nature of the messages involves probabilities or log-likelihoods of probabilities. As nodes receive messages from their nearest neighbors, they improve their estimate regarding received bits. For sufficiently long blocks, with sufficiently long cycles, the algorithm has been shown empirically to perform well.
 
-\subsubsection{Survivor Paths}
-Along with the path metrics, the Viterbi algorithm keeps track of survivor paths, which represent the most likely paths leading to each state at each time step.
-The survivor paths are determined based on the branch with the smallest (or largest, depending on the metric used) branch metric leading to each state.
-The survivor paths help in traceback, as they indicate the most likely sequence of states leading to the current state.
+Variable nodes pass messages that involve the log-likelihood of some bit being 0 or 1 by processing information obtained from other check nodes and the channel whereas check nodes pass messages which involve the log-likelihood of a parity equation is satisfied by processing information obtained from other variable nodes.
 
-\subsubsection{Traceback}
-Once the decoding reaches the end of the received signal, a traceback process is performed to determine the final decoded sequence.
-Starting from the state with the highest path metric at the last time step, the algorithm traces back through the trellis by following the survivor paths.
-The traceback process continues until reaching the starting state at the first time step, yielding the decoded sequence of transmitted bits.
+For each node of the factor graph, there are two directions of soft information in the form of LLR. The LLR propagated from right to left is denoted as $L_{i,j}$, while that from left to right is denoted as $R_{i,j}$. The decoder employs the so-called processing element (PE), which performs the following LLR estimations with the Min-Sum approximation, so that LLRs are traversed through the factor graph.
 
-\subsection{Decoding Output}
-The traceback process generates the final decoded output, which should ideally match the original transmitted data.
-The decoded output undergoes error correction, such as using error-correcting codes like Reed-Solomon, to further enhance the reliability of the decoded sequence.
-
-\noindent The Viterbi algorithm is an iterative process that calculates and updates the path metrics and survivor paths at each time step. It efficiently explores all possible paths through the trellis and selects the most likely path. This results in the recovery of the transmitted data even in the presence of noise and errors.
-
-\subsection{Example}
-In the figure \ref{fig:Trellis},
-\begin{normalsize}
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width=1\columnwidth]{figs/Trellis_navic.png}
-	\centering
-	\captionsetup{justification=centering}
-	\caption{Trellis flow for Viterbi algorithm}
-	\label{fig:Trellis}
-\end{figure}
-\end{normalsize}
+BPD is performed on the factor graph by operating the PE from left to right, and from right to left to update L and R, respectively. The final decision is estimated after the completion of all the  iterations. After decoding, CRC is calculated to verify the decoded data.
 
 
-\textbf{Transmitter side:} 
 
-\noindent Left most 00, 01, 10, 11 - are the state s0, s1, s2 and s3 at time t. a/bb means, for input a, output is bb for a given state transition.
-\\
-\textbf{Receiver side:} 
-
-\noindent Assume the bits at top are received codewords - \textbf{00 01 01 10 10}. The codewords are compared with the possible transition states from the input diagram, thereby calculating hamming distance between received and possible outputs as per Trellis diagram. For example, for codeword $00$, state is $00$ and two possible paths are drawn in red. Hamming distance is calculated between received codeword $00$ and possible outputs - $00, 11$.
-
-\noindent Similarly in the next step, for codeword $01$, possible paths are from state $00$ and state $01$. Hence, hamming distance is calculated for all possible paths. When a node has 2 or more inputs, the least hamming distance is chosen. Branch metric is the minimum hamming distance value for a given path. Path metric is the sum of previously calculated path metric and current branch metric. At the end, if the path metric value is equal for 2 different traceback paths, they are chosen with equal probability.
-
-\noindent The process continues till the final codeword $10$ is examined. Finally, a path with the least values of path metric is chosen. In this case the path from end to start is marked in the figure \ref{fig:Trellis}. The decoded codeword is determined as \textbf{00 11 01 00 10}.
-\\
-\\
-The functions for acquisition and tracking are present in the below code
-\begin{lstlisting}
-codes/demodulation/demodulation.py
-\end{lstlisting}
-The functions for decoding are present in the below code
-\begin{center}
- \begin{lstlisting}
-codes/decoder/decode.py
- \end{lstlisting}
-\end{center}
-The tracking results are generated using the code below and the plot is shown in figure \ref{fig:tracking_plot}.\\
-\textbf{Code}
-\begin{lstlisting}
-code/e2e_sim/main_ipynb
-\end{lstlisting}
 
 
 

@@ -1,0 +1,126 @@
+\documentclass[journal,10pt,onecolumn]{article}
+\usepackage{graphicx}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{amsmath}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{listings}
+\providecommand{\norm}[1]{\left\lVert#1\right\rVert}
+\providecommand{\abs}[1]{\left\vert#1\right\vert}
+\usepackage{enumerate}
+\let\vec\mathbf
+\newcommand{\myvec}[1]{\ensuremath{\begin{pmatrix}#1\end{pmatrix}}}
+\newcommand{\mydet}[1]{\ensuremath{\begin{vmatrix}#1\end{vmatrix}}}
+\providecommand{\brak}[1]{\ensuremath{\left(#1\right)}}
+\lstset{
+frame=single,
+breaklines=true,
+columns=fullflexible
+}
+\title{\textbf{Pseudocode for GPS Acquisition}}
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+
+    \item The baseband signal transmited at the satellite is
+    \begin{equation}
+        S(t) = S_{PPS}(t)+ jS_{SPS}(t)
+    \end{equation} 
+    \begin{enumerate}
+        \item[$\bullet$]  $S_{sps}(t) = 	\sum_{i=-\infty}^{\infty}  c_{sps}(|i|_{L\_sps}) . d([i]_{CD\_sps}) . rect_{T_{c,sps}}(t-iT_{c,sps})$
+        \item[$\bullet$] $S_{PPS}(t) = 	\sum_{i=-\infty}^{\infty}  c_{pps}(|i|_{L\_pps}) . d([i]_{CD\_pps}) . rect_{T_{c,pps}}(t-iT_{c,pps}) $
+    \end{enumerate}
+	\item Capture  the 2ms samples of incoming signal.
+    \item Let $x_{in}[k]$ be the incoming signal.
+	\begin{equation}
+        x_{in}[n] = A(t) s_T(t-\tau (t))e^{j(2\pi f_D (t)t+\phi (t))}|_{t=nT_s}  + n(t)\vert _{t=nT_s}
+    \end{equation}
+    where \\
+    \begin{enumerate}
+        \item[$\bullet$] $A(t)$ is Amplitude
+        \item[$\bullet$] $s_T(t)$ is Complex baseband signal
+        \item[$\bullet$] $\tau(t)$ is code delay(time varying)
+        \item[$\bullet$] $f_D(t)$ is Doppler shift(time varying)
+        \item[$\bullet$] $\phi(t)$ is carrier phase(time varying)
+        \item[$\bullet$]  $n(t)$ is Random noise
+        \item[$\bullet$] $T_s$ is Sampling period
+        \item[$\bullet$] $f_s$ is Sampling frequency
+    \end{enumerate}
+	\item \textbf{for} sv=01 to sv=32:
+    \begin{enumerate}
+        \item Calculate PRN codes for sv.
+        \item Let $c_{sv}[n]$ be the prn code for satellite sv, for n = 0,1,2,....1022.
+        \item Upsample the prn code to $f_s$ = 2.048MHz.The value of N is 2048(for 1ms).
+        \begin{enumerate}
+            \item Prn code frequency $f_c$ is 1.023MHz.
+            \item Sampling Frequency $f_s$ is 2.048Mhz.
+            \item Let sampled prn code for satellite sv be $v_{sv}[n]$, for n= 0,1,2,....N-1.
+            \item $v_{sv}[n]$ = $c_{sv}[n.\frac{f_c}{f_s}]$  for n = 0,1,2,....N-1.
+            
+        \end{enumerate}
+        \item Apply the BPSK modulation for the signal $v_{sv}[n]$.
+        \begin{enumerate}
+            \item $p_{sv}[n]$ = 1-2.$v_{sv}[n]$, for n = 0,1,2,......N-1.
+        \end{enumerate}
+        
+    \end{enumerate} 
+    \item[$\bullet$]\textbf{end for}
+    
+
+
+    \item \textbf{for} sv $=$ 01 to sv $=$ 32:
+    \begin{enumerate}
+        \item Let $x_{1_{sv}}[n]$ = $x_{in}[n]$, for n = 0,1,2....N-1.
+        \item Compute Correlation between $x_{1_{sv}}[n]$ and $p_{sv}[n]$, for n= 0,1,2....N-1.
+        \begin{equation}
+            z_1{_{sv}}[n] = \frac{1}{N}\sum_{m = 0}^{N-1}p_{sv}[m]x_{1_{sv}}[n+m]
+        \end{equation} 
+        \item Let $x_{2_{sv}}[n]$ = $x_{in}[l]$, for $l$= N to 2N-1 ,for n = 0 to N-1.
+        \item Compute Correlation between $x_{2_{sv}}[n]$ and $p_{sv}[n]$, for n = 0,1,2...N-1.
+        \begin{equation}
+            z_{2_{sv}}[n] = \frac{1}{N}\sum_{m = 0}^{N-1}p_{sv}[m]x_{2_{sv}}[n+m]
+        \end{equation} 
+        \item $z_{sv}[n]$ = $z_1{_{sv}}[n]$ + $z_2{_{sv}}[n]$, for n=0,1,2,....N-1.
+        \item if $max\{ \left\lvert z_{sv}[n] \right\rvert^2\}$ $>$ threshold then the value of code phase is n, for n = 0,1,2...N-1.
+        \item If the peak occurs, satellite is considered visible, and the code phase is corresponding n value at peak.  
+        \item Come out of the loop if f step is true for 4 times.         
+    \end{enumerate}
+    \item[$\bullet$]\textbf{end for}
+    
+
+
+    \item \textbf{for} $sv_{acq} = 0$ to $sv_{acq} = 3$:
+    \begin{enumerate}
+        \item From the step 4 let the code phase be $\hat{n}$.
+        \item $x[n]$ = $x_{in[n+\hat{n}]}$, for n = 0,1,2,....N-1.
+        \item \textbf{for} $f_D = f_{min}$ to $f_D = f_{max}$ in $f_{step}$ steps:
+        \begin{enumerate}
+            \item Shift the signal $x[n]$ by $f_D$
+            \begin{equation}
+                x_{sh}[n] = x_{in}[n]\cdot e ^{-j 2 \pi f_D n T_s} 
+            \end{equation}
+            \item Apply FFT to $x_{sh}[n]$
+            \begin{equation}
+                X_{sh}[k] = X_{sh}[k -\omega _D]
+            \end{equation}
+            \item Compute conjugate of FFT of $p_{sv_{acq}}[n]$ 
+        \item Multiply $X_{sh}[k]$ and $P_{sv_{acq}}^*[k ]$.
+            \begin{equation}
+                \Delta [k] = X_{sh}[k] \cdot P_{sv_{acq}}^*[k]                
+            \end{equation}
+        \item Compute IFFT for $\Delta[k]$.
+            \begin{equation}
+                R_{xd}[n] = \frac{1}{K^2} IFFT_k \{\Delta[k] \} 
+            \end{equation}
+            \item If $max\{\left\lvert R_{xd}[n] \right\rvert^2\}$ $>$ threshold, then the value of doppler frequency is $f_D$, for n = 0,1,2,...N-1.
+        \end{enumerate}
+        \item[$\bullet$]\textbf{end for}
+    \end{enumerate}
+    \item[$\bullet$]\textbf{end for}
+
+\end{enumerate}
+
+
+
+\end{document}

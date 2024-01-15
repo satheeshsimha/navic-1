@@ -4,20 +4,34 @@
 \contentsline {figure}{\numberline {2.2}{\ignorespaces NavIC Architecture\relax }}{9}{figure.caption.6}%
 \contentsline {figure}{\numberline {2.3}{\ignorespaces the NavIC bands segment blocks\relax }}{10}{figure.caption.7}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Transmitter Block diagram\relax }}{12}{figure.caption.8}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Master Frame Structure\relax }}{13}{figure.caption.9}%
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Structure of subframe 1 and 2\relax }}{14}{figure.caption.10}%
-\contentsline {figure}{\numberline {3.4}{\ignorespaces Structure of subframe 3 and 4\relax }}{14}{figure.caption.11}%
-\contentsline {figure}{\numberline {3.5}{\ignorespaces SPS PRN Code Generator\relax }}{15}{figure.caption.12}%
-\contentsline {figure}{\numberline {3.6}{\ignorespaces FEC Encoding\relax }}{16}{figure.caption.14}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Master Frame Structure\relax }}{13}{figure.caption.8}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Sub-frame 1 Layout\relax }}{13}{figure.caption.9}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Sub-frame 2 Layout\relax }}{14}{figure.caption.10}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Sub-frame 3 Layout\relax }}{14}{figure.caption.11}%
+\contentsline {figure}{\numberline {3.5}{\ignorespaces NavIC L1 SPS Subframe Structure\relax }}{15}{figure.caption.12}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Transmitter Block diagram\relax }}{16}{figure.caption.13}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Transmitter Block diagram\relax }}{17}{figure.caption.14}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Diagram of the BCH Encoder Circuit\relax }}{18}{figure.caption.15}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces LDPC Matrix Structure\relax }}{19}{figure.caption.17}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Tiered code structure and timing relationship between primary and secondary codes\relax }}{21}{figure.caption.19}%
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Functional Description of IZ4 Sequence generation using Binary shift registers.\relax }}{23}{figure.caption.21}%
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Feedback logic used to generate the linear feedback to Register R0 for IZ4 codes\relax }}{25}{figure.caption.22}%
+\contentsline {figure}{\numberline {5.7}{\ignorespaces Feedback Computation for R0 and R1A Determination for Overlay Codes\relax }}{33}{figure.caption.23}%
+\contentsline {figure}{\numberline {5.8}{\ignorespaces $sigma2A$and $sigma2B$ Computation for R1A Determination for Primary IZ4 Codes\relax }}{34}{figure.caption.24}%
+\contentsline {figure}{\numberline {5.9}{\ignorespaces $sigma2C$and $sigma2$ Computation for R1A Determination for Primary IZ4 Codes\relax }}{35}{figure.caption.25}%
+\contentsline {figure}{\numberline {5.10}{\ignorespaces R1 Feedback Computation Using R1 and R0 Shift Register Taps for Primary IZ4 Codes\relax }}{36}{figure.caption.26}%
+\contentsline {figure}{\numberline {5.11}{\ignorespaces Block Diagram of overlay sequence generator\relax }}{37}{figure.caption.27}%
+\contentsline {figure}{\numberline {5.12}{\ignorespaces Feedback Computation for R0 and R1A Determination for Overlay Codes\relax }}{38}{figure.caption.28}%
+\contentsline {figure}{\numberline {5.13}{\ignorespaces $\sigma 2A$ and $\sigma 2B$ Computation for Overlay Codes\relax }}{39}{figure.caption.29}%
+\contentsline {figure}{\numberline {5.14}{\ignorespaces R1 Register Feedback Computation for Overlay Codes\relax }}{40}{figure.caption.30}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces The Block Level Architecture for Receiver\relax }}{27}{figure.caption.17}%
-\contentsline {figure}{\numberline {5.2}{\ignorespaces PCPS algorithm flow\relax }}{29}{figure.caption.19}%
-\contentsline {figure}{\numberline {5.3}{\ignorespaces Tracking block diagram\relax }}{32}{figure.caption.20}%
-\contentsline {figure}{\numberline {5.4}{\ignorespaces Generic baseband processor code and carrier tracking loops block diagram\relax }}{34}{figure.caption.21}%
-\contentsline {figure}{\numberline {5.5}{\ignorespaces The Block Level Architecture for Channel decoding\relax }}{39}{figure.caption.23}%
-\contentsline {figure}{\numberline {5.6}{\ignorespaces Trellis flow for Viterbi algorithm\relax }}{42}{figure.caption.24}%
+\contentsline {figure}{\numberline {7.1}{\ignorespaces The Block Level Architecture for Receiver\relax }}{46}{figure.caption.32}%
+\contentsline {figure}{\numberline {7.2}{\ignorespaces PCPS algorithm flow\relax }}{49}{figure.caption.34}%
+\contentsline {figure}{\numberline {7.3}{\ignorespaces Tracking block diagram\relax }}{52}{figure.caption.35}%
+\contentsline {figure}{\numberline {7.4}{\ignorespaces The Block Level Architecture for Channel decoding\relax }}{62}{figure.caption.37}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {6.1}{\ignorespaces Tracking result plot\relax }}{46}{figure.caption.25}%
+\contentsline {figure}{\numberline {8.1}{\ignorespaces Tracking result plot\relax }}{68}{figure.caption.38}%
 \addvspace {10\p@ }

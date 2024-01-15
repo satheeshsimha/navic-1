@@ -9,140 +9,382 @@ The NavIC transmitter is simulated to send baseband signal to the channel as sho
 \label{fig:trans_flow}
 \end{figure}
 
-\section{IRNSS Navigation data}
-Navigation data in satellite communication refers to the crucial information transmitted between satellites and ground-based receivers to facilitate accurate positioning and navigation. It includes data related to satellite orbits, precise timing, and other parameters necessary for determining the satellite's position relative to the Earth's surface.
-\section{Frame structure}
-NavIC master frame consists of $2400$ symbols, divided into $4$ subframes. Each subframe is $600$ symbols long. Each subframe has $16$ bit Sync word followed by $584$ bits of interleaved data. Subframes $1$ and $2$ transmit fixed primary navigation parameters. Subframe $3$ and $4$ transmit secondary navigation parameters in the form of messages. The master frame structure is shown in figure \ref{fig:master_frame}. 
-
-\begin{figure}[ht]
-\centering
-\includegraphics[width=0.8\columnwidth]{figs/master_frame.png}
-\centering
-\captionsetup{justification=centering}
-\caption{Master Frame Structure}
-\label{fig:master_frame}
-\end{figure}
-
-\noindent Each subframe is $292$ bits long without FEC encoding and sync word. It starts with TLM word of 8 bits and ends with $24$ bit Cyclic Redundancy Check(CRC) followed by $6$ tail bits. In subframes $1$ and $2$ navigation data is allotted with $232$ bits, starting from bit $31$. In subframe $3$ and $4$, $220$ bits are allotted starting from bit $37$. The typical structure of the subframes are shown in figure \ref{fig:frame_1_2} and figure \ref{fig:frame_3_4} respectively.
-
-\begin{figure}[ht]
-\centering
-\includegraphics[width=0.8\columnwidth]{figs/1_2.png}
-\centering
-\captionsetup{justification=centering}
-\caption{Structure of subframe 1 and 2}
-\label{fig:frame_1_2}
-\end{figure}
-
-\begin{figure}[ht]
-\centering
-\includegraphics[width=0.8\columnwidth]{figs/3_4.png}
-\centering
-\captionsetup{justification=centering}
-\caption{Structure of subframe 3 and 4}
-\label{fig:frame_3_4}
-\end{figure}
-
 \section{Encoding}
-\subsection{PRN codes for SPS}
-PRN Codes selected for Standard Positioning System are similar to GPS C/A Gold codes. The length of each code is $1023$ chips. The code is chipped at $1.023$ Mcps.
 
-\noindent For SPS code generation, the two polynomials G1 and G2 are as defined below:
-\begin{align}
-G1 &: X^{10}+X^{3} + 1\\
-G2 &: X^{10}+X^9+X^8+X^6+X^3+X^2+1
-\end{align}
-Polynomial G1 and G2 are similar to the ones used by GPS C/A signal. The G1 and G2 generators are realized by using $10$ bits Maximum Length Feedback Shift Registers(MLFSR). The initial state of G2 provides the chip delay. The G1 register is initialized with all bits as $1$. G1 and G2 are XOR'ed for the generation of the final $1023$ chip long PRN sequence. The SPS PRN code generator is shown in figure \ref{figure:codeGen}.
+\subsection{BCH Coding}
 
-\begin{figure}[!ht]
-	\centering
-	\input{figs/spsCode_genBlock.tikz}
-	\caption{SPS PRN Code Generator}
-	\label{figure:codeGen}
+To transmit nine bits of Time of Interval (TOI) data, we employ BCH $(52, 9)$ coding. The generator polynomial used in this encoding process is $1767$ in octal notation. This coding scheme is illustrated conceptually in Figure~\ref{fig:generator} below, utilizing a 9-stage linear shift register generator.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1.05\columnwidth]{figs/bch.png}
+    \caption{Diagram of the BCH Encoder Circuit}
+    \label{fig:generator}
 \end{figure}
 
-\noindent The satellites that are used in the current simulation are with PRN ids - $1,3,5$ and $7$. The initial condition of G2 register in L5 and S bands for the given PRN ids is given in table \ref{table:sps_codes}.
+\noindent\textbf{Encoding Process}
+
+\noindent Load TOI data bits $1$ to $9$ into the generator, starting with the Most Significant Bit (MSB).Shift the loaded data $52$ times through the generator to generate $52$ encoded symbols.The BCH $(n, k)$ encoders are realized using $k$-stage registers as illustrated in Figure~\ref{fig:generator}. During encoding, Gate $1$ is closed for the initial $k$ clock periods and then disconnected. Likewise, Gate $2$ is disconnected during the first $k$ periods and then closed.
+
+
 
 \begin{table}[h]
-%\centering
-\input{tables/sps_codes.tex}
-\vspace{3mm}
-\caption{Code phase assignment for SPS signals}
-\label{table:sps_codes}
+\centering
+\caption{Generator Polynomials of BCH Encoders}
+\label{table:generator_polynomials}
+\begin{tabular}{|l|lll|l|}
+\hline
+\multirow{2}{*}{BCH Code} & \multicolumn{3}{c|}{Encoding Characteristics} & \multirow{2}{*}{Generator Polynomials (g(x))} \\
+\cline{2-4}
+& $n$ & $k$ & $d_{\text{min}}$ & \\
+\hline
+(52, 9) & 52 & 9 & 20 & $x^9 + x^8 + x^7 + x^6 + x^5 + x^4 + x^2 + x + 1$ \\
+\hline
+\end{tabular}
 \end{table}
 
-\newpage
-\subsection{FEC Encoding}
-The Navigation data subframe of $292$ bits is convolution encoded with a rate of 1/2 and clocked at $50$ symbols per second. The coding scheme is given in figure \ref{fig:FEC}. Each subframe of $292$ bits, after encoding, results in $584$ symbols. Various FEC encoding parameters used in NavIC are tabulated in table \ref{table:fec_enc}.
+\subsection{LDPC}
+
+
+\noindent The LDPC (Low-Density Parity-Check) encoder structure is based on a parity-check matrix $H(m, n)$ consisting of $m$ rows and $n$ columns. Specifically, for subframe-2, $m = 600$ and $n = 1200$, and for subframe-3, $m = 274$ and $n = 548$ are selected.
+
+\noindent The LDPC matrix $H$ is assumed to be in an approximate lower triangular form with a dual diagonal structure. Matrix $H(m, n)$ is further decomposed into six submatrices: $A$, $B$, $T$, $C$, $D$, and $E$, as illustrated in Figure~\ref{fig:ldpc-structure} below.
+
 \begin{figure}[ht]
 \centering
-\includegraphics[width=\columnwidth]{figs/FEC.png}
+\includegraphics[width=1\columnwidth]{figs/ldpc.png}    
+\caption{LDPC Matrix Structure}
+\label{fig:ldpc-structure}
+\end{figure}
+
+\noindent Each element of matrix $H(m, n)$ takes on either the value $"0"$ or $"1"$.The inverse of matrix $T$, denoted as $T^{-1}$, is not included in this document. However, it is worth noting that since $T$ is a lower triangular matrix, its inverse can be readily identified.
+
+For a rate $1/2$ LDPC encoder, the encoding process utilizes the matrices $A$, $B$, $T$, $C$, $D$, and $E$ to generate the encoded symbols based on the following algorithm:
+\begin{align}
+p_1^t &= -\varphi^{-1} (-E \cdot T^{-1} \cdot A + C) \cdot s^t \\
+p_2^t &= -T^{-1} (A \cdot s^t + B \cdot p_1^t)
+\end{align}
+
+
+\noindent Where:
+\begin{align*}
+\varphi &= -E \cdot T^{-1} \cdot B + D \\
+s &= \text{subframe 2 and subframe 3 data} \\
+x_t &\text{ indicates transpose} \\
+\end{align*}
+
+\noindent The elements of matrices $p_1$ and $p_2$ are modulo 2 numbers.
+
+\noindent The encoded symbols for broadcast are composed of $(s, p_1, p_2)$, where $s$ represents the systematic portion of the codeword, and $\{p_1, p_2\}$ constitute the combined parity bits.
+
+
+\subsection{Interleaving}
+\noindent Any burst errors during the data transmission can be corrected by interleaving. In matrix interleaving, input symbols are filled into a matrix column-wise and read at the output row-wise. This will spread the burst error, if any, during the transmission.The 1748 symbols of LDPC encoded navigation data of subframe-2 and subframe-3 are interleaved using a block interleaver with $n$ columns and $k$ rows. Data is written in columns and then read in rows. The Table \ref{tab:interleaving} below indicates the interleaving mechanism.
+
+\begin{table}[ht]
+\centering
+\input{tables/interleave.tex}
+\caption{Interleaving Parameters}
+\label{tab:interleaving}
+\end{table}
+
+
+
+\subsection{PRN codes for SPS}
+
+\noindent The NavIC L1 signal utilizes a family of Interleaved Z4 – Linear (IZ4) PRN spreading codes implemented using coupled shift registers. The PRN code has a length of 10230 chips with a code period of 10 ms in both data and pilot channels. Furthermore, the pilot channel incorporates a secondary overlay code with a length of 1800 and a period of 18 s. Importantly, the pilot and data signals are designed to be orthogonal.
+The IZ4 family of spreading codes has been found to deliver superior or equivalent performance compared to the PRN code families employed by GPS and BeiDou in the L1 band. Moreover, the resources required for implementing the code generator are of the same order as Weil codes.
+
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\columnwidth]{figs/tiered_code}
 \centering
 \captionsetup{justification=centering}
-\caption{FEC Encoding}
-\label{fig:FEC}
+\caption{Tiered code structure and timing relationship between primary and secondary codes}
+\label{fig:R0_IZ4}
 \end{figure}
-\newpage
+
+
+
 \begin{table}[h]
 %\centering
-\input{tables/enc_param.tex}
+\small
+\input{tables/L1_ranging.tex}
 \vspace{3mm}
-\caption{FEC encoding parameters}
-\label{table:fec_enc}
+\caption{Characteristics of the L1 ranging codes}
+\label{table:L1_ranging}
 \end{table}
-\subsection{Interleaving}
-Any burst errors during the data transmission can be corrected by interleaving. In matrix interleaving, input symbols are filled into a matrix column wise and read at the output row wise. This will spread the burst error, if any, during the transmission. For SPS, data is filled into matrix of size $73$ by $8$($73$ columns, $8$ rows).
-\subsection{Sync word and Tail bits}
-Each subframe has a $16$ bit word synchronization pattern which is not encoded. Sync pattern is $EB90$ Hex. Tail bits consist of $6$ zero value bits added to the subframe and tail bits are part of FEC encoding. 
 
-\subsection{Cyclic Redundancy Check(CRC)}
-The parity coding of data signal follows $24$Q polynomial for each subframe. $24$ bits of CRC parity will provide protection against burst as well as random errors with undetected error probability of $2^{-24}$ for all channel bit error probabilities $0.5$.
+\subsubsection{Code Generator Architecture for primary L1 Pilot and L1 Data PRN Code}
+
+\noindent The IZ4 ranging code generator comprises the following principal components:
+
+\begin{enumerate}
+    \item {Shift Registers R0 and R1:} These are two fifty-five tap binary shift registers.
+    \item {Shift Register C:} This is a single, five-tap, binary, pure-cycling shift register.
+\end{enumerate}
+
+\textbf{Code Generation}
+
+\noindent The IZ4 code is generated as the chip-by-chip modulo-2 sum of the synchronized output of Shift Register C and Register R1. Specifically, it is computed using the following equation:
+\begin{align}
+IZ4(t) = C(t, 0) \oplus R1(t, 0)
+\label{eq:iz4} 
+\end{align}
+\noindent In this equation $C(t, 0)$ represents the first tap of Register C at time $t$, abbreviated as $C(0)$.
+$R1(t, 0)$ represents the contents of the first tap of Register R1 at time $t$, abbreviated as $R1(0)$.
+It's important to note that all three registers are synchronized with respect to each other, ensuring proper code generation.
+It's important to note that all three registers are synchronized with respect to each other, ensuring proper code generation.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.8\columnwidth]{figs/IZ4_BCH.png}
+\centering
+\captionsetup{justification=centering}
+\caption{Functional Description of IZ4 Sequence generation using Binary shift registers.}
+\label{fig:IZ4_BCH}
+\end{figure}
+
+\noindent Functional description of each register involved in the IZ4 code generation process:
+
+\subsubsection{Shift Register R0}
+
+\noindent A fifty-five tap long $R0$ shift register is the first component.This register generates binary codes with a period of $10230$, shifting its contents at each clock cycle. The register's initial state is determined by stored initial conditions. It produces a binary code sequence with a $10230$-chip period, resetting after 10230 cycles. Feedback operations are governed by a feedback polynomial, with the output fed back to the $55^{th}$ tap. The first tap,$ R0(0)$, provides the component code output. In this process, seven out of $55$ taps are employed, following the equation: 
+
 \begin{equation}
-    g(X) = \sum_{i = 0}^{24}g_{i}X^i\;\; 
+R0(54) = R0(50) \oplus R0(45) \oplus R0(40) \oplus R0(20) \oplus R0(10) \oplus R0(5) \oplus R0(0) 
+\label{eq:R0(54)} 
 \end{equation}
 
-    $g_{i}=1$; for $i = 0,1,3,4,5,6,7,10,11,14,17,18,23,24$ \\
-          = 0 otherwise
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.8\columnwidth]{figs/R0_IZ4.png}
+\centering
+\captionsetup{justification=centering}
+\caption{Feedback logic used to generate the linear feedback to Register R0 for IZ4 codes}
+\label{fig:R0_IZ4}
+\end{figure}
+\noindent The feedback logic, illustrating inputs representing tap contents at time $(t)$ and output corresponding to the 55th tap at $(t+1)$, is depicted in Figure \ref{fig:R0_IZ4}.
+
+\subsubsection{Shift Register R1}
+
+\noindent The shift register \(R1\), consisting of fifty-five taps, serves as the source for generating the second component of the IZ4 ranging code. Similar to \(R0\), it operates by producing a binary code with a period of 10230 through content shifts at each clock cycle. The initial state of \(R1\) is determined by stored initial conditions, and it resets after 10230 clock cycles. The output originates from the first tap.
+
+\noindent Feedback to \(R1\) encompasses both \(R1A\) and \(R1B\) components, computed as functions of the taps from both \(R0\) and \(R1\). The feedback to \(R1\) is the modulo-2 sum of \(R1A\) and \(R1B\).
+
+Specifically, three sub-components, \(\sigma_2A\), \(\sigma_2B\), and \(\sigma_2C\), which depend on the tap contents of \(R0\), contribute to the computation of \(R1A\) as per the following equations:
+
+\begin{equation}
+\sigma_2A = [R0(50) \oplus R0(45) \oplus R0(40)] \text{ AND } [R0(20) \oplus R0(10) \oplus R0(5) \oplus R0(0)] 
+\label{eq:sigma_2A } 
+\end{equation}
+\begin{equation}
+\sigma_2B = ([R0(50) \oplus R0(45)] \text{ AND } R0(40)) \oplus  ([R0(20) \oplus R0(10)] \text{ AND }[R0(5) \oplus R0(0)]) 
+\label{eq:sigma_2B } 
+\end{equation}
+\begin{equation}
+\label{eq:sigma_2c} 
+\sigma_2C = [R0(50) \text{ AND } R0(45)] \oplus ([R0(20) \text{ AND } \\ R0(10)]\oplus  [R0(5) \text{ AND }R0(0)])  
+\end{equation}
+\begin{equation}
+\label{eq:sigma_2} 
+\sigma_2 = \sigma_2A \oplus \sigma_2B \oplus \sigma_2C
+\end{equation}
+\begin{equation}
+\label{eq:R1A} 
+R1A = \sigma_2 \oplus [R0(40) \oplus R0(35) \oplus R0(30) \oplus R0(25) \oplus R0(15) \oplus R0(0)]
+\end{equation}
+\begin{equation}
+\label{eq:R1B} 
+R1B = R1(50) \oplus R1(45) \oplus R1(40) \oplus R1(20) \oplus R1(10) \oplus R1(5) \oplus R1(0)
+\end{equation}
+\begin{equation}
+\label{eq:R154} 
+R1(54) = R1A \oplus R1B
+\end{equation}
+
+In equations \ref{eq:sigma_2A } through \ref{eq:R1B}, all quantities represent contents or functions of register contents at time \(t\). Equation \ref{eq:R154} computes \(R1(54)\) at time \(t+1\) based on the quantities on the right side at time \(t\). All registers initialize with initial conditions at \(t=0\).
+Implementation of the feedback computation for Shift Register \(R1\), where \(R1A\) and \(R1B\) are computed at time \(t\), and \(R1(54)\) refers to the contents \(R1(t+1,54)\) at time \(t+1\) of the 55th tap of Register \(R1\).
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\columnwidth]{figs/fig8.png}
+    \captionsetup{justification=centering}
+    \caption{Feedback Computation for R0 and R1A Determination for Overlay Codes}
+    \label{fig:R0overlay}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\columnwidth]{figs/fig9.png}
+    \captionsetup{justification=centering}
+     \caption{$sigma2A$and $sigma2B$ Computation for R1A Determination for Primary IZ4 Codes}
+    \label{fig:sigma2A_and_sigma2B_computation}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\columnwidth]{figs/fig10.png}
+    \captionsetup{justification=centering}
+    \caption{$sigma2C$and $sigma2$ Computation for R1A Determination for Primary IZ4 Codes}
+    \label{fig:sigma2C_and_sigma2_computation}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\columnwidth]{figs/fig11.png}
+    \captionsetup{justification=centering}
+    \caption{R1 Feedback Computation Using R1 and R0 Shift Register Taps for Primary IZ4 Codes}
+    \label{fig:R1Feedback}
+\end{figure}
+
+
+
+
+
+\subsubsection{Initial conditions for Shift Registers R0, R1 and C}
+Each R0 and R1 component code generator uses 55 bits of unique initial conditions stored in memory.Shift Register C is a 5-tap pure-cycling register, where the first tap's output, denoted as C(0), is looped back as input to the fifth tap. C(0) is XORed with the output of the R1 shift register on a chip-by-chip basis to produce the IZ4 code. Initial five-bit conditions for Register C are provided in Tables 7 and 8, corresponding to each PRN code.
+\subsection{Secondary Overlay Code Generator \\Architecture}
+The secondary or overlay codes linked to each L1 pilot primary code have a length of 1800 chips. These overlay codes are independently synchronized in time and have a duration of 18 seconds, operating at a rate of 100 bps. The 1800-chip overlay codes are produced by cyclically cycling the Z4-linear codes, which have a period of 2046. The generation process for overlay codes resembles that of primary IZ4 codes. To generate overlay codes, two ten-tap shift registers, denoted as R0 and R1, are utilized with specific feedback polynomials. Unlike primary code generation, the C register is not necessary for the generation of overlay codes.
+
+\begin{equation}
+R0(9) = R0(5) \oplus R0(2) \oplus R0(1) \oplus R0(0) 
+\end{equation}
+\begin{equation}
+\sigma_{2A} = [R0(5) \oplus R0(2)] \text{ AND } [R0(1) \oplus R0(0)]
+\end{equation}
+\begin{equation}
+\sigma_{2B} = [R0(5) \text{ AND } R0(2)] \oplus [R0(1) \text{ AND } R0(0)] 
+\end{equation}
+\begin{equation}
+R1A = \sigma_2 \oplus R0(6) \oplus R0(3) \oplus R0(2) \oplus R0(0) 
+\end{equation}
+\begin{equation}
+R1B = R1(5) \oplus R1(2) \oplus R1(1) \oplus R1(0) 
+\end{equation}
+\begin{equation}
+R1(9) = R1A \oplus R1B
+\end{equation}
+
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\columnwidth]{figs/overlay.png}
+\centering
+\captionsetup{justification=centering}
+\caption{Block Diagram of overlay sequence generator}
+\label{fig:overlay}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\columnwidth]{figs/fig13.png}
+    \captionsetup{justification=centering}
+    \caption{Feedback Computation for R0 and R1A Determination for Overlay Codes}
+    \label{fig:R0overlay}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\columnwidth]{figs/fig14.png}
+    \captionsetup{justification=centering}
+    \caption{$\sigma2A$ and $\sigma2B$ Computation for Overlay Codes}
+    \label{fig:sigma2Boverlay}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\columnwidth]{figs/fig15.png}
+    \captionsetup{justification=centering}
+    \caption{R1 Register Feedback Computation for Overlay Codes}
+    \label{fig:R1overlay}
+\end{figure}
+
+In Figures \ref{fig:R0overlay},\ref{fig:sigma2Boverlay}, and \ref{fig:R1overlay} below, the feedback computation process for $R_0$ and $R_1$ shift registers for overlay codes is explained. Figure \ref{fig:R0overlay} demonstrates how the feedback for Register $R_0$ is performed, along with the computation of certain components of the feedback for Register $R_1$. The output of Register $R_1$ corresponds to the overlay code. Quantities shown on the left, such as $R_0(5)$ in the topmost sub-figure of Figure~\ref{fig:R0overlay}, represent the contents of the respective registers at time $t$, while the quantity $R_0(9)$ on the opposite side represents the contents of $R_0$ at time $t+1$ for position 9.
+\newpage
 
 \section{Modulation}
 
 \subsection{Standard Positioning Service}
-The SPS signal is BPSK(1) modulated on L5 and S bands. The navigation data at data rate of $50$ sps (1/2 rate FEC encoded) is modulo $2$ added to PRN code chipped at $1.023$ Mcps. The CDMA modulated code is upconverted by the L5 and S carriers at $1176.45$ MHz and $2492.028$ MHz respectively. However, this simulation does not carry out this upconversion.
-
+\noindent The SPS signal is modulated using Synthesized Binary Offset Carrier (SBOC) in L1 band and BPSK in L5 and  S bands.
 \subsection{Baseband Modulation}
-The carrier signal is modulated by BPSK(1), Data channel BOC(5,2), and Pilot Channel BOC(5,2). To have a constant envelop when passed through power amplifier, we add additional signal called interplex signal.
-
+\noindent SBOC modulation contains  BOC(1,1) and BOC(6,1) components in both data signal  and pilot signals.  In this scheme, the data channel's BOC(1,1), the pilot channel's BOC(1,1), and the pilot channel's BOC(6,1) components are interplexed to create the data channel's BOC(6,1) component.  Data and pilot signals are quadrature multiplexed, with $41.82\%$ power to data and $58.18\%$ to pilot, ensuring constant envelope modulation for MBOC.
 \subsubsection{Mathematical Equations}
-The following equations describe baseband signals for L5 and S band navigation data.
-\\
-\textbf{SPS Data Signal:}
+\noindent The mathematical representation of baseband navigation signals is as follows:
+
+\textbf{Pilot Signal:}
 \begin{equation}
-	s_{sps}(t) = \sum_{i=-\infty}^{\infty} c_{sps}(\abs{i}_{L\_sps}) . d_{sps}(\sbrak{i}_{CD\_sps}) . \rect_{T_{c,sps}}(t-iT_{c,sps})
-\end{equation}
-\textbf{RS BOC Pilot Signal:}
-\begin{equation}
-	s_{rs\_p}(t) = \sum_{i=-\infty}^{\infty} c_{rs\_p}(\abs{i}_{L\_rs\_p}) . \rect_{Tc,rs\_p}(t-iT_{c,rs\_p}). sc_{rs\_p}(t,0)
-\end{equation}
-\textbf{RS BOC Signal:}
-%\begin{equation}
-\begin{multline}
-	s_{rs\_d}(t) = \sum_{i=-\infty}^{\infty} c_{rs\_d}(\abs{i}_{L\_rs\_d}) . d_{rs\_d}(\sbrak{i}_{CD\_rs\_d}).  \\ 
-	                       \rect_{T_{c,rs\_d}}(t-iT_{c,rs\_d}). sc_{rs_d}(t,0)
-\end{multline}
-%\end{equation}
-The sub-carrier is defined as:
-\begin{equation}
-	sc_x(t,\phi) = \sgn\sbrak{sin(2 \pi f_{sc,x}t + \phi)}
+S_{p,a}(t) = \sum_{i=-\infty}^{\infty} C_p(|i|L_p) \cdot \text{rect}_{T_{c,p}} \left( t - iT_{c,p}\right) \cdot s_{c,p,a}(t, 0)
+\label{eq:sp_a}
 \end{equation}
 
-\noindent The IRNSS RS data and pilot BOC signals are sinBOC. Hence the subcarrier phase $\phi=0$.
-The complex envelope of composite signal with Interplex signal (I(t)) is:
 \begin{equation}
-s(t) = \dfrac{1}{3} \sbrak{\sqrt{2} (s_{sps}(t) + s_{rs\_p}(t)) + j(2. s_{rs\_d}(t) - I(t))} 
+S_{p,b}(t) = \sum_{i=-\infty}^{\infty} C_p(|i|L_p) \cdot \text{rect}_{T_{c,p}}  \left( {t - iT_{c,p}}\right) \cdot sc_{p,b}(t, 0)
+\label{eq:sp_b}
 \end{equation}
 
-\noindent The Interplex signal $I(t)$ is generated to realize the constant envelope composite signal. The operation $\abs{i}_X$ gives the code chip index for any signal. Similarly $[i]_X$ gives data bit index for any signal.
-Symbol definitions are given in below table \ref{table:symbdesc}.
+\noindent The sub-carrier is defined as:
+
+\begin{equation}
+sc_{p,x}(t, \varphi) = \text{sgn}[\sin(2\pi f_{sc,x^t} + \varphi)]
+\label{eq:sub_carrier}
+\end{equation}
+
+\noindent Ranging code $C_p$, defined in equations \eqref{eq:sp_a} and \eqref{eq:sp_b}, includes primary code and secondary overlay code.
+
+
+\textbf{Data Signal:}
+
+\begin{equation}
+S_{d,a}(t) = \sum_{i=-\infty}^{\infty} C_d(|i|_{L_d}  ) \cdot d_d([i]_{CD_d}) \cdot \text{rect} _{T_{c,d}} \left({t - iT_{c,d}}\right) \cdot sc_{d,a}(t, 0)
+\label{eq:signal_da}
+\end{equation}
+
+\noindent The sub-carrier is defined as:
+
+\begin{equation}
+sc_{d,x}(t, \varphi) = \text{sgn}[\sin(2\pi f_{sc,x^t} + \varphi)]
+\label{eq:subcarrier_dc_x}
+\end{equation}
+\noindent The subcarrier signals are sinBOC. Hence, the subcarrier phase $\varphi=0$.
+
+\noindent The interplexed component $(S_{d,b}(t)$ is given by:
+\begin{equation}
+S_{d,b}(t) = \sum_{i=-\infty}^{\infty} C_d(|i|L_d) \cdot d_d([i]C_{D_d}) \cdot \text{rect}_{T_{c,d}} \left( t - iT_{c,d} \right) \cdot sc_{d,b}(t, 0)
+\label{eq:interplexed_component}
+\end{equation}
+
+\noindent The sub-carrier is defined as:
+\begin{equation}
+sc_{d,x}(t, \varphi) = \text{sgn}[\sin(2\pi f_{sc,x^t} + \varphi)]
+\label{eq:subcarrier_dc}
+\end{equation}
+
+\noindent The subcarrier signals are sinBOC. Hence, the subcarrier phase $\phi=0$.
+
+\noindent The composite SBOC modulated signal $(S(t)$ is generated by quadrature multiplexing of data and pilot signals, as given below:
+
+\begin{equation}
+S(t) = [\alpha S_{p,a}(t) - \beta S_{p,b}(t)] + j[\gamma S_{d,a}(t) + \eta S_{d,b}(t)]
+\label{eq:composite_signal}
+\end{equation}
+
+\noindent The baseband composite SBOC modulated signal $(S(t)$ can also be denoted as:
+
+\begin{equation}
+S(t) = S_I(t) + jS_Q(t)
+\label{eq:baseband_composite}
+\end{equation}
+
+\noindent Based on Equation \ref{eq:baseband_composite}, the band-pass representation of the SBOC modulated navigation signal $(S_{RF}(t))$ at L1 band is defined as follows:
+
+\begin{equation}
+S_{RF}(t) = S_I(t) \cdot \cos(2\pi f_{L1} t) - S_Q(t) \cdot \sin(2\pi f_{L1} t)
+\label{eq:bandpass_representation}
+\end{equation}
+
+\noindent where \(f_{L1}\) is the frequency of 1575.42 MHz.
 
 \begin{table}[h]
 %\centering
@@ -152,8 +394,4 @@ Symbol definitions are given in below table \ref{table:symbdesc}.
 \label{table:symbdesc}
 \end{table}
 
-The functions for data generation, SPS-PRN sequence generation and baseband modulation are present in the below code.
-\begin{lstlisting}
-    codes/transmitter/transmitter.py
-\end{lstlisting}
 \let\cleardoublepage\clearpage

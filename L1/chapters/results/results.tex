@@ -1,27 +1,47 @@
-
 \section{Acquisition}
 
 \begin{lstlisting}
-Acquisition results for PRN ID 5
- Status:True Doppler:3500 Delay/Code-Delay:300/30.0
-Acquisition results for PRN ID 7
- Status:True Doppler:2500 Delay/Code-Delay:587/58.7
+Acquisition results for PRN ID 2
+ Status:True Doppler:680 Delay/Code-Delay:18655/4771.01625
 Acquisition results for PRN ID 3
- Status:True Doppler:1500 Delay/Code-Delay:426/42.6
-Acquisition results for PRN ID 1
- Status:True Doppler:2500 Delay/Code-Delay:313/31.3
+ Status:True Doppler:1480 Delay/Code-Delay:18942/4844.4165
+Acquisition results for PRN ID 4
+ Status:True Doppler:3960 Delay/Code-Delay:18843/4819.09725
+Acquisition results for PRN ID 6
+ Status:True Doppler:5000 Delay/Code-Delay:18886/4830.0945
 \end{lstlisting}
 \newpage
 \section{Tracking and Decoding}
 \textbf{Result}
 \begin{lstlisting}
-Tracking and decoding output for PRN ID:5
-Transmitted Bits:
- [0. 1. 0. 1. 0. 0. 0. 1. 0. 1. 1. 0. 0. 0. 1. 1. 1. 0. 0. 1. 1. 1. 1. 0.1. 0. 1. 1. 0. 1. 0. 0. 1. 0. 0. 0. 1. 0. 1. 1. 1. 0. 1. 1. 0. 0. 1. 0. 0. 0.]
-Received bits:
- [1. 1. 0. 1. 0. 1. 1. 1. 0. 1. 0. 0. 1. 1. 1. 0. 0. 0. 1. 1. 0. 0. 0. 0.1. 0. 1. 0. 0. 1. 0. 1. 1. 0. 1. 1. 1. 0. 1. 0. 0. 0. 1. 0. 0. 1. 1. 0.1. 1.]
-Received bits inverted:
- [0. 0. 1. 0. 1. 0. 0. 0. 1. 0. 1. 1. 0. 0. 0. 1. 1. 1. 0. 0. 1. 1. 1. 1.0. 1. 0. 1. 1. 0. 1. 0. 0. 1. 0. 0. 0. 1. 0. 1. 1. 1. 0. 1. 1. 0. 0. 1. 0. 0.]
+Tracking and decoding output for PRN ID:2
+Subframe1 Before Encoding (9 bits): [1 0 0 0 1 1 1 0 1]
+Subframe1 After Encoding (52 Symbols): [0 0 1 0 0 0 1 0 0 0 0 0 0 1 0 0 1 0 0 1 1 0 1 0 0 1 1 1 1 0 1 1 1 0 0 0 0
+ 1 1 1 1 1 1 1 0 0 0 1 1 1 0 1]
+Subframe1 After Receiving (52 Symbols): [1. 1. 0. 1. 1. 1. 0. 1. 1. 1. 1. 1. 1. 0. 1. 1. 0. 1. 1. 0. 0. 1. 0. 1.
+ 1. 0. 0. 1. 1. 0. 1. 1. 1. 0. 0. 0. 0. 1. 1. 1. 1. 1. 1. 1. 0. 0. 0. 1.
+ 1. 1. 0. 1.]
+Subframe1 After decoding (9 bits): (1, 0, 0, 0, 1, 1, 1, 0, 1)
+Subframe2 Before Encoding (600 bits): [1 0 1 1 1 1 0 1 1 0 0 1 1 0 1 0 1 0 1 1 0 0 1 0 1 1 1 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 1 0 0 1 1 0 1 1 0 0 0 1 0 1 1 0 1 0 1 1 0 1 1 0 0 1 0 0 0 1 1 1 1 1
+ 0 1 0 1 1 0 0 0 1 1 1 0 1 1 0 1 1 0 .........1 1 1 0 1 1 1 1 1 0 0 1 1 0 1 1 0 1 1 1 1 0 1 1 1 0 1 0 1 0 1 0 0 1 1 0 0
+ 1 0 1 1 0 1 0 1]
+Subframe2 After Encoding (1200 Symbols): [1 1 1 ... 0 1 0]
+Subframe2 After Receiving (1200 Symbols): [1. 1. 1. ... 0. 1. 0.]
+Subframe2 After decoding (600 bits): [1 0 1 1 1 1 0 1 1 0 0 1 1 0 1 0 1 0 1 1 0 0 1 0 1 1 1 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 1 0 0 1 1 0 1 1 0 0 0 1 0 1 1 0 1 0 1 1 0 1 1 0 0 1 0 0 0 1 1 1 1 1
+ 0 1 0 1 1 0 0 0 .........1 1 1 0 1 1 1 1 1 0 0 1 1 0 1 1 0 1 1 1 1 0 1 1 1 0 1 0 1 0 1 0 0 1 1 0 0
+ 1 0 1 1 0 1 0 1]
+Subframe 2 is same before encoding and after decoding: True
+             0 <<< remainder
+Subframe3 Before Encoding (274 bits): [1 1 1 1 1 0 0 1 0 1 0 1 0 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 0 1 1 0 0 1 0 1 0
+ 1 1 1 1 1 1 0 0 0 0 0 1 1 0 1 1 0 1 1 0 1 1 1 1 0 0 0 0 1 1 0 0 1 1 1 0 0
+.......... 0 1 0 0 1 0 0 0 0 1 0 1 0 1 0 0 0 0 1 1 1 1 0 0 1 1 0 1 0 0 0 0 0 0 0 1 1
+ 1 0 1 1 1 0 1 0 0 1 0 1 1 1 1]
+Subframe3 After Encoding (548 Symbols): [0 0 1 1 0 0 1 0 0 1 0 0 1 0 1 1 0 1 0 1 1 0 0 0 1 1 1 1 0 0 1 0 0 0 1 1 1
+ 1 1 0 0 1 0 1 1 1 1 1 0 0 1 1 0 0 0 0 1 0 1 1 1 0 1 0 1 0 1 0 1 1 1 1 1 1
+ 1 0 1 1 1 0 1 0 1 0 0 1 1 1 1 0 0 1 0 0 1 1 1 1 0 1 1 1 1 0 0 1 1 0 0 0 1
+ 1 0 0 1 1 0 0 1 1 0 0 0 0 1 0 1 0 1 1 0 0 1
 \end{lstlisting}
 \begin{normalsize}
 \begin{figure}[ht]

@@ -1,3 +1,4 @@
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%                                                                  %%
 %%  This is the header of a LaTeX2e file exported from Gnumeric.    %%
@@ -19,7 +20,7 @@
 %%    \usepackage{color}                                            %%
 %%    \usepackage{array}                                            %%
 %%    \usepackage{longtable}                                        %%
-%    \usepackage{calc}                                             %%
+%%    \usepackage{calc}                                             %%
 %%    \usepackage{multirow}                                         %%
 %%    \usepackage{hhline}                                           %%
 %%    \usepackage{ifthen}                                           %%
@@ -123,10 +124,12 @@
 \setlongtables
 
 \setlength\gnumericTableWidth{%
-	80pt+%
-	180pt+%
+	53pt+%
+	107pt+%
+	65pt+%
+	65pt+%
 0pt}
-\def\gumericNumCols{2}
+\def\gumericNumCols{3}
 \setlength\gnumericTableWidthComplete{\gnumericTableWidth+%
          \tabcolsep*\gumericNumCols*2+\arrayrulewidth*\gumericNumCols}
 \ifthenelse{\lengthtest{\gnumericTableWidthComplete > \linewidth}}%
@@ -144,88 +147,103 @@
 %%                                                                  %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\ifthenelse{\isundefined{\gnumericColA}}{\newlength{\gnumericColA}}{}\settowidth{\gnumericColA}{\begin{tabular}{@{}p{80pt*\gnumericScale}@{}}x\end{tabular}}
-\ifthenelse{\isundefined{\gnumericColB}}{\newlength{\gnumericColB}}{}\settowidth{\gnumericColB}{\begin{tabular}{@{}p{180pt*\gnumericScale}@{}}x\end{tabular}}
+\ifthenelse{\isundefined{\gnumericColA}}{\newlength{\gnumericColA}}{}\settowidth{\gnumericColA}{\begin{tabular}{@{}p{40pt*\gnumericScale}@{}}x\end{tabular}}
+\ifthenelse{\isundefined{\gnumericColB}}{\newlength{\gnumericColB}}{}\settowidth{\gnumericColB}{\begin{tabular}{@{}p{235pt*\gnumericScale}@{}}x\end{tabular}}
 
 \begin{longtable}[c]{%
 	b{\gnumericColA}%
 	b{\gnumericColB}%
 	}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%  The longtable options. (Caption, headers... see Goosens, p.124) %%
-%	\caption{The Table Caption.}             \\	%
-% \hline	% Across the top of the table.
-%%  The rest of these options are table rows which are placed on    %%
-%%  the first, last or every page. Use \multicolumn if you want.    %%
 
-%%  Header for the first page.                                      %%
-%	\multicolumn{2}{c}{The First Header} \\ \hline 
-%	\multicolumn{1}{c}{colTag}	%Column 1
-%	&\multicolumn{1}{c}{colTag}	\\ \hline %Last column
-%	\endfirsthead
 
-%%  The running header definition.                                  %%
-%	\hline
-%	\multicolumn{2}{l}{\ldots\small\slshape continued} \\ \hline
-%	\multicolumn{1}{c}{colTag}	%Column 1
-%	&\multicolumn{1}{c}{colTag}	\\ \hline %Last column
-%	\endhead
-
-%%  The running footer definition.                                  %%
-%	\hline
-%	\multicolumn{2}{r}{\small\slshape continued\ldots} \\
-%	\endfoot
-
-%%  The ending footer definition.                                   %%
-%	\multicolumn{2}{c}{That's all folks} \\ \hline 
-%	\endlastfoot
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\hhline{|-|-}
-	 \multicolumn{1}{|p{\gnumericColA}|}%
-	{\gnumericPB{\raggedright}\gnumbox[l]{\hspace*{1cm}\textbf{Symbol}}}
-	&\multicolumn{1}{p{\gnumericColB}|}%
-	{\gnumericPB{\raggedright}\gnumbox[l]{\hspace*{2cm}\textbf{Definition}}}
+\hhline{|-|-|}
+\multicolumn{1}{|p{\gnumericColA}|}%
+{\gnumericPB{\raggedright}\gnumbox[l]{Symbol}}
+&\multicolumn{1}{p{\gnumericColB}|}%
+{\gnumericPB{\raggedright}\gnumbox[l]{Description}}
 \\
 \hhline{|--|}
-	 \multicolumn{1}{|p{\gnumericColA}|}%
-	{\gnumericPB{\raggedright}\gnumbox[l]{\hspace{1cm}A}}
-	&\multicolumn{1}{p{\gnumericColB}|}%
-	{\gnumericPB{\raggedright}\gnumbox[l]{ received signal amplitude}}
+\multicolumn{1}{|p{\gnumericColA}|}%
+{\gnumericPB{\raggedright}\gnumbox[l]{$C_d(i)$}}
+&\multicolumn{1}{p{\gnumericColB}|}%
+{\gnumericPB{\raggedright}\gnumbox[l]{$i$'th chip of spreading code of data channel}}
 \\
 \hhline{|--|}
-	 \multicolumn{1}{|p{\gnumericColA}|}%
-	{\gnumericPB{\raggedright}\gnumbox[l]{\hspace{1cm}$f_c$}}
-	&\multicolumn{1}{p{\gnumericColB}|}%
-	{\gnumericPB{\raggedright}\gnumbox[l]{carrier frequency}}
+\multicolumn{1}{|p{\gnumericColA}|}%
+{\gnumericPB{\raggedright}\gnumbox[l]{$C_p(i)$}}
+&\multicolumn{1}{p{\gnumericColB}|}%
+{\gnumericPB{\raggedright}\gnumbox[l]{$i$'th chip of spreading code of pilot channel}}
 \\
 \hhline{|--|}
-	 \multicolumn{1}{|p{\gnumericColA}|}%
-	{\gnumericPB{\raggedright}\gnumbox[l]{\hspace{1cm}$f_{sub}$}}
-	&\multicolumn{1}{p{\gnumericColB}|}%
-	{\gnumericPB{\raggedright}\gnumbox[l]{subcarrier frequency}}
+\multicolumn{1}{|p{\gnumericColA}|}%
+{\gnumericPB{\raggedright}\gnumbox[l]{$d_d(i)$}}
+&\multicolumn{1}{p{\gnumericColB}|}%
+{\gnumericPB{\raggedright}\gnumbox[l]{$i$'th bit of navigation message of data channel}}
 \\
 \hhline{|--|}
-	 \multicolumn{1}{|p{\gnumericColA}|}%
-	{\gnumericPB{\raggedright}\gnumbox[l]{\hspace{1cm}t}}
-	&\multicolumn{1}{p{\gnumericColB}|}%
-	{\gnumericPB{\raggedright}\gnumbox[l]{time}}
+\multicolumn{1}{|p{\gnumericColA}|}%
+{\gnumericPB{\raggedright}\gnumbox[l]{$sc_{p,x}(t)$}}
+&\multicolumn{1}{p{\gnumericColB}|}%
+{\gnumericPB{\raggedright}\gnumbox[l]{Binary NRZ subcarrier for pilot channel}}
 \\
 \hhline{|--|}
-	 \multicolumn{1}{|p{\gnumericColA}|}%
-	{\gnumericPB{\raggedright}\gnumbox[l]{\hspace{1cm}q}}
-	&\multicolumn{1}{p{\gnumericColB}|}%
-	{\gnumericPB{\raggedright}\gnumbox[l]{ phase offset}}
+\multicolumn{1}{|p{\gnumericColA}|}%
+{\gnumericPB{\raggedright}\gnumbox[l]{$sc_{d,x}(t)$}}
+&\multicolumn{1}{p{\gnumericColB}|}%
+{\gnumericPB{\raggedright}\gnumbox[l]{Binary NRZ subcarrier for data channel}}
 \\
 \hhline{|--|}
-	 \multicolumn{1}{|p{\gnumericColA}|}%
-	{\gnumericPB{\raggedright}\gnumbox[l]{\hspace{1cm}s(t)}}
-	&\multicolumn{1}{p{\gnumericColB}|}%
-	{\gnumericPB{\raggedright}\gnumbox[l]{BPSK signal transmitted data(-1,1)}}
+\multicolumn{1}{|p{\gnumericColA}|}%
+{\gnumericPB{\raggedright}\gnumbox[l]{$|i|_X$}}
+&\multicolumn{1}{p{\gnumericColB}|}%
+{\gnumericPB{\raggedright}\gnumbox[l]{$i$ modulo $X$}}
+\\
+\hhline{|--|}
+\multicolumn{1}{|p{\gnumericColA}|}%
+{\gnumericPB{\raggedright}\gnumbox[l]{$[i]_X$}}
+&\multicolumn{1}{p{\gnumericColB}|}%
+{\gnumericPB{\raggedright}\gnumbox[l]{Integer part of $(i/X)$}}
+\\
+\hhline{|--|}
+\multicolumn{1}{|p{\gnumericColA}|}%
+{\gnumericPB{\raggedright}\gnumbox[l]{$CD\_x$}}
+&\multicolumn{1}{p{\gnumericColB}|}%
+{\gnumericPB{\raggedright}\gnumbox[l]{No. of chips per navigation data bit}}
+\\
+\hhline{|--|}
+\multicolumn{1}{|p{\gnumericColA}|}%
+{\gnumericPB{\raggedright}\gnumbox[l]{$L\_x$}}
+&\multicolumn{1}{p{\gnumericColB}|}%
+{\gnumericPB{\raggedright}\gnumbox[l]{Length of spreading code in chips}}
+\\
+\hhline{|--|}
+\multicolumn{1}{|p{\gnumericColA}|}%
+{\gnumericPB{\raggedright}\gnumbox[l]{${rect}_x(t)$}}
+&\multicolumn{1}{p{\gnumericColB}|}%
+{\gnumericPB{\raggedright}\gnumbox[l]{Rectangle pulse function with duration $x$}}
+\\
+\hhline{|--|}
+\multicolumn{1}{|p{\gnumericColA}|}%
+{\gnumericPB{\raggedright}\gnumbox[l]{$T_{c,x}$}}
+&\multicolumn{1}{p{\gnumericColB}|}%
+{\gnumericPB{\raggedright}\gnumbox[l]{Spreading code chip duration}}
+\\
+\hhline{|--|}
+\multicolumn{1}{|p{\gnumericColA}|}%
+{\gnumericPB{\raggedright}\gnumbox[l]{$f_{sc,x}$}}
+&\multicolumn{1}{p{\gnumericColB}|}%
+{\gnumericPB{\raggedright}\gnumbox[l]{Subcarrier frequency}}
+\\
+\hhline{|--|}
+\multicolumn{1}{|p{\gnumericColA}|}%
+{\gnumericPB{\raggedright}\gnumbox[l]{$\varphi$}}
+&\multicolumn{1}{p{\gnumericColB}|}%
+{\gnumericPB{\raggedright}\gnumbox[l]{Subcarrier phase}}
 \\
 \hhline{|-|-|}
 \end{longtable}
+
 
 \ifthenelse{\isundefined{\languageshorthands}}{}{\languageshorthands{\languagename}}
 \gnumericTableEnd
