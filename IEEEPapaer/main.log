@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2023.6.9)  16 JAN 2024 20:11
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2023.6.9)  17 JAN 2024 14:19
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**/home/satheeshsk/navic/navic-1/IEEEPapaer/Navic_L1.tex
-(/home/satheeshsk/navic/navic-1/IEEEPapaer/Navic_L1.tex
+**/home/satheeshsk/navic/navic-1/IEEEPapaer/main.tex
+(/home/satheeshsk/navic/navic-1/IEEEPapaer/main.tex
 LaTeX2e <2020-02-02> patch level 2
 L3 programming layer <2020-02-14> (/home/satheeshsk/navic/navic-1/IEEEPapaer/IEEEtran.cls
 Document Class: IEEEtran 2015/08/26 V1.8b by Michael Shell
@@ -381,8 +381,8 @@ Package: xparse 2020-02-14 L3 Experimental document command parser
 ) (/home/satheeshsk/navic/navic-1/IEEEPapaer/gvv.sty
 \c@matchleft=\count293
 \c@matchright=\count294
-) (/home/satheeshsk/navic/navic-1/IEEEPapaer/Navic_L1.aux)
-\openout1 = `Navic_L1.aux'.
+) (/home/satheeshsk/navic/navic-1/IEEEPapaer/main.aux)
+\openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 24.
 LaTeX Font Info:    ... okay on input line 24.
@@ -425,145 +425,158 @@ Package caption Info: listings package is loaded.
 Package caption Info: threeparttable package is loaded.
 Package caption Info: End \AtBeginDocument code.
 \c@lstlisting=\count301
-LaTeX Font Info:    Trying to load font information for U+msa on input line 88.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 93.
  (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 88.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 93.
  (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 <figs/simulation_overview.jpg, id=1, 811.53188pt x 149.8097pt>
 File: figs/simulation_overview.jpg Graphic file (type jpg)
 <use figs/simulation_overview.jpg>
-Package pdftex.def Info: figs/simulation_overview.jpg  used on input line 98.
+Package pdftex.def Info: figs/simulation_overview.jpg  used on input line 103.
 (pdftex.def)             Requested size: 252.0pt x 46.51823pt.
 <figs/trans_flow.jpg, id=2, 932.73468pt x 237.13594pt>
 File: figs/trans_flow.jpg Graphic file (type jpg)
 <use figs/trans_flow.jpg>
-Package pdftex.def Info: figs/trans_flow.jpg  used on input line 109.
+Package pdftex.def Info: figs/trans_flow.jpg  used on input line 114.
 (pdftex.def)             Requested size: 252.0pt x 64.06735pt.
+<figs/master_frame.pdf, id=3, 1005.99442pt x 327.87494pt>
+File: figs/master_frame.pdf Graphic file (type pdf)
+<use figs/master_frame.pdf>
+Package pdftex.def Info: figs/master_frame.pdf  used on input line 134.
+(pdftex.def)             Requested size: 252.0pt x 82.12862pt.
+<figs/spsframe.pdf, id=4, 697.91643pt x 511.69269pt>
+File: figs/spsframe.pdf Graphic file (type pdf)
+<use figs/spsframe.pdf>
+Package pdftex.def Info: figs/spsframe.pdf  used on input line 142.
+(pdftex.def)             Requested size: 252.0pt x 184.75577pt.
  [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 
  </home/satheeshsk/navic/navic-1/IEEEPapaer/figs/simulation_overview.jpg> </home/satheeshsk/navic/navic-1/IEEEPapaer/figs/trans_flow.jpg>]
-Underfull \hbox (badness 2119) in paragraph at lines 140--142
+<figs/tiered_code.pdf, id=15, 489.41647pt x 233.63889pt>
+File: figs/tiered_code.pdf Graphic file (type pdf)
+<use figs/tiered_code.pdf>
+Package pdftex.def Info: figs/tiered_code.pdf  used on input line 154.
+(pdftex.def)             Requested size: 252.0pt x 120.30219pt.
+ [2 </home/satheeshsk/navic/navic-1/IEEEPapaer/figs/master_frame.pdf> </home/satheeshsk/navic/navic-1/IEEEPapaer/figs/spsframe.pdf> </home/satheeshsk/navic/navic-1/IEEEPapaer/figs/tiered_code.pdf>]
+<figs/receiver_block.pdf, id=70, 1030.19682pt x 227.00006pt>
+File: figs/receiver_block.pdf Graphic file (type pdf)
+<use figs/receiver_block.pdf>
+Package pdftex.def Info: figs/receiver_block.pdf  used on input line 246.
+(pdftex.def)             Requested size: 252.0pt x 55.52716pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 284--286
+
+ []
+
+
+Underfull \hbox (badness 2119) in paragraph at lines 299--301
 \OT1/ptm/m/n/10 where $\OML/cmm/m/it/10 C[]$ \OT1/ptm/m/n/10 is pi-lot pri-mary PRN code, $\OML/cmm/m/it/10 C[]$ \OT1/ptm/m/n/10 is pi-lot
  []
 
 
-Underfull \hbox (badness 5091) in paragraph at lines 140--142
+Underfull \hbox (badness 5091) in paragraph at lines 299--301
 \OT1/ptm/m/n/10 sec-ondary/over-lay PRN code, $\OML/cmm/m/it/10 T[] \OT1/cmr/m/n/10 = []\OML/cmm/m/it/10 ^^V$\OT1/ptm/m/n/10 s and
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 140--142
+Underfull \hbox (badness 10000) in paragraph at lines 299--301
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 143--146
+Underfull \hbox (badness 10000) in paragraph at lines 302--305
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 154--155
+Underfull \hbox (badness 10000) in paragraph at lines 313--314
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 162--164
+Underfull \hbox (badness 10000) in paragraph at lines 321--323
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 184--185
+Underfull \hbox (badness 10000) in paragraph at lines 343--344
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 186--188
+Underfull \hbox (badness 10000) in paragraph at lines 345--347
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 189--190
+Underfull \hbox (badness 10000) in paragraph at lines 348--349
 
  []
 
-<figs/master_frame.pdf, id=13, 1005.99442pt x 327.87494pt>
-File: figs/master_frame.pdf Graphic file (type pdf)
-<use figs/master_frame.pdf>
-Package pdftex.def Info: figs/master_frame.pdf  used on input line 223.
-(pdftex.def)             Requested size: 252.0pt x 82.12862pt.
-<figs/spsframe.pdf, id=14, 697.91643pt x 511.69269pt>
-File: figs/spsframe.pdf Graphic file (type pdf)
-<use figs/spsframe.pdf>
-Package pdftex.def Info: figs/spsframe.pdf  used on input line 232.
-(pdftex.def)             Requested size: 252.0pt x 184.75577pt.
-[2 </home/satheeshsk/navic/navic-1/IEEEPapaer/figs/master_frame.pdf>]
-<figs/tiered_code.pdf, id=31, 489.41647pt x 233.63889pt>
-File: figs/tiered_code.pdf Graphic file (type pdf)
-<use figs/tiered_code.pdf>
-Package pdftex.def Info: figs/tiered_code.pdf  used on input line 265.
-(pdftex.def)             Requested size: 252.0pt x 120.30219pt.
- [3 </home/satheeshsk/navic/navic-1/IEEEPapaer/figs/spsframe.pdf> </home/satheeshsk/navic/navic-1/IEEEPapaer/figs/tiered_code.pdf>]
-<figs/receiver_block.pdf, id=73, 1030.19682pt x 227.00006pt>
-File: figs/receiver_block.pdf Graphic file (type pdf)
-<use figs/receiver_block.pdf>
-Package pdftex.def Info: figs/receiver_block.pdf  used on input line 357.
-(pdftex.def)             Requested size: 252.0pt x 55.52716pt.
-<figs/pcps.pdf, id=74, 872.7064pt x 274.625pt>
+[3 </home/satheeshsk/navic/navic-1/IEEEPapaer/figs/receiver_block.pdf>]
+<figs/pcps.pdf, id=80, 872.7064pt x 274.625pt>
 File: figs/pcps.pdf Graphic file (type pdf)
 <use figs/pcps.pdf>
-Package pdftex.def Info: figs/pcps.pdf  used on input line 408.
+Package pdftex.def Info: figs/pcps.pdf  used on input line 406.
 (pdftex.def)             Requested size: 252.0pt x 79.29977pt.
-<figs/tracking.pdf, id=75, 1450.16684pt x 852.87537pt>
+<figs/tracking.pdf, id=81, 868.91624pt x 359.75705pt>
 File: figs/tracking.pdf Graphic file (type pdf)
 <use figs/tracking.pdf>
-Package pdftex.def Info: figs/tracking.pdf  used on input line 429.
-(pdftex.def)             Requested size: 252.0pt x 148.20131pt.
- [4 </home/satheeshsk/navic/navic-1/IEEEPapaer/figs/receiver_block.pdf> </home/satheeshsk/navic/navic-1/IEEEPapaer/figs/pcps.pdf>]
-Underfull \hbox (badness 4752) in paragraph at lines 457--459
+Package pdftex.def Info: figs/tracking.pdf  used on input line 430.
+(pdftex.def)             Requested size: 378.0pt x 156.50403pt.
+
+Underfull \hbox (badness 4752) in paragraph at lines 470--471
  \OT1/ptm/m/it/10 3) Base-band sig-nal pro-cess-ing: [][] \OT1/ptm/m/n/10 This en-tails Car-rier
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 457--459
+Underfull \hbox (badness 10000) in paragraph at lines 470--471
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 471--480
-
- []
-
-[5 </home/satheeshsk/navic/navic-1/IEEEPapaer/figs/tracking.pdf>]
-<figs/decoding_r.pdf, id=105, 1020.16931pt x 188.2774pt>
+[4 </home/satheeshsk/navic/navic-1/IEEEPapaer/figs/pcps.pdf>]
+<figs/decoding_r.pdf, id=91, 1020.16931pt x 188.2774pt>
 File: figs/decoding_r.pdf Graphic file (type pdf)
 <use figs/decoding_r.pdf>
-Package pdftex.def Info: figs/decoding_r.pdf  used on input line 538.
+Package pdftex.def Info: figs/decoding_r.pdf  used on input line 545.
 (pdftex.def)             Requested size: 252.0pt x 46.50615pt.
-<figs/acq_output.png, id=106, 1387.584pt x 724.8681pt>
+ [5 </home/satheeshsk/navic/navic-1/IEEEPapaer/figs/tracking.pdf> </home/satheeshsk/navic/navic-1/IEEEPapaer/figs/decoding_r.pdf>]
+<figs/acq_output.png, id=114, 1387.584pt x 724.8681pt>
 File: figs/acq_output.png Graphic file (type png)
 <use figs/acq_output.png>
-Package pdftex.def Info: figs/acq_output.png  used on input line 567.
+Package pdftex.def Info: figs/acq_output.png  used on input line 574.
 (pdftex.def)             Requested size: 252.0pt x 131.64305pt.
-<figs/tracking_output.png, id=108, 1335.5496pt x 706.0779pt>
+<figs/tracking_output.png, id=116, 1335.5496pt x 706.0779pt>
 File: figs/tracking_output.png Graphic file (type png)
 <use figs/tracking_output.png>
-Package pdftex.def Info: figs/tracking_output.png  used on input line 605.
+Package pdftex.def Info: figs/tracking_output.png  used on input line 611.
 (pdftex.def)             Requested size: 252.0pt x 133.21886pt.
-<figs/mynavbits.png, id=109, 462.528pt x 346.896pt>
+<figs/mynavbits.png, id=117, 462.528pt x 346.896pt>
 File: figs/mynavbits.png Graphic file (type png)
 <use figs/mynavbits.png>
-Package pdftex.def Info: figs/mynavbits.png  used on input line 616.
+Package pdftex.def Info: figs/mynavbits.png  used on input line 622.
 (pdftex.def)             Requested size: 189.0pt x 141.75188pt.
- [6 </home/satheeshsk/navic/navic-1/IEEEPapaer/figs/decoding_r.pdf> </home/satheeshsk/navic/navic-1/IEEEPapaer/figs/acq_output.png>]
-Overfull \hbox (6.47763pt too wide) in paragraph at lines 636--637
+
+Overfull \hbox (6.47763pt too wide) in paragraph at lines 642--643
 \OT1/ptm/m/n/8 2022,https://www.isro.gov.in/media[]isro/pdf/Publications/Vispdf/Pdf2017/ 
  []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 644--645
+[]\OT1/ptm/m/n/8 GPS Re-ceiver Ac-qui-si-tion and Track-ing Us-ing C/A-Code
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 644--645
+\OT1/ptm/m/n/8 https://in.mathworks.com/help/satcom/ug/gps-receiver-acquisition-
+ []
+
+[6 </home/satheeshsk/navic/navic-1/IEEEPapaer/figs/acq_output.png> </home/satheeshsk/navic/navic-1/IEEEPapaer/figs/tracking_output.png> </home/satheeshsk/navic/navic-1/IEEEPapaer/figs/mynavbits.png>]
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -577,20 +590,20 @@ Before submitting the final camera ready copy, remember to:
 
 [7
 
- </home/satheeshsk/navic/navic-1/IEEEPapaer/figs/tracking_output.png> </home/satheeshsk/navic/navic-1/IEEEPapaer/figs/mynavbits.png>] (/home/satheeshsk/navic/navic-1/IEEEPapaer/Navic_L1.aux) ) 
+] (/home/satheeshsk/navic/navic-1/IEEEPapaer/main.aux) ) 
 Here is how much of TeX's memory you used:
- 7532 strings out of 481239
- 116567 string characters out of 5920378
- 405847 words of memory out of 5000000
- 22699 multiletter control sequences out of 15000+600000
- 568689 words of font info for 94 fonts, out of 8000000 for 9000
+ 7533 strings out of 481239
+ 116517 string characters out of 5920378
+ 442847 words of memory out of 5000000
+ 22701 multiletter control sequences out of 15000+600000
+ 567611 words of font info for 93 fonts, out of 8000000 for 9000
  1144 hyphenation exceptions out of 8191
- 48i,12n,46p,388b,1490s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on /home/satheeshsk/navic/navic-1/IEEEPapaer/Navic_L1.pdf (7 pages, 1359426 bytes).
+ 48i,12n,46p,384b,1014s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on /home/satheeshsk/navic/navic-1/IEEEPapaer/main.pdf (7 pages, 1369991 bytes).
 PDF statistics:
- 183 PDF objects out of 1000 (max. 8388607)
- 134 compressed objects within 2 object streams
+ 190 PDF objects out of 1000 (max. 8388607)
+ 140 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  61 words of extra memory for PDF output out of 10000 (max. 10000000)
 
