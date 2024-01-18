@@ -1961,8 +1961,8 @@ class NavicTracker:
         if ( (E_data + L_data) != 0) :
            delayerr_data = (E_data-L_data)/(2*(E_data + L_data)) # Non-coherent early minus late normalized detector
         
-        delayerr = self.alpha * delayerr_pilot + (1-self.alpha)* delayerr_data
-        #delayerr = delayerr_pilot
+        #delayerr = self.alpha * delayerr_pilot + (1-self.alpha)* delayerr_data
+        delayerr = delayerr_pilot
         
         # DLL loop filter
         if self.DLLOrder == 2:
@@ -2046,9 +2046,9 @@ class NavicTracker:
             fqyerr_data = val/(2*np.pi*integtime)
         '''
         
-        fqyerr = self.alpha * fqyerr_pilot + (1-self.alpha)* fqyerr_data
+        #fqyerr = self.alpha * fqyerr_pilot + (1-self.alpha)* fqyerr_data
         
-        #fqyerr = fqyerr_pilot
+        fqyerr = fqyerr_pilot
         
         
         # FLL loop filter

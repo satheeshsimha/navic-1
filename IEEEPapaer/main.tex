@@ -24,26 +24,38 @@
 \begin{document}
 
 \title{Implementation of Open Source Software NavIC L1 Transmitter and Receiver\\
+\thanks{Funded by MEITY, Govt of India}
 }
 
 \author{\IEEEauthorblockN{Satheesh Kumar Simhachalam}
 \IEEEauthorblockA{\textit{PhD Scholar} \\
 \textit{EE Department, IIT Hyderabad}\\
 Telangana, India - 502284 \\
-gadepall@ee.iith.ac.in}
+ee22resch11010@ee.iith.ac.in}
 \and
-\IEEEauthorblockN{ Dr G.V.V.Sharma}
-\IEEEauthorblockA{\textit{Associate Professor} \\
+\IEEEauthorblockN{ Ahmed Hamdan}
+\IEEEauthorblockA{\textit{Project Intern} \\
 \textit{EE Department, IIT Hyderabad}\\
 Telangana, India - 502284 \\
-gadepall@ee.iith.ac.in}
+ahmedhamdan672@gmail.com}
 \and
-\IEEEauthorblockN{ Dr. Kuchi Kiran Kumar}
-\IEEEauthorblockA{\textit{Professor} \\
+\IEEEauthorblockN{ Madhu Addanki}
+\IEEEauthorblockA{\textit{Project Staff} \\
 \textit{EE Department, IIT Hyderabad}\\
 Telangana, India - 502284 \\
-kkuchi@ee.iith.ac.in}
-
+madhulatha.addanki@5g.iith.ac.in}
+\and
+\IEEEauthorblockN{ Suraj Bhyri}
+\IEEEauthorblockA{\textit{Project Intern} \\
+\textit{EE Department, IIT Hyderabad}\\
+Telangana, India - 502284 \\
+surajbhyri11@gmail.com}
+\and
+\IEEEauthorblockN{ Useni Dudekula}
+\IEEEauthorblockA{\textit{Project Intern} \\
+\textit{EE Department, IIT Hyderabad}\\
+Telangana, India - 502284 \\
+dudekulauseni123@gmail.com}
 }
 
 \maketitle
@@ -55,7 +67,7 @@ This paper introduces a receiver architecture
 %	transmitter and receiver for 
 	Standard Positioning 
 Service (SPS) signal  used for civilian purposes. 
-Details of the signal chacteristics, various signal processing blocks of both transmitter and receiver as well as channel modeling are available in this work. The receiver performance is verifed by 
+Details of the signal characteristics, various signal processing blocks of both transmitter and receiver as well as channel modeling are available in this work. The receiver performance is verifed by 
 generating random navigation data at transmitter and recovering it using the architecture proposed in the paper.
 \end{abstract}
 
@@ -76,7 +88,7 @@ supporting L5, L1 and S bands. Only one satellite has civilian L1 band (1575.42 
 for low power receivers. ISRO has plans to launch more satellites with L1 band, in future. 
 SPS signals from NavIC are interoperable with other GNSS systems like GPS and GLONASS etc. 
 
-The Government of India mandated all mobile device manufatures to have support for navigation 
+The Government of India mandated all mobile device manufacturers to have support for navigation 
 using NavIC in all the devices being used in India. Hence, there is a growing need for NavIC 
 software implementations. \cite{b1} describes open source software implementation for Galileo signal,
 however, for Navic L1, no such implementation is available in the existing literature. 
@@ -90,9 +102,9 @@ and applying various algorithms at the receiver for recovering the original tran
 
 \section{System Overview}
 The block diagram of the system is shown in Figure \ref{fig:sim_flow}. Navigation data is randomly 
-generated and subframes $\&$ master frames are created as per the frame structure described in 
+generated, subframes and master frames are created as per the frame structure described in 
 subsequent sections. The transmitter module creates the required baseband signal as per the  
-modulation scheme, with relevant channel encoding schemes and error correction $\&$ detection schemes. 
+modulation scheme, with relevant channel encoding schemes, error correction and detection schemes. 
 Channel modelling module adds various modelling parameters and AWGN noise to the baseband signals 
 for different satellites, forming a composite signal. The receiver module receives the composite 
 signal, processes it to extract the navigation data, that was originally sent.   
@@ -165,17 +177,19 @@ The following parameters are modelled in the satellite communication channel \ci
    \item Thermal noise at the receiver
 \end{enumerate}
 \subsection{Doppler shift}
-Due to relative motion between the satellites and the receiver, the transmitted signals undergo a 
-frequency shift before arriving at the receiver. This shift in frequency is called Doppler shift.
+% Due to relative motion between the satellites and the receiver, the transmitted signals undergo a 
+% frequency shift before arriving at the receiver. This shift in frequency is called Doppler shift.
 
 The Doppler shift is introduced by muliplying the satellite signal with a complex exponential,
 \begin{equation}
-    x_{Shift}\sbrak{n} = x\sbrak{n}e^{-2 \pi j \brak{f_{c}+f_{Shift}} n t_{s}}
+    x_{Shift}\sbrak{n} = x\sbrak{n}e^{-2j\pi f_d n t_s}
 \end{equation}
 where,
 $x_{Shift}\sbrak{n}$ = Doppler shifted signal
 
 $x\sbrak{n}$ = Satellite signal
+
+$f_d$ = Doppler frequnecy applied
 
 $t_{s}$ = Sampling period
 \subsection{Delay}
@@ -193,7 +207,7 @@ $c$ = Speed of light
 
 $f_{s}$ = Sampling rate
 
-The total delay on the satellite signal is modeled in two steps. First,to introduce the static delay,
+The total delay on the satellite signal is modeled in two steps. First, to introduce the static delay,
 the samples are read from a queue whose size is the desired static delay length. To introduce the 
 variable delay, the signal is passed throughan all-pass FIR filter with an almost constant phase 
 response. Its coefficients are calculated using the delay value required.
@@ -267,14 +281,14 @@ The signal processing chain at the receiver is divided into five steps:
 \subsubsection{Mathematical equations}
 
 A generic NavIC L1 SPS signal is defined by its complex baseband equivalent, 
-$S(t)$, the digital signal at the input of an Acquisition block can be written as:
+$S(t)$. The digital signal at the input of an Acquisition block can be written as:
 \begin{multline}
-	x_{IN}[k]=A(t)\hat s (t-\tau(t))e^{j(2 \pi f_D(t)t+\Phi(t))}\bigg|_{t=kT_s} \\ 
-    +n(t)\bigg|_{t=kT_s}
+	x_{IN}[n]=A(t)\hat s (t-\tau(t))e^{j(2 \pi f_d(t)t+\Phi(t))}\bigg|_{t=nT_s} \\ 
+    +w(t)\bigg|_{t=nT_s}
 \end{multline}
 
-\noindent where $f_D$ is Doopler shift frequency, $\tau$ is PRN Code delay,$\Phi$ is Phase shift
-and $n(t)$ is AWGN noise. 
+\noindent where $f_d$ is Doppler shift frequency, $\tau$ is PRN Code delay, $\Phi$ is Phase shift
+and $w(t)$ is AWGN noise. 
 
 \noindent The composite SBOC modulated signal $S(t)$ \cite{b1},\cite{b2} is generated by quadrature multiplexing of data and pilot signals, as given below:
 
@@ -286,12 +300,12 @@ S(t) = [\alpha S_{p,a}(t) - \beta S_{p,b}(t)] + j[\gamma S_{d,a}(t) + \eta S_{d,
 
 \noindent\textbf{Pilot Signal:}
 \begin{multline}
-S_{p,a}(t) = \sum_{i=-\infty}^{\infty} C_{p,s}(|i|_{1800}) \oplus \sum_{j=1}^{10230}C_{p,p}([j])\cdot \\
+S_{p,a}(t) = \sum_{i=-\infty}^{\infty} C_{p,s}\Bigl[|i|_{1800}\Bigr] \oplus \sum_{j=1}^{10230}C_{p,p}\Bigl[j\Bigr]\cdot \\
              \text{rect}_{T_{c,p,p}} \left( t - iT_{c,p,s} - jT_{c,p,p}\right) \cdot sc_{p,a}(t, 0)
 \label{eq:sp_a}
 \end{multline}
 \begin{multline}
-S_{p,b}(t) =    \sum_{i=-\infty}^{\infty} C_{p,s}(|i|_{1800}) \oplus \sum_{j=1}^{10230}C_{p,p}([j])\cdot \\
+S_{p,b}(t) =    \sum_{i=-\infty}^{\infty} C_{p,s}\Bigl[|i|_{1800}\Bigr] \oplus \sum_{j=1}^{10230}C_{p,p}\Bigl[j\Bigr]\cdot \\
     \text{rect}_{T_{c,p,p}} \left( t - iT_{c,p,s} - jT_{c,p,p}\right) \cdot sc_{p,b}(t, 0)
 \label{eq:sp_b}
 \end{multline}
@@ -315,15 +329,15 @@ sc_{p,x}(t, \varphi) = \text{sgn}[\sin(2\pi f_{sc,x}t + \varphi)]
 \noindent\textbf{Data Signal:}
 
 \begin{multline}
-S_{d,a}(t) = \sum_{i=-\infty}^{\infty} C_d(|i|_{10230}  ) \oplus d_d([i]_{10230}) \cdot \\
+S_{d,a}(t) = \sum_{i=-\infty}^{\infty} C_d\Bigl[|i|_{10230} \Bigr] \oplus d_d\Bigl[[i]_{10230}\Bigr] \cdot \\
 \text{rect} _{T_{c,d}} \left({t - iT_{c,d}}\right) \cdot sc_{d,a}(t, 0)
 \label{eq:signal_da}
 \end{multline}
-\noindent where $T_{c,d} = \frac{1}{1.023}\mu$s and $[i]_L$ means the integer part of $\frac{i}{L}$.\\
+\noindent where $T_{c,d} = \frac{1}{1.023}\mu$s, $C_d$ is Data PRN code and $[i]_L$ means the integer part of $\frac{i}{L}$.\\
 
 \noindent The interplexed component $S_{d,b}(t)$ is given by:
 \begin{multline}
-S_{d,b}(t) = \sum_{i=-\infty}^{\infty} C_d(|i|_{10230}) \oplus d_d([i]_{10230}) \cdot \\
+S_{d,b}(t) = \sum_{i=-\infty}^{\infty} C_d\Bigl[|i|_{10230}\Bigr] \oplus d_d\Bigl[[i]_{10230}\Bigr] \cdot \\
 \text{rect}_{T_{c,d}} \left( t - iT_{c,d} \right) \cdot sc_{d,b}(t, 0)
 \label{eq:interplexed_component}
 \end{multline}
@@ -366,39 +380,38 @@ $f_{sc,b}$ is Sub-carrier frequency of $sc_{p,b}$ and $sc_{d,b}$ sub-carriers an
 
 \subsubsection{Implementation of PCPS Acquisition}
 
-The role of the acqusition block is to examine the presence/absence of signals coming from a 
+The role of the acquisition block is to check the presence/absence of signals coming from a 
 given satellite. In the case of signal being present, it should provide coarse estimations of the 
-Code delay ($\tau$) and the Carrier Doppler shift ($f_D$), yet accurate enough to initialize the carrier and code 
+Code delay ($\hat{\tau}$) and the Carrier Doppler shift ($\hat{f}_d$), yet accurate enough to initialize the carrier and code 
 tracking loops.
 
 The Parallel Code Phase Search (PCPS) algorithm \cite{b1},\cite{b3} is used in Acquisition block 
-and is shown in Figure \ref{fig:pcps_flow}. ML estimates of coarse doppler frequency ($f_D$) and coarse Code delay 
-($\tau$) are obtained by maximizing the objective function
+and is shown in Figure \ref{fig:pcps_flow}. ML estimates of $\hat{f}_d$ and $\hat{\tau}$ are obtained by maximizing the objective function
 \begin{equation}
-	\hat{f}_{D_{ML}}, \hat{\tau}_{ML} = \max_{f_D,\tau} \{ |R_{xd}(f_D,\tau) | ^2\}
+	\hat{f}_{d_{ML}}, \hat{\tau}_{ML} = \max_{f_d,\tau} \{ |R_{xd}(f_D,\tau) | ^2\}
 	\label{eq:pcps}
 \end{equation}
 \noindent where
 \begin{equation}
-	R_{xd}(f_D,\tau) = \frac{1}{N} \sum_{n=0}^{N-1} x_{IN}[n] \cdot C[nT_s-\tau] \cdot e^{-j2\pi f_DnT_s}
+	R_{xd}(f_d,\tau) = \frac{1}{N} \sum_{n=0}^{N-1} x_{IN}[n] \cdot C[nT_s-\tau] \cdot e^{-j2\pi f_dnT_s}
 	\label{eq:pcps2}
 \end{equation}
 \noindent $x_{IN}[n]$ is complex vector of incoming I and Q samples, $T_s$ is the sampling period 
-,N is number of samples (4000 for this simulation) and $C[n]$ is locally generated code, defined as
+, N is number of samples (40,000 for this simulation) and $C[n]$ is locally generated code, defined as
 
 \begin{equation}
- C[n] = G_{p,p}[n] \cdot sc_{p,a}(nT_s, 0)
+ C[n] = G_{p,p}[n] \cdot sc_{p,a}(nT_s, 0) \cdot \text{rect}_{T_{c,p,p}} \left( t - nT_{c,p,p}\right)
  \label{eq:pcps3}
 \end{equation}
-\noindent where $G_{p,p}$ is upsampled and BPSK modulated pilot primary PRN code for a given satellite.
+\noindent where $G_{p,p}$ is upsampled and BPSK modulated pilot primary PRN code ($C_{p,p}$) for a given satellite.
 
 Using a 2-dimensional search, maximization mentioned in \ref{eq:pcps} is computed as per the PCPS algorithm.
-The frequency bin having maximum signal power is determined as coarse doppler frequency ($f_{d_{acq}}$). The index at which the peak power is present in that frequency bin is termed as coarse Code delay 
-($\tau_{acq}$). These values are passed to the Tracking module. 
+The frequency bin having maximum signal power is determined as $f_{d_{acq}}$. The index at which the peak power 
+is present in that frequency bin is termed as $\tau_{acq}$. These values are passed to the Tracking module. 
 
 If the Input signal power is less than a threshold, then the satellite is 
 considered to be non-visible. Under low SNR conditions, samples from 2-3 successive coherent 
-integration periods can be added to have a better acquisition sensitivty.
+integration periods can be added to have a better acquisition sensitivity.
 
 \begin{normalsize}
 \begin{figure}[ht]
@@ -436,11 +449,12 @@ specified in \cite{b1} is used in this work.
 \subsubsection{Carrier and code wipeoff}
 \textbf{Carrier wipeoff: }Referring to the Figure \ref{fig:tracking}, first, the incoming signal is 
 stripped off the carrier by a local replica carrier. The replica carrier signals are synthesized 
-by the carrier numerically controlled oscillator (NCO). In closed loop operation, the carrier NCO is controlled 
-by the carrier tracking loop in the receiver processor.
+by the carrier numerically controlled oscillator (NCO). In closed loop operation, the carrier NCO is 
+controlled by the carrier tracking loop in the receiver processor. Local carrier for n = 1...$N_k$
+is given as:
 
 \begin{equation}
-	lc_k[n] = e^{-j(2\pi \hat{f}_{d_{k-1}}nT_s+ mod(\hat{\phi}_{k-1},2\pi))}
+	lc[n] = e^{-j(2\pi \hat{f}_{d_{k-1}}nT_s+ mod(\hat{\phi}_{k-1},2\pi))}
 	\label{eq:local_replica}
 \end{equation}
 
@@ -449,65 +463,82 @@ To detect these maximas, the received signal is  correlated with Very Early(VE),
 Prompt(P), Late(L) and Very Late(VL) local replica codes (plus code Doppler) synthesized by a 
 multi-delay sampler. In the closed loop operation, the code NCO is controlled by the code tracking 
 loop in the receiver processor. E and L are typically separated in phase by 0.3 chips. VE and VL are
-separated by 1.2 chips. The prompt replica code phase is aligned with the 
+separated by 1.2 chips. 
+
+The prompt replica code phase is aligned with the 
 incoming satellite code phase producing maximum correlation if it is tracking the incoming satellite code 
 phase.  Any misalignment in the replica code phase with respect to the incoming code phase produces 
 a difference in the vector magnitudes of the VE,E,L and VL correlated outputs so that the amount 
 and direction of the phase change can be detected and corrected by the code tracking loop.
-Local code reference $s[n]$ for n = 0,1,..., $N_k$
+
+\noindent\textbf{Pilot channel}
+Local primary pilot PRN code reference $s_p[n]$ for n = 0,1,..., $N_k$, is given as:
 \begin{equation}
-	s[n] = G_{p,p}\biggl[ round\biggl( n + (\psi_k + \epsilon)\frac{N}{f_{chip}}\biggr)\biggr]
+	s_p[n] = G_{p,p}\biggl[ round\biggl( n + (\psi_k + \epsilon)\frac{N}{f_{chip}}\biggr)\biggr]
 \end{equation}
 \begin{equation}
-	P_k = \frac{1}{N_k} \sum_{n=0}^{N_k-1} x_{IN}[n] s[n] lc_k[n] ;  \epsilon = 0
+	P_{p_{k}} = \frac{1}{N_k} \sum_{n=0}^{N_k-1} x_{IN}[n] s_p[n] lc[n] ;  \epsilon = 0
 \end{equation}
 
-Similarly, $VE_k, E_k, L_k \text{ and } VL_k$ are generated with $\epsilon = -0.6, -0.15, 0.15, 0.6$.
+Similarly, $VE_{p_{k}}, E_{p_{k}}, L_{p_{k}} \text{ and } VL_{p_{k}}$ are generated with $\epsilon = -0.6, -0.15, 0.15, 0.6$
+respectively.
+
+\noindent\textbf{Data channel}
+Local data PRN code reference $s_d[n]$ for n = 0,1,..., $N_k$, is given as:
+\begin{equation}
+	s_d[n] = D\biggl[ round\biggl( n + (\psi_k)\frac{N}{f_{chip}}\biggr)\biggr]
+\end{equation}
+\noindent where $D[n]$ is given as
+\begin{equation}
+	D[n] = D_d[n] \cdot sc_{d,a}(nT_s, 0) \cdot \text{rect}_{T_{c,d}} \left( t - nT_{c,d}\right)
+\end{equation}
+\noindent and $D_d[n]$ is upsampled and BPSK modulated Data PRN Code ($C_d$). Only P correlator is used for Data channel.
+
+\begin{equation}
+	P_{d_{k}} = \frac{1}{N_k} \sum_{n=0}^{N_k-1} x_{IN}[n] s_d[n] lc[n] 
+\end{equation}
 
 \subsubsection{Pre-detection and integration}
-Above 5 correlator outputs are integrated and dumped to produce VE,E,P,L,VL vesions of the signal.
+Above correlator outputs are integrated and dumped to produce VE,E,P,L,VL versions of the Pilot channel and P version for Data channel.
 \subsubsection{Baseband signal processing}
-This entails Carrier tracking and Code tracking using Phase locked loop (PLL) and Delay locked loop (DLL). \\
+This entails Carrier tracking and Code tracking using PLL, FLL and DLL. \\
 
-\noindent\textbf{Phase locked loop(PLL)}\\
-PLL tracks the frequency and phase of 
-the received signal by detecting the phase error between replicated signal and incoming signal. 
-This error is fed through loop filter to Carrier NCO so as to adjust its frequency and phase to 
-synchronize with incoming signal in both frequency and phase.  
+\noindent\textbf{PLL}:
+Phase error is given by  
 \begin{align}
   %\text{Phase error} =ATAN2(I_P,Q_P) = \tan^{-1}\brak{\frac{I_P}{Q_P}}
-  \Delta \hat{\phi}_k = \tan^{-1}\brak{\frac{P_{I_{k}}}{P_{Q_{k}}}}
+  \Delta \hat{\phi}_k = \tan^{-1}\brak{\frac{P_{p_{I_{k}}}}{P_{p_{Q_{k}}}}}
 \end{align}
-
-\noindent Updated frequency estimation is given by
+\noindent\textbf{FLL}:
+The algorithm used in FLL discriminator is 
+$\frac{\text{ATAN2}{\brak{cross,dot}}}{t_2-t_1}$. The frequency error is given by 
 \begin{align}
-	\hat{f}_{d_{k}} = f_{d_{acq}} + \frac{1}{2\pi T_{int}}h_{PLL}(\Delta \hat{\phi}_k)
+	\Delta \hat{f}_{d_{k}} = \frac{\phi_2-\phi_1}{t_2-t_1}
+\end{align}
+\noindent Updated finer frequency estimate is given by
+\begin{align}
+	\hat{f}_{d_{k}} = f_{d_{acq}} + h_{FLL}(\Delta \hat{f}_{d_{k}})
 \end{align}
 
-\noindent Updated phase estimation is given by
+\noindent Updated phase estimate is given by
 \begin{align}
 	\hat{\phi}_k = \phi_{k-1} + 2\pi \hat{f}_{d_{k}}T_{int} + h_{PLL}(\Delta \hat{\phi}_k)
 \end{align}
 
-\noindent\textbf{Delay locked loop:}
-Post the carrier signal synchronization, received code samples are synchronized by aligning 
-with locally replicated code samples by shifting right or left. To determine the direction of shift, 
-the I and Q outputs are multiplied with prompt code (PRN code which is phase aligned), 
-E and VE code (prompt PRN code shifted by some samples to the left) and L,VL code (prompt PRN code 
-shifted by some samples to the right) resulting in corresponding I and Q channel respectively. 
-Following algorithm is used to lock the code phase.
+\noindent\textbf{DLL:}
+Code delay error is given using the following algorithm:
 
 \begin{align}
-	E_k&=\sqrt[]{VE_k^2+E_k^2}\\
-	L_k&=\sqrt[]{VL_k^2+L_k^2}
+	E_k &= \sqrt[]{VE_{p_{I_{k}}}^2+VE_{p_{Q_{k}}}^2+E_{p_{I_{k}}}^2 + E_{p_{Q_{k}}}^2}    \\
+	L_k &= \sqrt[]{VL_{p_{I_{k}}}^2+VL_{p_{Q_{k}}}^2+L_{p_{I_{k}}}^2 + L_{p_{Q_{k}}}^2} 
 \end{align}
 
 \begin{align}
-	\Delta \hat{\tau}_k = \frac{1}{2}\frac{E_K-L_K}{E_K+L_K}
+	\Delta \hat{\tau}_k = \frac{1}{2}\frac{E_k-L_k}{E_k+L_k}
 \end{align}
-Updating the code phase estimation, 
+Updating the finer code delay estimate, 
 \begin{multline}
-	S = \psi_k + h_{DLL}(\Delta \hat{\tau}_k )f_s \\
+	S = T_{int} f_s + \psi_k + h_{DLL}(\Delta \hat{\tau}_k )\times(\text{ samples per chip })\\
 	N_{k+1} = round (S) \text{  and  } \psi_{k+1} = S - N_{k+1}
 \end{multline}
 
@@ -518,19 +549,28 @@ Updating the code phase estimation,
 % necessary to correct the replica code generator phase with respect to the incoming  signal code 
 % phase.
 
-\noindent When tracking loop is in locked state, $I_P$ component of Data channel will carry Data 
-sysmbols and $Q_P$ of Pilot channel will carry pilot overlay codes.
+\noindent When tracking loop is in $\textbf{locked state}$,  $P_{d_{I_{k}}}$ component of Data channel will 
+carry data symbols and $P_{p_{Q_{k}}}$ of Pilot channel will carry pilot overlay codes.
 
 \subsection{Demodulation}
-After the aquisition and tracking have been performed, the received data is mapped back using BPSK 
-demodulation, mapping $-1$ to binary $1$ and $+1$ to binary $0$. Data symbols and Pilot 
-overlay codes are obtained after demodulation process.
+After the acquisition and tracking have been performed, for each satellite, $P_{d_{I_{k}}}$ and $P_{p_{Q_{k}}}$ are 
+mapped using BPSK demodulation to recover the transmitted symbols. Thus, 3600 data symbols ($\hat{d}_s[n]$) and 3600 bits of Pilot
+overlay code ($\hat{C}_{p,s}[n]$) are obtained after demodulation process.
 
 \subsection{Frame synchronisation}
 The start of master frame for a given satellite is determined using correlation of 
-recevied pliot overlay bits with locally generated pilot's overlay bits. The index at which the 
-maximum correlation output is present is considered as the start of master frame. The same
+received pilot overlay bits with locally generated pilot's overlay bits. The index $k$ at which the 
+maximum correlation output is present is considered as the start of master frame. The same frame
 index is used to decode the data symbols.
+\begin{equation}
+	\hat{k}_{ML}  = \max_{k} \{ corr_{Cd}(k) ^2\}
+	\label{eq:sync}
+\end{equation}
+\noindent where
+\begin{equation}
+	corr_{Cd}(k) =  \sum_{n=0}^{N-1} \hat{d}_s[n] \cdot \hat{C}_{p,s}[n-k]
+	\label{eq:sync1}
+\end{equation}
 
 \subsection{Decoding}
 Demodulated data is first separated into subframes using the frame index. Subframe 1 is decoded 
@@ -551,46 +591,42 @@ The high-level diagram of the channel decoding process in NavIC L1 is shown in F
 
 \section {Simulation results}
 \subsection{Transmitter}
-The simulation of transmitter starts with generating Pilot PRN codes(primary and secondary) $\&$ 
-Data PRN codes for 4 satellites and upsampling them with sampling frequency $F_s$ of $4$MHz.  
+The simulation of transmitter starts with generating Pilot PRN codes(primary and secondary) and 
+Data PRN codes for 4 satellites and upsampling them with sampling frequency $f_s$ of $4$MHz.  
 Navigation bits for Master frames are randomly generated, CRC is padded and necessary encoding and 
 interleaving are carried out to generate symbols for $3$ subframes. $36$ seconds of sample data 
 is generated for each of the satellites($36\times4$M samples). Baseband signal for each of the 
 satellites is generated as per the modulation scheme. For each of these signals, doppler shift 
 (between $-5000$Hz to $5000$Hz), code delay($0-10230$) and power scaling are applied. 
-The composite signal is generated by adding all these 4 signals. AWGN noise (-20dB to 0dB) is added
-to this signal resulting in an SPS L1 signal. This simulated sigaml is transmitted (without carrier)
+The composite signal is generated by adding all these 4 signals. AWGN noise (-15dB to 0dB) is added
+to this signal resulting in an SPS L1 signal. This simulated signal is transmitted (without carrier)
 through the channel.
 \subsection{Receiver}
 The symbol period of 10ms is considerd as Integration period at the receiver end. In the receiver 
 module, Acquisition block reads 10ms of received samples (N= 40,000) and finds out visible 
-satellites and coarse Doppler shift ($F_d$) $\&$ coarse Code delay($\tau$) using PCPS algorithm. 
+satellites, $\hat{f}_d$ and $\hat{\tau}$ using PCPS algorithm. 
 Frequency search band of -5000Hz to 5000Hz with a step size of 80Hz is used for this purpose.  
-PCPS output shown in Figure \ref{fig:acq_output} for a satellite, depicts received signal for 
+PCPS output shown in Figure \ref{fig:acq_output} for a satellite, depicts received signal power for 
 various doppler frequencies and code delay. 
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=1\columnwidth]{figs/acq_output.png}
 	\centering
-	\caption{Received signal Power vs Frequnecy \& Code delay}
+	\caption{Received signal power vs Frequency and Code delay}
 	\label{fig:acq_output}
 \end{figure}
 
-Acquisition results for 4 satellites are as shown below
+Acquisition results for 4 satellites are as shown below:
 \begin{lstlisting}[mathescape=true]
 	Acquisition results for $\textbf{PRN ID 2}$
-	Peak to noise ratio= 16.82
- 	Status:True Doppler:520 Delay/Code-Phase:301
+ 	Status:$\textbf{True}$ Doppler:520 Code Delay : 301
 	Acquisition results for $\textbf{PRN ID 3}$
-	Peak to noise ratio= 10.93
- 	Status:True Doppler:1320 Delay/Code-Phase:588
+ 	Status:$\textbf{True}$ Doppler:1320 Code Delay : 588
 	Acquisition results for $\textbf{PRN ID 4}$
-	Peak to noise ratio= 14.46
- 	Status:True Doppler:3800 Delay/Code-Phase:426
+ 	Status:$\textbf{True}$ Doppler:3800 Code Delay : 426
 	Acquisition results for $\textbf{PRN ID 6}$
-	Peak to noise ratio= 17.74
- 	Status:True Doppler:4920 Delay/Code-Phase:313
+ 	Status:$\textbf{True}$ Doppler:4920 Code Delay : 313
 \end{lstlisting}
 
 The tracking loop runs for 3600 times ($36\times100$ symbols/sec) to process received samples for 
@@ -628,14 +664,18 @@ For subframe 1, all 9 bits are shown while for subframes 2 and 3, first 24 bits 
 \section {Future work}
 The current work has focused on proper reception of NavIC L1 SPS baseband signal. In future work, 
 the receiver should be fed with I and Q samples from a NavIC L1 simulator (ISRO had built a 
-simulator) to calculate user location. Subsequetly, when a minimum of 4 NavIC satellites with L1 
+simulator) to calculate user location. Subsequently, when a minimum of 4 NavIC satellites with L1 
 band are available in constellation, the receiver has to be tested with real time data received 
 from satellite.
 \section {Conclusions}
-In this paper, we presented open source implemnetation in Python of generating SPS NavIC L1 baseband 
+In this paper, we presented open source implementation in Python of generating SPS NavIC L1 baseband 
 signal, transmitting it through a modelled channel and processing the received data for accurate reception.
-Various signal processing blocks like Acquisition, trackng and decoding  etc are discussed in detail. The open source
+Various signal processing blocks like Acquisition, tracking and decoding  etc are discussed in detail. The open source
 code and documentation is available at https://github.com/satheeshsimha/navic-1/tree/main/L1.
+
+\section*{Acknowledgment}
+
+This work is funded by MEITY, Govt of India under project - 5G+/6G Converged Terrestrial and Satellite IoT (5G+/6G-slot).
 
 \begin{thebibliography}{00}
 \bibitem{b1} Carles Fernández-Prades,Javier Arribas,Luis Esteve,David Pubill,Pau Closas, "An open source Galileo E1 software receiver", Published in: 2012 6th ESA Workshop on Satellite Navigation Technologies (Navitec 2012) $\&$ European Workshop on GNSS Signals and Signal Processing held from 05-07 December 2012.

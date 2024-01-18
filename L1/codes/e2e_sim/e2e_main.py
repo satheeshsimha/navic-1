@@ -139,7 +139,7 @@ for istep in range(numSteps):
     resultsig = np.sum(scaledSig, axis=1)
     power_sig = np.mean(np.abs(resultsig) ** 2)
     #SNR = np.log10(power_sig/Nr)
-    SNR = -10
+    SNR = -15
     Nr = (power_sig)*(10**(-SNR/10))  
 
     #resultsig = np.sum(iqsig, axis=1)

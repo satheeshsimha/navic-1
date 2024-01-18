@@ -16,7 +16,7 @@ subframe2_navOut = np.array([0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 
 
 subframe3_navIn = np.array([1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1])
 subframe3_navOut = np.array([1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1])
-fnt_size = 6
+fnt_size = 8
 
 xaxis1 = np.arange(0,9)
 
@@ -26,14 +26,14 @@ plt.step(xaxis1,subframe1_navIn)
 #plt.plot(subframe1_navIn)
     #plt.ylim([0,0.05])
 #plt.xlabel('time') ; 
-plt.ylabel('Subframe1\nInput',fontsize= fnt_size)
+plt.ylabel('SF1 I/p',fontsize= fnt_size)
     
 plt.subplot(6,1,2)
 plt.step(xaxis1,subframe1_navOut)
 #plt.plot(subframe1_navOut)
     #plt.ylim([0,0.05])
 #plt.xlabel('time') ; 
-plt.ylabel('Subframe1\nOutput',fontsize= fnt_size)
+plt.ylabel('SF1 O/p',fontsize= fnt_size)
 
 xaxis1 = np.arange(0,24)
 
@@ -42,28 +42,28 @@ plt.step(xaxis1,subframe2_navIn)
 #plt.plot(subframe2_navIn)
     #plt.ylim([0,0.05])
 #plt.xlabel('time') ; 
-plt.ylabel('Subframe2\nInput',fontsize= fnt_size)
+plt.ylabel('SF2 I/p',fontsize= fnt_size)
 
 plt.subplot(6,1,4)
 plt.step(xaxis1,subframe2_navOut)
 #plt.plot(subframe2_navOut)
     #plt.ylim([0,0.05])
 #plt.xlabel('time') ; 
-plt.ylabel('Subframe2\nOutput',fontsize= fnt_size)
+plt.ylabel('SF2 O/p',fontsize= fnt_size)
 
 plt.subplot(6,1,5)
 plt.step(xaxis1,subframe3_navIn)
 #plt.plot(subframe3_navIn)
     #plt.ylim([0,0.05])
 #plt.xlabel('time') ; 
-plt.ylabel('Subframe3\nInput',fontsize= fnt_size)
+plt.ylabel('SF3 I/p',fontsize= fnt_size)
     
 plt.subplot(6,1,6)
 plt.step(xaxis1,subframe3_navOut)
 #plt.plot(subframe3_navOut)
     #plt.ylim([0,0.05])
 #plt.xlabel('time') ; 
-plt.ylabel('Subframe3\nOutput',fontsize= fnt_size)
+plt.ylabel('SF3 O/p',fontsize= fnt_size)
     
     
 plt.savefig('./mynavbits.png',dpi=1200)

@@ -1,8 +1,8 @@
 # Fdb version 3
-["pdflatex"] 1705481379 "/home/satheeshsk/navic/navic-1/IEEEPapaer/main.tex" "/home/satheeshsk/navic/navic-1/IEEEPapaer/main.pdf" "main" 1705481383
+["pdflatex"] 1705564554 "/home/satheeshsk/navic/navic-1/IEEEPapaer/main.tex" "/home/satheeshsk/navic/navic-1/IEEEPapaer/main.pdf" "main" 1705564558
   "/etc/texmf/web2c/texmf.cnf" 1640866169 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/satheeshsk/navic/navic-1/IEEEPapaer/main.aux" 1705481383 6174 d8a67f8f92c511ae380a06c2ff903bd3 ""
-  "/home/satheeshsk/navic/navic-1/IEEEPapaer/main.tex" 1705481378 28289 2411166cdebb1ff8b71ceb75417216f6 ""
+  "/home/satheeshsk/navic/navic-1/IEEEPapaer/main.aux" 1705564558 6232 81ad5a8732afe96239420f17c72bb471 ""
+  "/home/satheeshsk/navic/navic-1/IEEEPapaer/main.tex" 1705564554 29575 3cf143119a0b709a52be8ec7cfe3f1a5 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmb7t.tfm" 1136768653 2172 fd0c924230362ff848a33632ed45dc23 ""
@@ -106,7 +106,7 @@
   "figs/acq_output.png" 1704964633 344211 ce53ee1fb6ee1d93238ccc7643e2298f ""
   "figs/decoding_r.pdf" 1704265312 16244 e3cae699616da743e6accd20c1397b94 ""
   "figs/master_frame.pdf" 1704872200 13219 445ff6f2d823e25c944e9283d7f39ccb ""
-  "figs/mynavbits.png" 1705320087 394747 e56ea247bb904c11e349cfd0da9fd615 ""
+  "figs/mynavbits.png" 1705564492 335044 aa3030a788df9bcbd532069b9b1e220b ""
   "figs/pcps.pdf" 1704365020 16940 63c7e3173644e954179a890b3daf2936 ""
   "figs/receiver_block.pdf" 1704815616 15672 3f24a6f7fb7942fe32cb9bedf8071801 ""
   "figs/simulation_overview.jpg" 1695618232 18247 dd06e0148cae420871b0dbc9c41cbabb ""
@@ -116,11 +116,11 @@
   "figs/tracking_output.png" 1705049215 184263 02b71aaa07d2fefed245f43ce2c37ab1 ""
   "figs/trans_flow.jpg" 1695618234 29524 45a0c993a20fda7c8f2036f66bce49d0 ""
   "gvv.sty" 1695618234 5175 6b58d83373edd3157bab399159c5197b ""
-  "main.aux" 1705481383 6174 d8a67f8f92c511ae380a06c2ff903bd3 "pdflatex"
-  "main.tex" 1705481378 28289 2411166cdebb1ff8b71ceb75417216f6 ""
+  "main.aux" 1705564558 6232 81ad5a8732afe96239420f17c72bb471 "pdflatex"
+  "main.tex" 1705564554 29575 3cf143119a0b709a52be8ec7cfe3f1a5 ""
   (generated)
   "main.pdf"
+  "/home/satheeshsk/navic/navic-1/IEEEPapaer/main.pdf"
+  "main.log"
   "/home/satheeshsk/navic/navic-1/IEEEPapaer/main.log"
   "main.aux"
-  "main.log"
-  "/home/satheeshsk/navic/navic-1/IEEEPapaer/main.pdf"
