@@ -33,30 +33,30 @@
 \contentsline {subsection}{\numberline {5.2.1}Standard Positioning Service}{29}{subsection.5.2.1}%
 \contentsline {subsection}{\numberline {5.2.2}Baseband Modulation}{29}{subsection.5.2.2}%
 \contentsline {subsubsection}{\numberline {5.2.2.1}Mathematical Equations}{29}{subsubsection.5.2.2.1}%
-\contentsline {chapter}{\numberline {6}Channel Modelling}{41}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Doppler shift}{41}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Delay}{43}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Power Scaling}{44}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Thermal noise}{45}{section.6.4}%
-\contentsline {chapter}{\numberline {7}Receiver}{46}{chapter.7}%
-\contentsline {section}{\numberline {7.1}Signal Acquistion}{48}{section.7.1}%
-\contentsline {subsection}{\numberline {7.1.1}Implementation of CA PCPS Acquisition}{49}{subsection.7.1.1}%
-\contentsline {section}{\numberline {7.2}Tracking}{51}{section.7.2}%
-\contentsline {subsection}{\numberline {7.2.1}Carrier and code wipeoff}{51}{subsection.7.2.1}%
-\contentsline {subsection}{\numberline {7.2.2}Pre-detection and integration}{53}{subsection.7.2.2}%
-\contentsline {subsection}{\numberline {7.2.3}Baseband signal processing}{53}{subsection.7.2.3}%
-\contentsline {subsubsection}{\numberline {7.2.3.1}Carrier tracking loop}{54}{subsubsection.7.2.3.1}%
-\contentsline {subsubsection}{\numberline {7.2.3.2}Code tracking loop}{55}{subsubsection.7.2.3.2}%
-\contentsline {subsubsection}{\numberline {7.2.3.3}Loop filter characteristics}{56}{subsubsection.7.2.3.3}%
-\contentsline {subsubsection}{\numberline {7.2.3.4}Implemented tracking algorithm.}{57}{subsubsection.7.2.3.4}%
-\contentsline {section}{\numberline {7.3}Demodulation}{60}{section.7.3}%
-\contentsline {section}{\numberline {7.4}Frame Synchronization}{61}{section.7.4}%
-\contentsline {section}{\numberline {7.5}Decoding}{61}{section.7.5}%
-\contentsline {subsection}{\numberline {7.5.1}Process}{62}{subsection.7.5.1}%
-\contentsline {subsection}{\numberline {7.5.2}Maximum Likelihood Decoding}{62}{subsection.7.5.2}%
-\contentsline {subsection}{\numberline {7.5.3}Deinterleaving}{63}{subsection.7.5.3}%
-\contentsline {subsection}{\numberline {7.5.4}Belief Propagation}{63}{subsection.7.5.4}%
-\contentsline {chapter}{\numberline {8}Results}{65}{chapter.8}%
-\contentsline {section}{\numberline {8.1}Acquisition}{65}{section.8.1}%
-\contentsline {section}{\numberline {8.2}Tracking and Decoding}{66}{section.8.2}%
-\contentsline {chapter}{\numberline {A}References}{69}{appendix.A}%
+\contentsline {chapter}{\numberline {6}Channel Modelling}{42}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Doppler shift}{42}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Delay}{44}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Power Scaling}{45}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Thermal noise}{46}{section.6.4}%
+\contentsline {chapter}{\numberline {7}Receiver}{47}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Signal Acquistion}{49}{section.7.1}%
+\contentsline {subsection}{\numberline {7.1.1}Implementation of CA PCPS Acquisition}{50}{subsection.7.1.1}%
+\contentsline {section}{\numberline {7.2}Tracking}{52}{section.7.2}%
+\contentsline {subsection}{\numberline {7.2.1}Carrier and code wipeoff}{52}{subsection.7.2.1}%
+\contentsline {subsection}{\numberline {7.2.2}Pre-detection and integration}{54}{subsection.7.2.2}%
+\contentsline {subsection}{\numberline {7.2.3}Baseband signal processing}{54}{subsection.7.2.3}%
+\contentsline {subsubsection}{\numberline {7.2.3.1}Carrier tracking loop}{55}{subsubsection.7.2.3.1}%
+\contentsline {subsubsection}{\numberline {7.2.3.2}Code tracking loop}{56}{subsubsection.7.2.3.2}%
+\contentsline {subsubsection}{\numberline {7.2.3.3}Loop filter characteristics}{57}{subsubsection.7.2.3.3}%
+\contentsline {subsubsection}{\numberline {7.2.3.4}Implemented tracking algorithm.}{58}{subsubsection.7.2.3.4}%
+\contentsline {section}{\numberline {7.3}Demodulation}{61}{section.7.3}%
+\contentsline {section}{\numberline {7.4}Frame Synchronization}{62}{section.7.4}%
+\contentsline {section}{\numberline {7.5}Decoding}{62}{section.7.5}%
+\contentsline {subsection}{\numberline {7.5.1}Process}{63}{subsection.7.5.1}%
+\contentsline {subsection}{\numberline {7.5.2}Maximum Likelihood Decoding}{63}{subsection.7.5.2}%
+\contentsline {subsection}{\numberline {7.5.3}Deinterleaving}{64}{subsection.7.5.3}%
+\contentsline {subsection}{\numberline {7.5.4}Belief Propagation}{64}{subsection.7.5.4}%
+\contentsline {chapter}{\numberline {8}Results}{66}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Acquisition}{66}{section.8.1}%
+\contentsline {section}{\numberline {8.2}Tracking and Decoding}{67}{section.8.2}%
+\contentsline {chapter}{\numberline {A}References}{70}{appendix.A}%

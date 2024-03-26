@@ -844,10 +844,10 @@ class NavicL1sModulator():
         self.m2 = 6
         fsc1 = self.m1*1.023e6
         epsilon1 = fsc1*1/(100*self.sampleRate)
-        self.subCarrPhase1 = epsilon1 
+        #self.subCarrPhase1 = epsilon1 
         fsc2 = self.m2*1.023e6
         epsilon2 = fsc2*1/(100*self.sampleRate)
-        self.subCarrPhase2 = epsilon2
+        #self.subCarrPhase2 = epsilon2
         
     # columns of x have samples
     # columns of codeTable have sampled PRN sequence 
@@ -909,14 +909,14 @@ class NavicL1sModulator():
          
         if(m == 1):
             #subCarrier = np.sign(np.sin(2*np.pi*(fsc*t + self.subCarrPhase1)))
-            subCarrier = np.sign(np.sin(2*np.pi*fsc*t + self.subCarrPhase1))
-            self.subCarrPhase1 += fsc*N*ts
-            self.subCarrPhase1 -= int(self.subCarrPhase1)
+            subCarrier = np.sign(np.sin(2*np.pi*fsc*t ))
+            #self.subCarrPhase1 += fsc*N*ts
+            #self.subCarrPhase1 -= int(self.subCarrPhase1)
         if(m == 6):
             #subCarrier = np.sign(np.sin(2*np.pi*(fsc*t + self.subCarrPhase2)))
-            subCarrier = np.sign(np.sin(2*np.pi*fsc*t + self.subCarrPhase2))
-            self.subCarrPhase2 += fsc*N*ts
-            self.subCarrPhase2 -= int(self.subCarrPhase2)
+            subCarrier = np.sign(np.sin(2*np.pi*fsc*t ))
+            #self.subCarrPhase2 += fsc*N*ts
+            #self.subCarrPhase2 -= int(self.subCarrPhase2)
         return subCarrier
     
     def Release(self,m):
@@ -1625,8 +1625,8 @@ class NavicTracker:
         # Signal properties
         self.PRNID = prnId
         self.CenterFrequency = 0
-        self.SampleRate = 38.192e6  # In Hz
-        
+        #self.SampleRate = 38.192e6  # In Hz
+        self.SampleRate = 0  # In Hz
 
         # Properties of carrier tracking loops
         self.FLLOrder = 1
@@ -1693,8 +1693,8 @@ class NavicTracker:
         
         #Subcarrier
         self.subcarrierFrequency = 1.023e6 # Subcarrier frequency
-        epsilon1 = self.subcarrierFrequency*1/(100*self.SampleRate)
-        self.subCarrPhase1 = epsilon1 
+        #epsilon1 = self.subcarrierFrequency*1/(100*self.SampleRate)
+        #self.subCarrPhase1 = epsilon1 
         
         #SNR Calculation for Code lock indicator and Phase lock indicator
         self.bufsize_power_estimation = 10
@@ -1725,7 +1725,7 @@ class NavicTracker:
         # Subcarrier generation for BOC
         t = np.arange(int(self.SampleRate* self.PLLIntegrationTime*1e-3))/(int(self.SampleRate))
         #subCarrier = np.sign(np.sin(2*np.pi*(self.subcarrierFrequency*t+self.subCarrPhase1)))
-        subCarrier = np.sign(np.sin(2*np.pi*self.subcarrierFrequency*t+self.subCarrPhase1))
+        subCarrier = np.sign(np.sin(2*np.pi*self.subcarrierFrequency*t))
         
         
         pilotSig = 1-2 * np.tile(self.__upsample_table(self.codeTable_pilot, self.SampleRate, len(self.codeTable_pilot)), numCACodeBlocks)
@@ -1894,6 +1894,16 @@ class NavicTracker:
         #print("pilot_late_val:",np.abs(integlval_pilot))
         #print("pilot_ve_val:",np.abs(integveval_pilot))
         #print("pilot_vl_val:",np.abs(integvlval_pilot))
+        
+        # fft_len = round(self.pNumIntegSamples)
+        # W = np.hamming(fft_len)
+        # F = self.SampleRate*1e-6  # Sampling frequency in MHz
+        # fft_axis = np.arange(fft_len)
+        # plot_val = iq_p_pilot * W
+        # plt.plot(fft_axis, (np.abs(np.fft.fft(plot_val))))
+        # plt.xlabel('Frequency (Hz)')
+        # plt.ylabel('Magnitude')
+        # plt.show()
         
         #Code wipe off for Data Channel
         iq_e_data = iqsig*np.roll(self.pPromptCode_data, -1*numSamplesPerHalfChip) # Early

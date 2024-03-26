@@ -62,7 +62,7 @@ DLLNoiseBandwidth = 2  # In Hz
 
 
 #simulation duration, steps at which values are recorded(here for every 10ms)
-simDuration = 36
+simDuration = 24
 
 #timeStep = 1
 timeStep = PLLIntegrationTime
@@ -237,7 +237,14 @@ if len(sat)==0:
 else:
     sat=sat.astype(np.int16)
     #print(sat)
+for i in range(satVis):
+	print("min and max values are ", min(fqynco[:,i]), max(fqynco[:,i]))
+	max_freq_nco_index = np.argmax(fqynco[:,i])
+	print("Max index is ", max_freq_nco_index)
+	print ("error at max freq nco is ", fqyerr[max_freq_nco_index,i ], fqyerr[max_freq_nco_index+1,i ], fqynco[max_freq_nco_index+1,i ])
+	print(f"Frequency variance for Satellite {satId[i]}is", np.var(tracker[i].InitialDopplerShift + fqynco[:,i]))
 
+print("freq nco", fqynco[0:600,0])
 
 #np.set_printoptions(threshold=np.inf)
 
@@ -388,32 +395,32 @@ for i in range(satVis):
     plt.subplot(6,1,1)
     plt.plot(fqyerr[:,i])
     #plt.ylim([0,0.05])
-    plt.xlabel('time') ; plt.ylabel('Fqy Error')
+    plt.xlabel('Time(in mS)') ; plt.ylabel('Fqy Error')
     
     plt.subplot(6,1,2)
     plt.plot(fqynco[:,i])
     #plt.ylim([0,0.05])
-    plt.xlabel('time') ; plt.ylabel('Fqy NCO')
+    plt.xlabel('Time(in mS)') ; plt.ylabel('Fqy NCO')
 
     plt.subplot(6,1,3)
     plt.plot(pherr[:,i])
     #plt.ylim([0,0.05])
-    plt.xlabel('time') ; plt.ylabel('Phase Error')
+    plt.xlabel('Time(in mS)') ; plt.ylabel('Phase Error')
 
     plt.subplot(6,1,4)
     plt.plot(phnco[:,i])
     #plt.ylim([0,0.05])
-    plt.xlabel('time') ; plt.ylabel('Phase NCO')
+    plt.xlabel('Time(in mS)') ; plt.ylabel('Phase NCO')
 
     plt.subplot(6,1,5)
     plt.plot(delayerr[:,i])
     #plt.ylim([0,0.05])
-    plt.xlabel('time') ; plt.ylabel('Delay Error')
+    plt.xlabel('Time(in mS)') ; plt.ylabel('Delay Error')
     
     plt.subplot(6,1,6)
     plt.plot(delaynco[:,i])
     #plt.ylim([0,0.05])
-    plt.xlabel('time') ; plt.ylabel('Delay NCO')
+    plt.xlabel('Time(in mS)') ; plt.ylabel('Delay NCO')
     
     
     plt.savefig('./myplot.png')
