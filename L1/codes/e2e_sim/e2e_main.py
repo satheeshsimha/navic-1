@@ -36,18 +36,17 @@ samplePeriod = 1/sampleRate
 symbolRate = 100
 #satId is the satellite ID for multiple satellites to track
 satId = np.array([2, 3, 4, 6])
-#satId = np.array([25,41])
-#satId = np.array([27])
+
 numChannel = len(satId)
 
 
 #frequrency shift to be applied to the signal
 fShift = np.array([489, 1299, 3796, 4888])
-#fShift = np.array([2960,3551,4960,3961])
+
 channelpfo = l1.PhaseFrequencyOffset(sampleRate)
 #sigDelay is the delay in samples in channels
 sigDelay = np.array([300.34, 587.21, 425.89, 312.88])
-#sigDelay = np.array([425.89, 312.88])
+
 dynamicDelayRange = 50
 staticDelay = np.round(sigDelay - dynamicDelayRange)
 channelstatd = l1.IntegerDelay(staticDelay)
@@ -55,8 +54,7 @@ channelvard = l1.FractionalDelay(1, 65535)
 
 PLLIntegrationTime = 10e-3
 PLLNoiseBandwidth = 18 # In Hz
-#PLLNoiseBandwidth = 18 # In Hz
-#FLLNoiseBandwidth = 4 # In Hz
+
 FLLNoiseBandwidth = 2 # In Hz
 DLLNoiseBandwidth = 2  # In Hz
 
@@ -78,9 +76,6 @@ codeTable_pilot = l1.genNavicCaTable_Pilot(sampleRate, pilotCodeLength,codeFreqB
 codeTableSampCnt_pilot = len(codeTable_pilot)
 
 
-#codeTable_pilot_overlay = genNavicCaTable_Pilot_Overlay(sampleRate, pilotOverlayCodeLength,symbolRate,satId)
-#codeTableSampCnt_pilot_overlay = len(codeTable_pilot_overlay)
-
 c = sciconst.speed_of_light
 fe = 1575.45e6;              
 Dt = 12;                     
@@ -97,8 +92,7 @@ rxBW = 24e6;
 
 
 sqrtPr = np.sqrt(Pt*DtLin*DrLin)*(1/(4*np.pi*(fe+fShift)*sigDelay*samplePeriod))
-#SNR_dB = 60
-#pow = 10**(-SNR_dB/10)
+
 
 
 rms = lambda x: np.sqrt(np.mean(np.abs(x)**2, axis=0)) 
@@ -157,16 +151,7 @@ for istep in range(numSteps):
     
     waveform = rxwaveform
     
-    #np.set_printoptions(threshold=np.inf)
-
-    #print("length=", len(waveform))
-
-    # Perform acquisition once from cold-start
-
-#for istep in range(numSteps):
     
-    #waveform = rx_iq_arr[istep*samplePerStep:(istep+5)*samplePerStep] 
-    #waveform = waveform[(istep)*samplePerStep:(istep+1)*samplePerStep] 
     if satVis == 0:
 
         # Acqusition doppler search space
@@ -237,14 +222,14 @@ if len(sat)==0:
 else:
     sat=sat.astype(np.int16)
     #print(sat)
-for i in range(satVis):
-	print("min and max values are ", min(fqynco[:,i]), max(fqynco[:,i]))
-	max_freq_nco_index = np.argmax(fqynco[:,i])
-	print("Max index is ", max_freq_nco_index)
-	print ("error at max freq nco is ", fqyerr[max_freq_nco_index,i ], fqyerr[max_freq_nco_index+1,i ], fqynco[max_freq_nco_index+1,i ])
-	print(f"Frequency variance for Satellite {satId[i]}is", np.var(tracker[i].InitialDopplerShift + fqynco[:,i]))
+# for i in range(satVis):
+# 	print("min and max values are ", min(fqynco[:,i]), max(fqynco[:,i]))
+# 	max_freq_nco_index = np.argmax(fqynco[:,i])
+# 	print("Max index is ", max_freq_nco_index)
+# 	print ("error at max freq nco is ", fqyerr[max_freq_nco_index,i ], fqyerr[max_freq_nco_index+1,i ], fqynco[max_freq_nco_index+1,i ])
+# 	print(f"Frequency variance for Satellite {satId[i]}is", np.var(tracker[i].InitialDopplerShift + fqynco[:,i]))
 
-print("freq nco", fqynco[0:600,0])
+# print("freq nco", fqynco[0:600,0])
 
 #np.set_printoptions(threshold=np.inf)
 
@@ -320,33 +305,7 @@ for i in range(satVis):
 
     
     print("PRN Id=",satId[i])
-    #num_sf = len(bits)//600
-    '''
-    for iter in range(k) :
-            #print("iter=", iter, "data sent=",navbits[iter,i], "data recd=",bits[iter], navbits[iter,i]==bits[iter], "%.5f" % pherr[iter,i],"%.5f" %phnco[iter,i], "%.5f" %fc[iter,i], "%.5f" %cn0_cap[iter,i], "%.5f" %pli[iter,i], lock_fail_counter[iter,i]  )
-            print("iter=", iter, "data sent=",navbits[iter,i], "data recd=",bits[iter], navbits[iter,i]==bits[iter], "overlay sent=", pilot_overlay_sent[iter,i], "overlay recd=",overlay[iter], pilot_overlay_sent[iter,i]==overlay[iter], fc[iter,i], lock_fail_counter[iter,i]  )
-            #print("iter=", iter, navbits[iter,i], bits[iter],bits_inverted[iter], navbits[iter,i]==bits[iter], navbits[iter,i]==bits_inverted[iter], cn0_cap[iter,i], pli[iter,i], lock_fail_counter[iter,i] )
-            #print("iter=", iter, "data sent=",navbits[iter], "data recd=",bits[iter], navbits[iter]==bits[iter], "overlay sent=", pilot_overlay_local_gen[iter], "overlay recd=",overlay[iter], pilot_overlay_local_gen[iter]==overlay[iter], fqyerr[iter,i], lock_fail_counter[iter,i])
     
-    np.set_printoptions(threshold=np.inf)
-    #decode=decoder()
-    
-    if(pilot_overlay_sent[lckdidx,i]!=overlay[lckdidx]):
-        txbits = navbits[:,i]
-        err_bit = np.sum(np.array(txbits) != np.array(bits))
-        #err_bit = np.sum((txbits) != (bits))
-        ber = (err_bit)/(len(txbits))
-        print("BER:",ber)
- 
- 
-    else:
-
-        txbits = navbits[:,i]
-        err_bit = np.sum(np.array(txbits) != np.array(bits_inverted))
-        #err_bit = np.sum((txbits) != (bits))
-        ber = (err_bit)/(len(txbits))
-        print("BER:",ber)
-    '''
     decode=l1.decoder()
     
     s1_decoded,s2_decoded,s3_decoded=decode.subframes_decode(bits)
