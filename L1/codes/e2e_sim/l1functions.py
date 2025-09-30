@@ -1308,17 +1308,31 @@ class NavicDataGen():
         T_s3=np.array(a)
         return A_s3,B_s3,C_s3,D_s3,E_s3,T_s3
     
-    def bch_encode(self, rawdata):
-        
+    def bch_encode(self,rawdata):
+    # BCH(52,9) encoder using generator polynomial x^9 + x^8 + ... + x + 1
+    # rawdata: array/list of 9 bits (MSB first)
+    # Returns: 52-bit encoded data (numpy array)
+    # """
+        if len(rawdata) != 9:
+            raise ValueError("rawdata must be 9 bits")
+
+        # Copy shift register
+        shift_reg = np.array(rawdata, dtype=np.int16)
         encoded_data = []
-        for i in range(52):
-            encoded_data = np.append(rawdata[8],encoded_data) 
-            encoded_data = encoded_data.astype(np.int16)
-            fb = rawdata[0]^rawdata[1]^rawdata[3]^rawdata[4]^rawdata[5]^rawdata[6]^rawdata[7]^rawdata[8]
-            rawdata = rawdata[:-1]
-            rawdata = np.append(fb,rawdata)
+
+        for _ in range(52):
+            # Output = last register bit
+            encoded_data.append(shift_reg[-1])
+
+            # Feedback bit = XOR of feedback taps
+            fb = shift_reg[0]^shift_reg[1]^shift_reg[3]^shift_reg[4]^shift_reg[5]^shift_reg[6]^shift_reg[7]^shift_reg[8]
+
+            # Shift right and insert fb at start
+            shift_reg = np.roll(shift_reg, 1)
+            shift_reg[0] = fb
+
         return encoded_data
-    
+
     def ldpc_encode(self, A,B,C,D,E,T,S):
         
         pi=-(E@np.linalg.inv(T)@B)+D  #pi value of shape (50,50)
@@ -2099,13 +2113,14 @@ class decoder():
         H=np.concatenate((k,s),axis=1)
         return H
     
+
     def bch_decode(self,received_codeword):
 
         possible_codewords=[]
         for decimal_value in range(1, 401):
             binary_string = bin(decimal_value)[2:].zfill(9) 
             messages =  np.array([int(bit) for bit in binary_string])
-            encoded_sample=self.instance.bch_encode(messages)
+            encoded_sample=self.instance.bch_encode(messages[::-1]) #reverse the message bits such that MSB is the last element in the array
             possible_codewords.append(tuple(encoded_sample))
         
         # Calculate Hamming distance
@@ -2116,7 +2131,7 @@ class decoder():
 
         # Extract the decoded message part
         decoded_message = possible_codewords[min_distance_index]
-        decoded = decoded_message[-9:]
+        decoded = decoded_message[:9]
         return decoded
     
     def Ldpc_decode(self,H,received_codeword):

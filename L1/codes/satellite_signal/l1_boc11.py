@@ -1296,17 +1296,6 @@ class NavicDataGen():
         T_s3=np.array(a)
         return A_s3,B_s3,C_s3,D_s3,E_s3,T_s3
     
-    # def bch_encode(self, rawdata):
-    #     # ----------------------Placeholder for BCH encoding logic
-    #     encoded_data = []
-    #     for i in range(52):
-    #         encoded_data = np.append(rawdata[8],encoded_data) 
-    #         encoded_data = encoded_data.astype(np.int16)
-    #         fb = rawdata[0]^rawdata[1]^rawdata[3]^rawdata[4]^rawdata[5]^rawdata[6]^rawdata[7]^rawdata[8]
-    #         rawdata = rawdata[:-1]
-    #         rawdata = np.append(fb,rawdata)
-    #     return encoded_data
-    
     def bch_encode(self,rawdata):
     # BCH(52,9) encoder using generator polynomial x^9 + x^8 + ... + x + 1
     # rawdata: array/list of 9 bits (MSB first)
